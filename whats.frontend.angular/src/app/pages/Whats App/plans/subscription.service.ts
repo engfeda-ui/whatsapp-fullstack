@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@/core/ApiResponse';
@@ -15,14 +15,12 @@ export interface SubscriptionRequest {
     providedIn: 'root'
 })
 export class SubscriptionService {
+    private readonly http = inject(HttpClient);
+    private readonly cacheService = inject(CacheService);
+
     private apiUrl = environment.apiUrl;
     private readonly PERIODS_CACHE_KEY = 'periods_data';
     private readonly PERIODS_CACHE_TTL = 600000; // 10 minutes
-
-    constructor(
-        private http: HttpClient,
-        private cacheService: CacheService
-    ) {}
 
     getPeriods(forceRefresh: boolean = false): Observable<ApiResponse<Period[]>> {
         if (forceRefresh) {

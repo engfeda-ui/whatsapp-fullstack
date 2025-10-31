@@ -141,15 +141,21 @@ export class LayoutService {
     }
 
     private startViewTransition(config: LayoutConfig): void {
-        const transition = (document as any).startViewTransition(() => {
+        const doc = document as Document & {
+            startViewTransition?: (callback: () => void) => { ready: Promise<void> };
+        };
+
+        const transition = doc.startViewTransition?.(() => {
             this.toggleDarkMode(config);
         });
 
-        transition.ready
-            .then(() => {
-                this.onTransitionEnd();
-            })
-            .catch(() => {});
+        if (transition) {
+            transition.ready
+                .then(() => {
+                    this.onTransitionEnd();
+                })
+                .catch(() => {});
+        }
     }
 
     toggleDarkMode(config?: LayoutConfig): void {

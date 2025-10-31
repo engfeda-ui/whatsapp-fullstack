@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { ChartModule } from 'primeng/chart';
@@ -45,13 +45,13 @@ export class RevenueOverViewWidget implements OnInit {
 
     selectedWeek: Week = this.weeks[0];
 
+    private readonly layoutService = inject(LayoutService);
+
     barData: any;
-
     barOptions: any;
-
     subscription: Subscription;
 
-    constructor(private layoutService: LayoutService) {
+    constructor() {
         this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(50)).subscribe(() => {
             this.initChart();
         });

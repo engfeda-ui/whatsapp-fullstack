@@ -15,7 +15,7 @@ import { Period } from '../period.model';
 import { PlanColorService } from '@/core/services/plan-color.service';
 
 @Component({
-    selector: 'app-plan-list',
+    selector: 'p-plan-list',
     standalone: true,
     imports: [CommonModule, DialogModule, ButtonModule, DropdownModule, FormsModule, ToastModule],
     templateUrl: './plan-list.component.html',

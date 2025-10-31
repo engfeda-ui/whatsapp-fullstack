@@ -8,7 +8,7 @@ enum BlockView {
 }
 
 @Component({
-    selector: 'block-viewer',
+    selector: 'p-block-viewer',
     standalone: true,
     imports: [CommonModule, TooltipModule],
     template: `

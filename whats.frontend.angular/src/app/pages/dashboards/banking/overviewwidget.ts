@@ -15,15 +15,12 @@ import { isPlatformBrowser } from '@angular/common';
     `
 })
 export class OverviewWidget implements OnInit {
-    chartData: any;
-
-    chartOptions: any;
-
+    private readonly cd = inject(ChangeDetectorRef);
     platformId = inject(PLATFORM_ID);
-
     layoutService = inject(LayoutService);
 
-    constructor(private cd: ChangeDetectorRef) {}
+    chartData: any;
+    chartOptions: any;
 
     themeEffect = effect(() => {
         if (this.layoutService.transitionComplete()) {

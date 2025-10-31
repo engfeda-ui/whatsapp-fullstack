@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Product, ProductService } from '@/pages/service/product.service';
 import { CommonModule } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
@@ -30,9 +30,9 @@ import { FormsModule } from '@angular/forms';
     providers: [ProductService]
 })
 export class TopProductsWidget implements OnInit {
-    products!: Product[];
+    private readonly productService = inject(ProductService);
 
-    constructor(private productService: ProductService) {}
+    products!: Product[];
     ngOnInit() {
         this.productService.getProductsSmall().then((data) => (this.products = data));
     }

@@ -42,8 +42,8 @@ export class TokenService {
             const decryptedToken = this.encryptionService.decrypt(encryptedToken);
 
             return decryptedToken || null;
-        } catch (_error) {
-            // إذا فشل فك التشفير (مثلاً تغير مفتاح التشفير)، امسح الـ token القديم
+        } catch {
+            // Ø¥Ø°Ø§ ÙØ´Ù„ ÙÙƒ Ø§Ù„ØªØ´ÙÙŠØ± (Ù…Ø«Ù„Ø§Ù‹ ØªØºÙŠØ± Ù…ÙØªØ§Ø­ Ø§Ù„ØªØ´ÙÙŠØ±)ØŒ Ø§Ù…Ø³Ø­ Ø§Ù„Ù€ token Ø§Ù„Ù‚Ø¯ÙŠÙ…
             this.removeToken();
 
             return null;
@@ -80,12 +80,12 @@ export class TokenService {
             return false;
         }
 
-        // التحقق من الرموز الوهمية المحلية
+        // Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø±Ù…ÙˆØ² Ø§Ù„ÙˆÙ‡Ù…ÙŠØ© Ø§Ù„Ù…Ø­Ù„ÙŠØ©
         if (this.isMockToken(token)) {
             return !this.isTokenExpired(token);
         }
 
-        // التحقق من الرموز العادية
+        // Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø±Ù…ÙˆØ² Ø§Ù„Ø¹Ø§Ø¯ÙŠØ©
         return !this.isTokenExpired(token);
     }
 
@@ -103,7 +103,7 @@ export class TokenService {
         // Get the decoded token data
         const decodedToken = this.decodeToken();
 
-        // التحقق من المستخدمين المحليين
+        // Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…ÙŠÙ† Ø§Ù„Ù…Ø­Ù„ÙŠÙŠÙ†
         if (decodedToken && decodedToken.Role === 'admin') {
             return true;
         }
@@ -143,7 +143,7 @@ export class TokenService {
             }
 
             return jwtDecode<DecodedToken>(tokenToUse);
-        } catch (_error) {
+        } catch {
             return null;
         }
     }
@@ -185,8 +185,8 @@ export class TokenService {
             const decryptedToken = this.encryptionService.decrypt(encryptedToken);
 
             return decryptedToken || null;
-        } catch (_error) {
-            // إذا فشل فك التشفير، امسح الـ refresh token القديم
+        } catch {
+            // Ø¥Ø°Ø§ ÙØ´Ù„ ÙÙƒ Ø§Ù„ØªØ´ÙÙŠØ±ØŒ Ø§Ù…Ø³Ø­ Ø§Ù„Ù€ refresh token Ø§Ù„Ù‚Ø¯ÙŠÙ…
             this.removeRefreshToken();
 
             return null;

@@ -23,7 +23,7 @@ import { RouterModule } from '@angular/router';
 export class AppSidebar {
     timeout: ReturnType<typeof setTimeout> | null = null;
 
-    @ViewChild('menuContainer') menuContainer!: ElementRef;
+    @ViewChild('menuContainer') menuContainer?: ElementRef<HTMLDivElement>;
 
     public readonly layoutService = inject(LayoutService);
     public readonly el = inject(ElementRef);

@@ -16,7 +16,7 @@ import { IDevice } from '../../device/IDevice';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
-    selector: 'app-subscrip-list',
+    selector: 'p-subscrip-list',
     standalone: true,
     imports: [CommonModule, TableModule, ButtonModule, ConfirmDialogModule, ToastModule, RouterLink, ProgressBarModule, ToolbarModule, DialogModule],
     templateUrl: './subscrip-list.component.html',
@@ -24,6 +24,11 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
     providers: [ConfirmationService, MessageService, DatePipe, DialogService]
 })
 export class SubscripListComponent implements OnInit {
+    private readonly subscriptionService = inject(SubscriptionService);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly messageService = inject(MessageService);
+    private readonly dialogService = inject(DialogService);
+
     subscriptions: Subscription[] = [];
     loading = true;
     error = false;
@@ -31,13 +36,6 @@ export class SubscripListComponent implements OnInit {
     retryCount = 0;
     maxRetries = 3;
     ref: DynamicDialogRef | undefined;
-
-    constructor(
-        private subscriptionService: SubscriptionService,
-        private confirmationService: ConfirmationService,
-        private messageService: MessageService,
-        private dialogService: DialogService
-    ) {}
 
     ngOnInit(): void {
         this.loadSubscriptions();
@@ -53,7 +51,6 @@ export class SubscripListComponent implements OnInit {
                 if (response.isSuccess) {
                     this.subscriptions = response.data;
                     this.retryCount = 0;
-                } else {
                 }
 
                 this.loading = false;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LayoutService } from '@/layout/service/layout.service';
@@ -75,7 +75,7 @@ export class ContactUs {
         { icon: 'pi pi-fw pi-print', title: 'Fax', info: '3 (833) 297-1548' }
     ];
 
-    constructor(private layoutService: LayoutService) {}
+    private readonly layoutService = inject(LayoutService);
 
     get mapStyle() {
         return {

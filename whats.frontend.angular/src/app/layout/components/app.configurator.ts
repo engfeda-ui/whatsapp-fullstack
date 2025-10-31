@@ -7,7 +7,7 @@ import Lara from '@primeng/themes/lara';
 import Nora from '@primeng/themes/nora';
 import { PrimeNG } from 'primeng/config';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { LayoutService } from '@/layout/service/layout.service';
+import { LayoutService, LayoutConfig } from '@/layout/service/layout.service';
 import { Router } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -449,16 +449,16 @@ export class AppConfigurator implements OnInit {
         }
     }
 
-    updateColors(event: Event, type: string, color: SurfacesType): void {
+    updateColors(event: Event, type: 'primary' | 'surface', color: SurfacesType): void {
         if (type === 'primary') {
             this.layoutService.layoutConfig.update((state) => ({
                 ...state,
-                primary: color.name
+                primary: color.name ?? state.primary
             }));
-        } else if (type === 'surface') {
+        } else {
             this.layoutService.layoutConfig.update((state) => ({
                 ...state,
-                surface: color.name
+                surface: color.name ?? state.surface
             }));
         }
 
@@ -467,10 +467,10 @@ export class AppConfigurator implements OnInit {
         event.stopPropagation();
     }
 
-    applyTheme(type: string, color: SurfacesType): void {
+    applyTheme(type: 'primary' | 'surface', color: SurfacesType): void {
         if (type === 'primary') {
             updatePreset(this.getPresetExt());
-        } else if (type === 'surface') {
+        } else {
             updateSurfacePalette(color.palette);
         }
     }
@@ -490,12 +490,15 @@ export class AppConfigurator implements OnInit {
         this.layoutService.hideConfigSidebar();
     }
 
-    setMenuMode(mode: string): void {
-        const nonTransparentModes = ['reveal', 'drawer', 'overlay'];
+    setMenuMode(mode: LayoutConfig['menuMode']): void {
+        const nonTransparentModes: LayoutConfig['menuMode'][] = ['reveal', 'drawer', 'overlay'];
         const currentMenuTheme = this.menuTheme();
 
         if (nonTransparentModes.includes(mode)) {
-            const theme = currentMenuTheme === 'colorScheme' || currentMenuTheme === 'primaryColor' ? currentMenuTheme : 'colorScheme';
+            const theme: LayoutConfig['menuTheme'] =
+                currentMenuTheme === 'colorScheme' || currentMenuTheme === 'primaryColor'
+                    ? currentMenuTheme
+                    : 'colorScheme';
 
             this.setMenuTheme(theme);
         }
@@ -528,7 +531,7 @@ export class AppConfigurator implements OnInit {
         this.layoutService.layoutState.update((val) => ({ ...val, configSidebarVisible: !val.configSidebarVisible }));
     }
 
-    setMenuTheme(theme: string): void {
+    setMenuTheme(theme: LayoutConfig['menuTheme']): void {
         this.layoutService.layoutConfig.update((state) => ({
             ...state,
             menuTheme: theme

@@ -18,7 +18,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @Component({
-    selector: 'app-admin-subscription',
+    selector: 'p-admin-subscription',
     standalone: true,
     imports: [CommonModule, TableModule, ButtonModule, ConfirmDialogModule, ToastModule, ProgressBarModule, ToolbarModule, DialogModule, CardModule, TagModule, InputTextModule, DropdownModule, MenuModule, TooltipModule, OverlayPanelModule],
     templateUrl: './admin-subscription.component.html',
@@ -27,6 +27,11 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 })
 export class AdminSubscriptionComponent implements OnInit {
     @ViewChild('op') op: any;
+
+    private readonly subscriptionService = inject(SubscriptionService);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly messageService = inject(MessageService);
+    private readonly datePipe = inject(DatePipe);
 
     subscriptions: any[] = [];
     filteredSubscriptions: any[] = [];
@@ -40,13 +45,6 @@ export class AdminSubscriptionComponent implements OnInit {
     detailsDialog = false;
     paymentDialog = false;
     searchTerm = '';
-
-    constructor(
-        private subscriptionService: SubscriptionService,
-        private confirmationService: ConfirmationService,
-        private messageService: MessageService,
-        private datePipe: DatePipe
-    ) {}
 
     ngOnInit(): void {
         this.loadSubscriptions();

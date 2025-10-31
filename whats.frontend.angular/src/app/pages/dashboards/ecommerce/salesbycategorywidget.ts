@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '@/layout/service/layout.service';
@@ -13,13 +13,13 @@ import { LayoutService } from '@/layout/service/layout.service';
     </div>`
 })
 export class SalesByCategoryWidget implements OnInit, OnDestroy {
+    public readonly layoutService = inject(LayoutService);
+
     pieData: any;
-
     pieOptions: any;
-
     subscription!: Subscription;
 
-    constructor(public layoutService: LayoutService) {
+    constructor() {
         this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(50)).subscribe(() => {
             this.initChart();
         });

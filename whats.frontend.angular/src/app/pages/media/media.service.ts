@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpEvent } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { MediaFile, MediaUploadOptions, MediaLibraryFilter, MediaFolder, MediaStatistics, MediaProcessing, ThumbnailOptions, BulkOperation } from './types/media.types';
+import { MediaFile, MediaUploadOptions, MediaLibraryFilter, MediaFolder, MediaStatistics, ThumbnailOptions, BulkOperation } from './types/media.types';
 import { ApiResponse, QueryOptions } from '../../core/ApiResponse';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MediaService {
+    private readonly http = inject(HttpClient);
     private readonly apiUrl = `${environment.apiUrl}/media`;
     private uploadProgress$ = new Subject<{ id: string; progress: number }>();
-
-    constructor(private http: HttpClient) {}
 
     /**
      * Get all media files

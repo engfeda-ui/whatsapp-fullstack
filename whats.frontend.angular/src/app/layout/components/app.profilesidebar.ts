@@ -20,8 +20,8 @@ import { CommonModule } from '@angular/common';
     template: `
         <p-drawer [visible]="visible()" (onHide)="onDrawerHide()" position="left" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'" styleClass="layout-profile-sidebar w-full sm:w-25rem">
             <div class="flex flex-col mx-auto md:mx-0 text-right">
-                <span class="mb-2 font-semibold">مرحباً</span>
-                <span class="text-surface-500 dark:text-surface-400 font-medium mb-8">{{ currentUser?.fullName || currentUser?.name || 'المستخدم' }}</span>
+                <span class="mb-2 font-semibold">Ù…Ø±Ø­Ø¨Ø§Ù‹</span>
+                <span class="text-surface-500 dark:text-surface-400 font-medium mb-8">{{ currentUser?.fullName || currentUser?.name || 'Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…' }}</span>
 
                 <ul class="list-none m-0 p-0">
                     <li>
@@ -30,8 +30,8 @@ import { CommonModule } from '@angular/common';
                                 <i class="pi pi-key text-xl text-primary"></i>
                             </span>
                             <div class="mr-4">
-                                <span class="mb-2 font-semibold">تغيير كلمة المرور</span>
-                                <p class="text-surface-500 dark:text-surface-400 m-0">تحديث كلمة المرور الخاصة بك</p>
+                                <span class="mb-2 font-semibold">ØªØºÙŠÙŠØ± ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±</span>
+                                <p class="text-surface-500 dark:text-surface-400 m-0">ØªØ­Ø¯ÙŠØ« ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø®Ø§ØµØ© Ø¨Ùƒ</p>
                             </div>
                         </a>
                     </li>
@@ -41,8 +41,8 @@ import { CommonModule } from '@angular/common';
                                 <i class="pi pi-sign-out text-xl text-primary"></i>
                             </span>
                             <div class="mr-4">
-                                <span class="mb-2 font-semibold">تسجيل الخروج</span>
-                                <p class="text-surface-500 dark:text-surface-400 m-0">الخروج من الحساب</p>
+                                <span class="mb-2 font-semibold">ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬</span>
+                                <p class="text-surface-500 dark:text-surface-400 m-0">Ø§Ù„Ø®Ø±ÙˆØ¬ Ù…Ù† Ø§Ù„Ø­Ø³Ø§Ø¨</p>
                             </div>
                         </a>
                     </li>
@@ -51,7 +51,7 @@ import { CommonModule } from '@angular/common';
         </p-drawer>
 
         <p-dialog
-            header="تغيير كلمة المرور"
+            header="ØªØºÙŠÙŠØ± ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±"
             [(visible)]="passwordDialogVisible"
             [modal]="true"
             [draggable]="false"
@@ -66,7 +66,7 @@ import { CommonModule } from '@angular/common';
                 <div class="space-y-6">
                     <!-- Current Password -->
                     <div class="space-y-2">
-                        <label for="oldPassword" class="block text-lg font-medium text-gray-700 dark:text-gray-200">كلمة المرور الحالية</label>
+                        <label for="oldPassword" class="block text-lg font-medium text-gray-700 dark:text-gray-200">ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø­Ø§Ù„ÙŠØ©</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                 <i class="pi pi-lock text-gray-400"></i>
@@ -78,14 +78,14 @@ import { CommonModule } from '@angular/common';
                                 [feedback]="false"
                                 styleClass="w-full"
                                 inputStyleClass="w-full pr-10 pl-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition duration-150 ease-in-out"
-                                [placeholder]="'أدخل كلمة المرور الحالية'"
+                                [placeholder]="'Ø£Ø¯Ø®Ù„ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø­Ø§Ù„ÙŠØ©'"
                             ></p-password>
                         </div>
                     </div>
 
                     <!-- New Password -->
                     <div class="space-y-2">
-                        <label for="newPassword" class="block text-lg font-medium text-gray-700 dark:text-gray-200">كلمة المرور الجديدة</label>
+                        <label for="newPassword" class="block text-lg font-medium text-gray-700 dark:text-gray-200">ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø©</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                 <i class="pi pi-key text-gray-400"></i>
@@ -97,14 +97,14 @@ import { CommonModule } from '@angular/common';
                                 [feedback]="false"
                                 styleClass="w-full"
                                 inputStyleClass="w-full pr-10 pl-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition duration-150 ease-in-out"
-                                [placeholder]="'أدخل كلمة المرور الجديدة'"
+                                [placeholder]="'Ø£Ø¯Ø®Ù„ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø©'"
                             ></p-password>
                         </div>
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="space-y-2">
-                        <label for="confirmPassword" class="block text-lg font-medium text-gray-700 dark:text-gray-200">تأكيد كلمة المرور</label>
+                        <label for="confirmPassword" class="block text-lg font-medium text-gray-700 dark:text-gray-200">ØªØ£ÙƒÙŠØ¯ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                 <i class="pi pi-check-circle text-gray-400"></i>
@@ -116,16 +116,16 @@ import { CommonModule } from '@angular/common';
                                 [feedback]="false"
                                 styleClass="w-full"
                                 inputStyleClass="w-full pr-10 pl-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition duration-150 ease-in-out"
-                                [placeholder]="'أعد إدخال كلمة المرور الجديدة'"
+                                [placeholder]="'Ø£Ø¹Ø¯ Ø¥Ø¯Ø®Ø§Ù„ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø©'"
                             ></p-password>
                         </div>
-                        <small *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmPassword')?.touched" class="text-red-500 text-sm block mt-1">كلمات المرور غير متطابقة</small>
+                        <small *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmPassword')?.touched" class="text-red-500 text-sm block mt-1">ÙƒÙ„Ù…Ø§Øª Ø§Ù„Ù…Ø±ÙˆØ± ØºÙŠØ± Ù…ØªØ·Ø§Ø¨Ù‚Ø©</small>
                     </div>
                 </div>
 
                 <div class="flex justify-end items-center space-x-4 rtl:space-x-reverse mt-8">
-                    <button pButton type="button" label="إلغاء" (click)="passwordDialogVisible = false" class="p-button-outlined  hover:bg-gray-100 transition-colors duration-150"></button>
-                    <button pButton type="submit" label="حفظ" [disabled]="passwordForm.invalid || isSubmitting" class=" shadow-md hover:shadow-lg transition-all duration-150"></button>
+                    <button pButton type="button" label="Ø¥Ù„ØºØ§Ø¡" (click)="passwordDialogVisible = false" class="p-button-outlined  hover:bg-gray-100 transition-colors duration-150"></button>
+                    <button pButton type="submit" label="Ø­ÙØ¸" [disabled]="passwordForm.invalid || isSubmitting" class=" shadow-md hover:shadow-lg transition-all duration-150"></button>
                 </div>
             </form>
         </p-dialog>
@@ -195,7 +195,7 @@ export class AppProfileSidebar implements OnInit {
                         ...decodedToken
                     };
                 }
-            } catch (_error) {
+            } catch {
                 this.currentUser = null;
             }
         } else {
@@ -218,7 +218,7 @@ export class AppProfileSidebar implements OnInit {
         }
 
         if (!this.currentUser || !this.currentUser.id) {
-            this.messageService.add({ severity: 'error', summary: 'خطأ', detail: 'يجب تسجيل الدخول أولاً' });
+            this.messageService.add({ severity: 'error', summary: 'Ø®Ø·Ø£', detail: 'ÙŠØ¬Ø¨ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø£ÙˆÙ„Ø§Ù‹' });
 
             return;
         }
@@ -235,16 +235,16 @@ export class AppProfileSidebar implements OnInit {
                 this.isSubmitting = false;
 
                 if (response.isSuccess) {
-                    this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تم تغيير كلمة المرور بنجاح' });
+                    this.messageService.add({ severity: 'success', summary: 'Ù†Ø¬Ø§Ø­', detail: 'ØªÙ… ØªØºÙŠÙŠØ± ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ± Ø¨Ù†Ø¬Ø§Ø­' });
                     this.passwordDialogVisible = false;
                     this.passwordForm.reset();
                 } else {
-                    this.messageService.add({ severity: 'error', summary: 'خطأ', detail: response.message || 'فشل في تغيير كلمة المرور' });
+                    this.messageService.add({ severity: 'error', summary: 'Ø®Ø·Ø£', detail: response.message || 'ÙØ´Ù„ ÙÙŠ ØªØºÙŠÙŠØ± ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±' });
                 }
             },
             error: (_error) => {
                 this.isSubmitting = false;
-                this.messageService.add({ severity: 'error', summary: 'خطأ', detail: 'فشل في تغيير كلمة المرور' });
+                this.messageService.add({ severity: 'error', summary: 'Ø®Ø·Ø£', detail: 'ÙØ´Ù„ ÙÙŠ ØªØºÙŠÙŠØ± ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±' });
             }
         });
     }

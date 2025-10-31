@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, inject } from '@angular/core';
 import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -92,7 +92,7 @@ export class RecentSalesWidget implements OnInit {
 
     @ViewChild('dt') dt!: Table;
 
-    constructor(private productService: ProductService) {}
+    private readonly productService = inject(ProductService);
 
     ngOnInit() {
         this.productService.getProductsSmall().then((data) => (this.products = data));
