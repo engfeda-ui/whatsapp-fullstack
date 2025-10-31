@@ -455,6 +455,14 @@ az webapp up --name whatsapp-backend --resource-group MyResourceGroup
 
 ### Docker (Optional)
 
+**Run with the Angular frontend (recommended):**
+```bash
+# from the workspace root (../whats.app)
+cp .env.example .env          # first time only
+docker compose up --build backend frontend
+```
+
+**Build backend image only:**
 ```bash
 # Build image
 docker build -t whatsapp-backend .
