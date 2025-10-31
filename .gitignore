@@ -1,0 +1,12 @@
+﻿# Frontend
+whats.frontend.angular/node_modules
+whats.frontend.angular/dist
+
+# Backend (.NET)
+**/bin
+**/obj
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
