@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
+using Microsoft.SemanticKernel.Memory;
+using Microsoft.SemanticKernel.Memory.Storage;
 using WhatsApp.Backend.Data;
 using WhatsApp.Backend.Data.Entities;
 using WhatsApp.Backend.Services;
@@ -103,6 +106,26 @@ builder.Services.AddScoped<IWhatsAppService, WhatsAppService>();
 // Register AI Services
 builder.Services.AddScoped<ISemanticKernelService, SemanticKernelService>();
 builder.Services.AddScoped<IAutoGenService, AutoGenService>();
+
+builder.Services.AddSingleton<ISemanticTextMemory>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+
+    var endpoint = configuration["AzureOpenAI:Endpoint"]
+        ?? throw new InvalidOperationException("Azure OpenAI Endpoint not configured for semantic memory");
+    var apiKey = configuration["AzureOpenAI:ApiKey"]
+        ?? throw new InvalidOperationException("Azure OpenAI API Key not configured for semantic memory");
+    var embeddingDeployment = configuration["AzureOpenAI:EmbeddingDeploymentName"]
+        ?? throw new InvalidOperationException("Azure OpenAI embedding deployment not configured (AzureOpenAI:EmbeddingDeploymentName)");
+
+    return new MemoryBuilder()
+        .WithLoggerFactory(loggerFactory)
+        .WithMemoryStore(new VolatileMemoryStore())
+        .WithTextEmbeddingGeneration(new AzureOpenAITextEmbeddingGenerationService(embeddingDeployment, endpoint, apiKey))
+        .Build();
+});
+
 builder.Services.AddSingleton<ConversationMemoryService>();
 builder.Services.AddSingleton<KnowledgeBaseService>();
 builder.Services.AddSingleton<SpecializedAgentsService>();

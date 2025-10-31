@@ -224,3 +224,4 @@ D:\angular\whats.backend.aspnet\WhatsApp.Backend\bin\Debug\net9.0\UglyToad.PdfPi
 D:\angular\whats.backend.aspnet\WhatsApp.Backend\bin\Debug\net9.0\UglyToad.PdfPig.Tokens.dll
 D:\angular\whats.backend.aspnet\WhatsApp.Backend\bin\Debug\net9.0\UglyToad.PdfPig.dll
 D:\angular\whats.backend.aspnet\WhatsApp.Backend\bin\Debug\net9.0\System.IO.Packaging.dll
+D:\angular\whats.backend.aspnet\WhatsApp.Backend\obj\Debug\net9.0\WhatsApp.Backend.sourcelink.json
