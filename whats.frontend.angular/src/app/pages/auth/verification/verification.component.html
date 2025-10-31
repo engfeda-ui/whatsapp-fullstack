@@ -17,8 +17,8 @@
 <div class="px-8 min-h-screen flex justify-center items-center">
     <div class="border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded py-16 px-6 md:px-16 z-10">
         <div class="mb-6">
-            <div class="text-surface-900 dark:text-surface-0 text-xl font-bold mb-2">التحقق</div>
-            <span class="text-surface-600 dark:text-surface-200 font-medium">لقد أرسلنا الرمز إلى الواتساب:</span>
+            <div class="text-surface-900 dark:text-surface-0 text-xl font-bold mb-2">Ø§Ù„ØªØ­Ù‚Ù‚</div>
+            <span class="text-surface-600 dark:text-surface-200 font-medium">Ù„Ù‚Ø¯ Ø£Ø±Ø³Ù„Ù†Ø§ Ø§Ù„Ø±Ù…Ø² Ø¥Ù„Ù‰ Ø§Ù„ÙˆØ§ØªØ³Ø§Ø¨:</span>
         </div>
         <div class="flex flex-col">
             <form [formGroup]="verificationForm" (ngSubmit)="onSubmit()">
@@ -28,26 +28,26 @@
 
                 <p-iconfield class="w-full mb-6">
                     <p-inputicon class="pi pi-shield" />
-                    <input id="securityCode" type="text" pInputText formControlName="securityCode" class="w-full md:w-[25rem]" placeholder="رمز الأمان" />
+                    <input id="securityCode" type="text" pInputText formControlName="securityCode" class="w-full md:w-[25rem]" placeholder="Ø±Ù…Ø² Ø§Ù„Ø£Ù…Ø§Ù†" />
                 </p-iconfield>
 
                 <div class="flex flex-wrap gap-2 justify-between mb-4">
-                    <button pButton pRipple type="button" label="إلغاء" class="flex-auto" outlined [routerLink]="['/auth/login']"></button>
-                    <button pButton pRipple type="submit" [label]="isLoading ? 'جاري التحميل...' : 'تحقق'" class="flex-auto" [disabled]="verificationForm.invalid || isLoading" [loading]="isLoading"></button>
+                    <button pButton pRipple type="button" label="Ø¥Ù„ØºØ§Ø¡" class="flex-auto" outlined [routerLink]="['/auth/login']"></button>
+                    <button pButton pRipple type="submit" [label]="isLoading ? 'Ø¬Ø§Ø±ÙŠ Ø§Ù„ØªØ­Ù…ÙŠÙ„...' : 'ØªØ­Ù‚Ù‚'" class="flex-auto" [disabled]="verificationForm.invalid || isLoading" [loading]="isLoading"></button>
                 </div>
 
                 <div class="text-center" *ngIf="!canResend">
-                    <span class="text-surface-600 dark:text-surface-200">يمكنك إعادة إرسال الرمز بعد: </span>
+                    <span class="text-surface-600 dark:text-surface-200">ÙŠÙ…ÙƒÙ†Ùƒ Ø¥Ø¹Ø§Ø¯Ø© Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø±Ù…Ø² Ø¨Ø¹Ø¯: </span>
                     <span class="font-bold">{{ timerMinutes | number: '2.0-0' }}:{{ timerSeconds | number: '2.0-0' }}</span>
                 </div>
 
                 <div class="text-center mt-2" *ngIf="canResend">
-                    <button pButton pRipple type="button" label="إعادة إرسال الرمز" class="p-button-text p-button-secondary" [loading]="isResending" (click)="resendCode()"></button>
+                    <button pButton pRipple type="button" label="Ø¥Ø¹Ø§Ø¯Ø© Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø±Ù…Ø²" class="p-button-text p-button-secondary" [loading]="isResending" (click)="resendCode()"></button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<app-configurator [simple]="true" />
+<p-configurator [simple]="true" />
 <p-toast></p-toast>

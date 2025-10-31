@@ -33,7 +33,7 @@ export interface AppMenuItem extends PrimeMenuItem {
     badgeClass?: string;
     queryParamsHandling?: QueryParamsHandling;
     routerLinkActiveOptions?: IsActiveMatchOptions;
-    state?: Record<string, unknown>;
+    state?: Record<string, any>;
     items?: AppMenuItem[];
 }
 

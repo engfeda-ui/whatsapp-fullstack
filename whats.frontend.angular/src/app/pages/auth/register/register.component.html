@@ -17,54 +17,54 @@
 <div class="px-8 min-h-screen flex justify-center items-center">
     <div class="border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded py-16 px-6 md:px-16 z-10">
         <div class="mb-6">
-            <div class="text-surface-900 dark:text-surface-0 text-xl font-bold mb-2">التسجيل</div>
-            <span class="text-surface-600 dark:text-surface-200 font-medium">لنبدأ</span>
+            <div class="text-surface-900 dark:text-surface-0 text-xl font-bold mb-2">Ø§Ù„ØªØ³Ø¬ÙŠÙ„</div>
+            <span class="text-surface-600 dark:text-surface-200 font-medium">Ù„Ù†Ø¨Ø¯Ø£</span>
         </div>
         <div class="flex flex-col">
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <p-iconfield class="w-full mb-6">
                     <p-inputicon class="pi pi-building" />
-                    <input id="companyName" type="text" pInputText formControlName="companyName" class="w-full md:w-[25rem]" placeholder="اسم الشركة" />
+                    <input id="companyName" type="text" pInputText formControlName="companyName" class="w-full md:w-[25rem]" placeholder="Ø§Ø³Ù… Ø§Ù„Ø´Ø±ÙƒØ©" />
                 </p-iconfield>
                 <p-iconfield class="w-full mb-6">
                     <p-inputicon class="pi pi-user" />
-                    <input id="fullName" type="text" pInputText formControlName="fullName" class="w-full md:w-[25rem]" placeholder="الاسم الكامل" />
+                    <input id="fullName" type="text" pInputText formControlName="fullName" class="w-full md:w-[25rem]" placeholder="Ø§Ù„Ø§Ø³Ù… Ø§Ù„ÙƒØ§Ù…Ù„" />
                 </p-iconfield>
                 <div class="w-full mb-2">
                     <p-iconfield class="w-full">
                         <p-inputicon class="pi pi-mobile" />
-                        <input id="mobileNumber" type="text" pInputText formControlName="mobileNumber" class="w-full md:w-[25rem]" placeholder="رقم الهاتف (مثال: 01012345678)" />
+                        <input id="mobileNumber" type="text" pInputText formControlName="mobileNumber" class="w-full md:w-[25rem]" placeholder="Ø±Ù‚Ù… Ø§Ù„Ù‡Ø§ØªÙ (Ù…Ø«Ø§Ù„: 01012345678)" />
                     </p-iconfield>
                     <small class="text-red-500 block mt-1" *ngIf="registerForm.get('mobileNumber')?.invalid && registerForm.get('mobileNumber')?.touched">
                         {{ mobileNumberError }}
                     </small>
-                    <small class="text-gray-500 block mt-1" *ngIf="!registerForm.get('mobileNumber')?.invalid || !registerForm.get('mobileNumber')?.touched"> أدخل رقم الهاتف من 10 إلى 15 رقم </small>
+                    <small class="text-gray-500 block mt-1" *ngIf="!registerForm.get('mobileNumber')?.invalid || !registerForm.get('mobileNumber')?.touched"> Ø£Ø¯Ø®Ù„ Ø±Ù‚Ù… Ø§Ù„Ù‡Ø§ØªÙ Ù…Ù† 10 Ø¥Ù„Ù‰ 15 Ø±Ù‚Ù… </small>
                 </div>
                 <!-- <p-iconfield class="w-full mb-6">
                     <p-inputicon class="pi pi-lock z-20" />
-                    <p-password id="password" formControlName="password" placeholder="كلمة المرور" styleClass="w-full"
+                    <p-password id="password" formControlName="password" placeholder="ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±" styleClass="w-full"
                         [inputStyle]="{ paddingLeft: '2.5rem' }" inputStyleClass="w-full md:w-[25rem]"
                         [toggleMask]="true"></p-password>
                 </p-iconfield> -->
 
                 <p-iconfield class="w-full mb-6">
                     <p-inputicon class="pi pi-lock" />
-                    <input id="password" type="password" pInputText formControlName="password" class="w-full md:w-[25rem]" placeholder="كلمة المرور" />
+                    <input id="password" type="password" pInputText formControlName="password" class="w-full md:w-[25rem]" placeholder="ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±" />
                 </p-iconfield>
 
                 <div class="mb-6 flex flex-wrap items-center">
                     <p-checkbox name="checkbox" value="val" [(ngModel)]="confirmed" [ngModelOptions]="{ standalone: true }" styleClass="ml-2" class="flex" [binary]="true"></p-checkbox>
-                    <label for="checkbox" class="text-surface-900 dark:text-surface-0 font-medium ml-2"> لقد قرأت </label>
-                    <a class="text-surface-600 dark:text-surface-200 hover:text-primary cursor-pointer">الشروط والأحكام</a>
+                    <label for="checkbox" class="text-surface-900 dark:text-surface-0 font-medium ml-2"> Ù„Ù‚Ø¯ Ù‚Ø±Ø£Øª </label>
+                    <a class="text-surface-600 dark:text-surface-200 hover:text-primary cursor-pointer">Ø§Ù„Ø´Ø±ÙˆØ· ÙˆØ§Ù„Ø£Ø­ÙƒØ§Ù…</a>
                 </div>
-                <button pButton pRipple type="submit" [label]="isLoading ? 'جاري التحميل...' : 'إنشاء حساب'" class="w-full mb-6" [disabled]="registerForm.invalid || isLoading" [loading]="isLoading"></button>
+                <button pButton pRipple type="submit" [label]="isLoading ? 'Ø¬Ø§Ø±ÙŠ Ø§Ù„ØªØ­Ù…ÙŠÙ„...' : 'Ø¥Ù†Ø´Ø§Ø¡ Ø­Ø³Ø§Ø¨'" class="w-full mb-6" [disabled]="registerForm.invalid || isLoading" [loading]="isLoading"></button>
             </form>
             <span class="font-medium text-surface-600 dark:text-surface-200"
-                >لديك حساب بالفعل؟ <a [routerLink]="['/auth/login']" class="font-semibold cursor-pointer text-surface-900 dark:text-surface-0 hover:text-primary transition-colors duration-300">تسجيل الدخول</a></span
+                >Ù„Ø¯ÙŠÙƒ Ø­Ø³Ø§Ø¨ Ø¨Ø§Ù„ÙØ¹Ù„ØŸ <a [routerLink]="['/auth/login']" class="font-semibold cursor-pointer text-surface-900 dark:text-surface-0 hover:text-primary transition-colors duration-300">ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„</a></span
             >
         </div>
     </div>
 </div>
 
-<app-configurator [simple]="true" />
+<p-configurator [simple]="true" />
 <p-toast></p-toast>

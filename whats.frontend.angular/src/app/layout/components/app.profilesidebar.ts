@@ -183,17 +183,43 @@ export class AppProfileSidebar implements OnInit {
                 const decodedToken = this.tokenService.decodeToken(token);
 
                 if (decodedToken) {
-                    this.currentUser = {
-                        id: decodedToken.Id || decodedToken.nameid || decodedToken.sub,
-                        userName: decodedToken.unique_name || '',
-                        email: decodedToken.email || '',
-                        fullName: decodedToken.FullName || decodedToken.name || '',
-                        phoneNumber: decodedToken.MobileNumber || '',
-                        UserType: decodedToken.UserType,
-                        TenantId: decodedToken.TenantId,
-                        roles: decodedToken.role ? (Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]) : [],
-                        ...decodedToken
+                    const record = decodedToken as Record<string, unknown>;
+                    const getString = (value: unknown, fallback = ''): string =>
+                        typeof value === 'string' ? value : fallback;
+
+                    const idSource = record['Id'] ?? record['nameid'] ?? record['sub'];
+                    const id =
+                        typeof idSource === 'number'
+                            ? idSource
+                            : typeof idSource === 'string'
+                              ? Number(idSource)
+                              : 0;
+
+                    const rolesValue = record['role'];
+                    const roles = Array.isArray(rolesValue)
+                        ? rolesValue.map((role) => String(role))
+                        : rolesValue
+                          ? [String(rolesValue)]
+                          : [];
+
+                    const user: User = {
+                        id: Number.isNaN(id) ? 0 : id,
+                        userName: getString(record['unique_name'] ?? record['Username'] ?? record['name'], ''),
+                        email: getString(record['email'], ''),
+                        fullName: getString(record['FullName'] ?? record['name'], ''),
+                        phoneNumber: getString(record['MobileNumber'], ''),
+                        roles
                     };
+
+                    if (typeof record['UserType'] === 'string') {
+                        user.UserType = record['UserType'];
+                    }
+
+                    if (typeof record['TenantId'] === 'string') {
+                        user.TenantId = record['TenantId'];
+                    }
+
+                    this.currentUser = user;
                 }
             } catch {
                 this.currentUser = null;
