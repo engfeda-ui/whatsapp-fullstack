@@ -1,0 +1,92 @@
+{
+
+  "GENERAL": {
+    "WELCOME": "مرحبا بكم في تطبيقنا",
+    "LANGUAGE": "اللغة",
+    "SEARCH": "بحث",
+    "SAVE": "حفظ",
+    "CANCEL": "إلغاء",
+    "DELETE": "حذف",
+    "EDIT": "تعديل",
+    "ADD": "إضافة",
+    "ACTION_ADD": "إضافة",
+    "ACTION_EDIT": "تعديل",
+    "SUCCESS": "نجاح",
+    "ERROR": "خطأ",
+    "ACCESS_DENIED": "تم رفض الوصول",
+    "NOT_FOUND": "المورد غير موجود",
+    "SERVER_ERROR": "حدث خطأ في الخادم",
+    "NETWORK_ERROR": "خطأ في الاتصال بالشبكة",
+    "UNKNOWN_ERROR": "حدث خطأ غير معروف"
+  },
+  "MENU": {
+    "HOME": "الرئيسية",
+    "USERS": "المستخدمين",
+    "ROLES": "الصلاحيات",
+    "ABOUT": "من نحن",
+    "CONTACT": "اتصل بنا",
+    "SETTINGS": "الإعدادات"
+  },
+  "USERS": {
+    "TITLE": "المستخدمين",
+    "ADD_USER": "إضافة مستخدم",
+    "SEARCH": "ابحث",
+    "FULL_NAME": "الاسم الكامل",
+    "MOBILE": "رقم الجوال",
+    "EMAIL": "البريد الإلكتروني",
+    "ROLE": "الصلاحية",
+    "DELETE": "حذف",
+    "NO_DATA": "لا يوجد بيانات",
+    "SELECT_ROLE": "اختر الدور",
+    "DELETE_CONFIRM_TITLE": "تأكيد الحذف",
+    "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟"
+  },
+  "ROLES": {
+    "TITLE": "الأدوار والصلاحيات",
+    "ADD_ROLE": "إضافة دور",
+    "SEARCH": "ابحث",
+    "NAME": "الاسم",
+    "NAME_AR": "الاسم العربي",
+    "NAME_EN": "الاسم الانجليزي",
+    "DESCRIPTION": "الوصف",
+    "ACTIONS": "الإجراءات",
+    "NO_DATA": "لا يوجد بيانات",
+    "DELETE_CONFIRM_TITLE": "تأكيد الحذف",
+    "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد أنك تريد حذف هذا الدور؟",
+    "USER_COUNT": "عدد المستخدمين",
+    "STATUS": "الحالة",
+    "ACTIVE": "نشط",
+    "INACTIVE": "غير نشط",
+    "PERMISSIONS": "الصلاحيات",
+    "CREATE_ROLE": "إنشاء دور جديد",
+    "EDIT_ROLE": "تعديل دور",
+    "DELETE_SUCCESS": "تم حذف الدور بنجاح",
+    "DELETE_ERROR": "حدث خطأ أثناء حذف الدور"
+  },
+  "AUTH": {
+    "LOGIN": "تسجيل الدخول",
+    "SESSION_EXPIRED": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى",
+    "LOGOUT": "تسجيل الخروج",
+    "REGISTER": "تسجيل جديد",
+    "EMAIL": "البريد الإلكتروني",
+    "PASSWORD": "كلمة المرور",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+    "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+    "MOBILE_NUMBER": "رقم الموبايل",
+    "REMEMBER_ME": "تذكرني",
+    "LOGIN_SUBTITLE": "من فضلك قم بتسجيل الدخول"
+  },
+  "VALIDATION": {
+    "REQUIRED": "هذا الحقل مطلوب",
+    "EMAIL_INVALID": "البريد الإلكتروني غير صحيح",
+    "PASSWORD_LENGTH": "كلمة المرور يجب أن تكون 8 أحرف على الأقل"
+  },
+  "TOPBAR": {
+    "SEARCH_PLACEHOLDER": "ابحث هنا...",
+    "THEME": "تغيير المظهر",
+    "PROFILE": "الملف الشخصي",
+    "en": "الانجليزي",
+    "ar": "العربية",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور"
+  }
+}

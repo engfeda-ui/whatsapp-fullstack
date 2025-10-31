@@ -1,0 +1,130 @@
+<div class="card p-4 md:p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">الاشتراكات</h1>
+        <button pButton icon="pi pi-refresh" label="تحديث" class="p-button-outlined" [disabled]="loading" (click)="loadSubscriptions()"></button>
+    </div>
+
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+    </div>
+    <div *ngIf="!loading && error" class="bg-red-50 p-6 rounded-lg">
+        <div class="text-center">
+            <div class="text-red-600 text-xl mb-4">
+                <i class="pi pi-exclamation-circle mr-2"></i>
+                {{ errorMessage }}
+            </div>
+            <div class="text-sm text-gray-500 mb-4" *ngIf="retryCount > 0">جاري المحاولة تلقائياً... ({{ retryCount }}/{{ maxRetries }})</div>
+            <button pButton label="إعادة المحاولة" class="p-button-danger" (click)="retryManually()"></button>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !error && subscriptions.length === 0" class="bg-gray-50 p-12 rounded-lg text-center">
+        <div class="text-gray-500 text-xl mb-4">لا توجد اشتراكات حالياً</div>
+        <p class="text-gray-400">يمكنك الاشتراك في إحدى الباقات من صفحة الباقات</p>
+        <button pButton label="عرض الباقات" class="mt-4" routerLink="/plans"></button>
+    </div>
+
+    <div *ngIf="!loading && !error && subscriptions.length > 0">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div *ngFor="let sub of subscriptions" class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 transition-all hover:shadow-lg min-w-[300px]">
+                <div
+                    class="p-4 border-b"
+                    [ngClass]="{
+                        'bg-purple-50': sub.plan.nameEn.toLowerCase().includes('basic'),
+                        'bg-blue-50': sub.plan.nameEn.toLowerCase().includes('advanced'),
+                        'bg-green-50': sub.plan.nameEn.toLowerCase().includes('professional'),
+                        'bg-yellow-50': sub.plan.nameEn.toLowerCase().includes('silver'),
+                        'bg-red-50': sub.plan.nameEn.toLowerCase().includes('gold'),
+                        'bg-indigo-50': sub.plan.nameEn.toLowerCase().includes('diamond')
+                    }"
+                >
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3
+                                class="text-xl font-bold"
+                                [ngClass]="{
+                                    'text-purple-800': sub.plan.nameEn.toLowerCase().includes('basic'),
+                                    'text-blue-800': sub.plan.nameEn.toLowerCase().includes('advanced'),
+                                    'text-green-800': sub.plan.nameEn.toLowerCase().includes('professional'),
+                                    'text-yellow-800': sub.plan.nameEn.toLowerCase().includes('silver'),
+                                    'text-red-800': sub.plan.nameEn.toLowerCase().includes('gold'),
+                                    'text-indigo-800': sub.plan.nameEn.toLowerCase().includes('diamond'),
+                                    'text-gray-800':
+                                        !sub.plan.nameEn.toLowerCase().includes('basic') &&
+                                        !sub.plan.nameEn.toLowerCase().includes('advanced') &&
+                                        !sub.plan.nameEn.toLowerCase().includes('professional') &&
+                                        !sub.plan.nameEn.toLowerCase().includes('silver') &&
+                                        !sub.plan.nameEn.toLowerCase().includes('gold') &&
+                                        !sub.plan.nameEn.toLowerCase().includes('diamond')
+                                }"
+                            >
+                                {{ sub.plan.nameAr }}
+                            </h3>
+                            <p class="text-sm text-gray-500">{{ sub.plan.nameEn }}</p>
+                        </div>
+                        <span class="status-badge" [ngClass]="getStatusClass(sub)">
+                            {{ getStatusText(sub) }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-xs text-gray-500 mb-1">السعر</div>
+                            <div class="text-lg font-bold text-gray-900">
+                                {{ sub.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-xs text-gray-500 mb-1">المدة</div>
+                            <div class="text-lg font-bold text-gray-900">{{ sub.period.nameAr }}</div>
+                            <div class="text-xs text-gray-500">{{ sub.period.months }} أشهر</div>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-xs text-gray-500 mb-1">تاريخ البدء</div>
+                            <div class="text-sm font-medium text-gray-900">
+                                {{ formatDate(sub.startDate) }}
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="text-xs text-gray-500 mb-1">تاريخ الانتهاء</div>
+                            <div class="text-sm font-medium text-gray-900">
+                                {{ formatDate(sub.endDate) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm text-gray-600">عدد الأجهزة</span>
+                            <span class="font-medium">{{ sub.plan.devices }} / {{ sub.devicesCount }}</span>
+                        </div>
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm text-gray-600">الحد اليومي</span>
+                            <span class="font-medium">{{ sub.plan.dailyLimit }}</span>
+                        </div>
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm text-gray-600">الحد الشهري</span>
+                            <span class="font-medium">{{ sub.plan.monthlyLimit }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-4">
+                        <button pButton icon="pi pi-plus" label="إضافة جهاز" class="p-button-outlined" [disabled]="sub.devicesCount >= sub.plan.devices || !sub.pricePayDate" (click)="addDevice(sub.id)"></button>
+                        <button *ngIf="!sub.pricePayDate" pButton icon="pi pi-trash" label="إلغاء الاشتراك" class="p-button-sm p-button-danger p-button-outlined" [disabled]="getStatusClass(sub) !== 'active'" (click)="confirmDelete(sub)"></button>
+
+                        <div *ngIf="sub.pricePayDate" class="flex items-center text-green-600 bg-green-50 px-4 py-2 rounded-lg">
+                            <span class="font-medium">تم تأكيد الاشتراك</span>
+                            <i class="pi pi-check-circle mr-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }" dir="rtl"></p-confirmDialog>
+<p-toast position="bottom-left"></p-toast>

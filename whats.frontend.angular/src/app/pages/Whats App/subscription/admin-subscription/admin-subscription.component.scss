@@ -1,0 +1,183 @@
+.plan-basic {
+  .plan-badge {
+    background-color: #9c27b0;
+    color: white;
+  }
+}
+
+.plan-advanced {
+  .plan-badge {
+    background-color: #2196f3;
+    color: white;
+  }
+}
+
+.plan-professional {
+  .plan-badge {
+    background-color: #4caf50;
+    color: white;
+  }
+}
+
+.plan-silver {
+  .plan-badge {
+    background-color: #ffc107;
+    color: black;
+  }
+}
+
+.plan-gold {
+  .plan-badge {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+.plan-diamond {
+  .plan-badge {
+    background-color: #3f51b5;
+    color: white;
+  }
+}
+
+.status-badge {
+  &.active {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  &.expired {
+    background-color: #f44336;
+    color: white;
+  }
+
+  &.pending {
+    background-color: #ff9800;
+    color: white;
+  }
+
+  &.expiring-soon {
+    background-color: #ff9800;
+    color: white;
+  }
+}
+
+.subscription-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .card-header {
+    font-weight: bold;
+    padding: 1rem;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+
+  .card-footer {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+.subscription-table {
+  th {
+    font-weight: bold;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+:host ::ng-deep {
+    .p-tag {
+        border-radius: 1rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .p-datatable {
+        .p-datatable-header {
+            background-color: #f9fafb;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
+        .p-datatable-footer {
+            background-color: #f9fafb;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        .p-paginator {
+            background-color: #f9fafb;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+    }
+
+    .p-dialog {
+        .p-dialog-header {
+            padding: 1.25rem;
+            background-color: #f9fafb;
+        }
+
+        .p-dialog-content {
+            padding: 0;
+        }
+
+        .p-dialog-footer {
+            padding: 1.25rem;
+            background-color: #f9fafb;
+        }
+    }
+
+    .p-button-sm {
+        font-size: 0.875rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .p-toast {
+        .p-toast-message {
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .p-toast-message-success {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+            color: #166534;
+
+            .p-toast-message-icon,
+            .p-toast-icon-close {
+                color: #166534;
+            }
+        }
+
+        .p-toast-message-error {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+            color: #b91c1c;
+
+            .p-toast-message-icon,
+            .p-toast-icon-close {
+                color: #b91c1c;
+            }
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .grid-cols-1 > div {
+        min-width: 100%;
+    }
+}

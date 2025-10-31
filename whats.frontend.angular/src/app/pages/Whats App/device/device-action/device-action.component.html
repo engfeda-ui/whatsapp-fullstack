@@ -1,0 +1,43 @@
+<div>
+    <div *ngIf="loading" class="flex justify-center">
+        <i class="pi pi-spin pi-spinner text-4xl"></i>
+    </div>
+
+    <form [formGroup]="deviceForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <div class="flex flex-col space-y-4">
+            <div class="w-full">
+                <div class="mb-4">
+                    <label for="nameAr" class="block mb-2 font-medium">الاسم العربي <span class="text-red-500">*</span></label>
+                    <input id="nameAr" type="text" pInputText formControlName="nameAr" class="w-full" [ngClass]="{ 'ng-invalid ng-dirty border-red-500': deviceForm.get('nameAr')?.invalid && deviceForm.get('nameAr')?.touched }" />
+                </div>
+            </div>
+
+            <div class="w-full">
+                <div class="mb-4">
+                    <label for="nameEn" class="block mb-2 font-medium">الاسم الإنجليزي <span class="text-red-500">*</span></label>
+                    <input id="nameEn" type="text" pInputText formControlName="nameEn" class="w-full" [ngClass]="{ 'ng-invalid ng-dirty border-red-500': deviceForm.get('nameEn')?.invalid && deviceForm.get('nameEn')?.touched }" />
+                </div>
+            </div>
+
+            <div class="w-full">
+                <div class="mb-4">
+                    <label for="whatsNumber" class="block mb-2 font-medium">رقم الواتساب <span class="text-red-500">*</span></label>
+                    <input
+                        id="whatsNumber"
+                        type="text"
+                        pInputText
+                        formControlName="whatsNumber"
+                        class="w-full"
+                        [ngClass]="{ 'ng-invalid ng-dirty border-red-500': deviceForm.get('whatsNumber')?.invalid && deviceForm.get('whatsNumber')?.touched }"
+                        placeholder="رقم الواتساب"
+                    />
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 mt-4">
+                <button pButton pRipple type="button" label="إغلاق" class="p-button-outlined p-button-secondary" (click)="cancel()" [disabled]="submitting"></button>
+                <button pButton pRipple type="submit" label="حفظ" [loading]="submitting"></button>
+            </div>
+        </div>
+    </form>
+</div>

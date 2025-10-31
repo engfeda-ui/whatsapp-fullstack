@@ -1,0 +1,255 @@
+<div class="card bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+    <div class="flex justify-between items-center p-6">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">قائمة الأجهزة</h1>
+        <div class="flex gap-3">
+            <button pButton icon="pi pi-list" [label]="viewMode === 'grid' ? 'عرض جدول' : 'عرض بطاقات'" class="p-button-outlined backdrop-blur-sm" (click)="toggleViewMode()"></button>
+            <span class="p-input-icon-right relative">
+                <input pInputText type="text" class="w-full md:w-64" placeholder="بحث..." (input)="searchDevices($event)" />
+                <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </span>
+        </div>
+    </div>
+
+    <div *ngIf="loading" class="flex justify-center items-center py-16">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-500"></div>
+    </div>
+
+    <div *ngIf="!loading && error" class="bg-red-50 dark:bg-red-900/20 p-6 m-6 rounded-xl shadow-sm">
+        <div class="text-center">
+            <div class="text-red-600 dark:text-red-400 text-xl mb-4 flex items-center justify-center">
+                <i class="pi pi-exclamation-circle mr-2 text-2xl"></i>
+                {{ errorMessage }}
+            </div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-4" *ngIf="retryCount > 0">جاري المحاولة تلقائياً... ({{ retryCount }}/{{ maxRetries }})</div>
+            <button pButton label="إعادة المحاولة" class="p-button-danger shadow-md hover:shadow-lg transition-all duration-300" (click)="retryManually()"></button>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !error && filteredDevices.length === 0 && !searchTerm" class="bg-gray-50 dark:bg-gray-800/50 p-12 m-6 rounded-xl shadow-sm text-center">
+        <div class="text-gray-500 dark:text-gray-400 text-xl mb-4">لا توجد أجهزة حالياً</div>
+    </div>
+
+    <div *ngIf="!loading && !error && filteredDevices.length === 0 && searchTerm" class="bg-gray-50 dark:bg-gray-800/50 p-12 m-6 rounded-xl shadow-sm text-center">
+        <i class="pi pi-search text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
+        <div class="text-gray-500 dark:text-gray-400 text-xl mb-2">لا توجد نتائج مطابقة لـ "{{ searchTerm }}"</div>
+        <button pButton icon="pi pi-times" label="مسح البحث" class="p-button-outlined backdrop-blur-sm mt-3" (click)="clearSearch()"></button>
+    </div>
+
+    <div *ngIf="!loading && !error && filteredDevices.length > 0 && viewMode === 'table'" class="device-table overflow-x-auto p-6">
+        <p-table [value]="filteredDevices" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-sm p-datatable-striped shadow-sm rounded-xl overflow-hidden">
+            <ng-template pTemplate="header">
+                <tr class="bg-gray-50 dark:bg-gray-700">
+                    <th class="text-gray-700 dark:text-gray-200"></th>
+                    <th class="text-gray-700 dark:text-gray-200">الاسم</th>
+                    <th class="text-gray-700 dark:text-gray-200">رقم الواتساب</th>
+                    <th class="text-gray-700 dark:text-gray-200">الباقة</th>
+                    <th class="text-gray-700 dark:text-gray-200">الحالة</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-device>
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
+                    <td style="width: 3rem">
+                        <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-sm" (click)="setCurrentDevice(device, $event, menu)"></button>
+                    </td>
+                    <td>
+                        <div class="flex flex-col">
+                            <span class="font-medium text-gray-800 dark:text-white">{{ device.nameAr }}</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">{{ device.nameEn }}</span>
+                        </div>
+                    </td>
+                    <td class="text-gray-700 dark:text-gray-300">{{ device.whatsNumber }}</td>
+                    <td>
+                        <div *ngIf="device.subscriptionNameAr" class="flex flex-col">
+                            <span [ngClass]="getSubscriptionColorClass(device.subscriptionNameEn)" class="font-medium text-gray-800 dark:text-white">{{ device.subscriptionNameAr }}</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">{{ device.subscriptionNameEn }}</span>
+                        </div>
+                        <span *ngIf="!device.subscriptionNameAr" class="text-gray-500 dark:text-gray-400">غير مشترك</span>
+                    </td>
+                    <td>
+                        <p-tag [value]="getStatusText(device.isOnline)" [severity]="getStatusSeverity(device.isOnline)"></p-tag>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" class="text-center p-6">
+                        <div class="flex flex-col items-center">
+                            <i class="pi pi-info-circle text-4xl text-gray-400 dark:text-gray-500 mb-2"></i>
+                            <span class="text-gray-500 dark:text-gray-400">لا توجد أجهزة متاحة</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="!loading && !error && filteredDevices.length > 0 && viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        <div
+            *ngFor="let device of filteredDevices"
+            class="device-card bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300"
+            [ngClass]="getSubscriptionColorClass(device.subscriptionNameEn)"
+        >
+            <div class="p-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="device-name text-gray-800 dark:text-white">{{ device.nameAr }}</h3>
+                        <p class="device-subname text-gray-500 dark:text-gray-400">{{ device.nameEn }}</p>
+                    </div>
+                    <p-tag [value]="getStatusText(device.isOnline)" [severity]="getStatusSeverity(device.isOnline)"></p-tag>
+                </div>
+            </div>
+
+            <div class="p-5">
+                <div class="mb-4 space-y-3">
+                    <div class="device-info-item flex items-center text-gray-700 dark:text-gray-300">
+                        <i class="pi pi-phone text-gray-500 dark:text-gray-400"></i>
+                        <span class="font-medium mr-3">{{ device.whatsNumber }}</span>
+                    </div>
+
+                    <div *ngIf="device.subscriptionNameAr" class="device-info-item flex items-center">
+                        <i class="pi pi-tag text-gray-500 dark:text-gray-400"></i>
+                        <div class="mr-3">
+                            <span class="font-medium text-gray-800 dark:text-white" [ngClass]="'subscription-badge ' + getSubscriptionColorClass(device.subscriptionNameEn)">{{ device.subscriptionNameAr }}</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400 mr-1">({{ device.subscriptionNameEn }})</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!device.subscriptionNameAr" class="device-info-item flex items-center">
+                        <i class="pi pi-tag text-gray-500 dark:text-gray-400"></i>
+                        <span class="text-gray-500 dark:text-gray-400 mr-3">غير مشترك</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <button pButton icon="pi pi-eye" pTooltip="عرض التفاصيل" class="p-button-sm p-button-outlined backdrop-blur-sm" (click)="showDetails(device)"></button>
+                    <button pButton icon="pi pi-key" pTooltip="عرض مفتاح API" class="p-button-sm p-button-info p-button-outlined backdrop-blur-sm" (click)="showApiKey(device)"></button>
+                    <button pButton icon="pi pi-qrcode" pTooltip="عرض رمز QR للواتساب" [disabled]="device.isOnline" class="p-button-sm p-button-success p-button-outlined backdrop-blur-sm" (click)="showQRCode(device)"></button>
+                    <button pButton icon="pi pi-pencil" pTooltip="تعديل" class="p-button-sm p-button-warning p-button-outlined backdrop-blur-sm" (click)="editDevice(device)"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog [(visible)]="detailsDialog" [style]="{ width: '550px' }" [modal]="true" header="تفاصيل الجهاز" [draggable]="false" [resizable]="false" dir="rtl" styleClass="rounded-xl overflow-hidden shadow-2xl">
+        <div *ngIf="selectedDevice" class="space-y-6">
+            <div class="space-y-4">
+                <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">معلومات الجهاز</h3>
+
+                <div class="bg-gray-50/80 dark:bg-gray-800/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700 space-y-4">
+                    <!-- Detail Items -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">الاسم العربي</span>
+                        <span class="text-gray-900 dark:text-gray-200 font-medium">{{ selectedDevice.nameAr }}</span>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">الاسم الإنجليزي</span>
+                        <span class="text-gray-900 dark:text-gray-200 font-medium">{{ selectedDevice.nameEn }}</span>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">رقم الواتساب</span>
+                        <span class="text-gray-900 dark:text-gray-200 font-medium">{{ selectedDevice.whatsNumber }}</span>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">الحالة</span>
+                        <p-tag [value]="getStatusText(selectedDevice.isOnline)" [severity]="getStatusSeverity(selectedDevice.isOnline)"></p-tag>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscription Section -->
+            <div *ngIf="selectedDevice.subscriptionNameAr" class="space-y-4">
+                <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">معلومات الاشتراك</h3>
+
+                <div class="bg-gray-50/80 dark:bg-gray-800/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">الباقة</span>
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="px-2.5 py-1 rounded-full text-xs font-semibold
+                                          bg-opacity-20 dark:bg-opacity-20
+                                          {{ getSubscriptionColorClass(selectedDevice.subscriptionNameEn) }}"
+                            >
+                                {{ selectedDevice.subscriptionNameAr }}
+                            </span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400"> ({{ selectedDevice.subscriptionNameEn }}) </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <div class="flex justify-end gap-2">
+                <button pButton icon="pi pi-pencil" label="تعديل" class="p-button-warning shadow-md hover:shadow-lg transition-all duration-300" (click)="editDevice(selectedDevice!); detailsDialog = false"></button>
+                <button pButton icon="pi pi-times" label="إغلاق" class="p-button-outlined backdrop-blur-sm" (click)="detailsDialog = false"></button>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="apiKeyDialog" [style]="{ width: '550px' }" [modal]="true" header="مفتاح API" [draggable]="false" [resizable]="false" dir="rtl" styleClass="rounded-xl overflow-hidden shadow-2xl">
+        <div *ngIf="selectedDevice" class="p-5">
+            <!-- Header Section -->
+            <div class="flex items-start gap-4 mb-6">
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-xl shrink-0">
+                    <i class="pi pi-key text-2xl text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">مفتاح API</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                        الخاص بالجهاز
+                        <strong class="font-semibold text-gray-800 dark:text-gray-200">{{ selectedDevice.nameAr }}</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- API Key Display -->
+            <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-700">
+                <code class="font-mono text-gray-900 dark:text-gray-300 text-lg break-all">
+                    {{ selectedDevice.newDeviceApiKey }}
+                </code>
+            </div>
+
+            <!-- Info Alert -->
+            <div class="bg-blue-50/80 dark:bg-blue-900/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800/50 flex gap-3">
+                <i class="pi pi-info-circle text-blue-600 dark:text-blue-400 mt-0.5"></i>
+                <p class="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">هذا المفتاح سري ويجب عدم مشاركته مع أي شخص. يمكنك إعادة توليد المفتاح في أي وقت إذا كنت تعتقد أنه تم كشفه.</p>
+            </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <div class="flex justify-end gap-2">
+                <button pButton icon="pi pi-refresh" label="تجديد المفتاح" class="p-button-help shadow-md hover:shadow-lg transition-all duration-300" (click)="regenerateApiKey(selectedDevice!); apiKeyDialog = false"></button>
+                <button pButton icon="pi pi-copy" label="نسخ" class="p-button-success shadow-md hover:shadow-lg transition-all duration-300" (click)="copyApiKey()"></button>
+                <button pButton icon="pi pi-times" label="إغلاق" class="p-button-outlined backdrop-blur-sm" (click)="apiKeyDialog = false"></button>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }" dir="rtl" acceptLabel="نعم" rejectLabel="لا" styleClass="rounded-xl overflow-hidden shadow-2xl"></p-confirmDialog>
+    <p-toast position="bottom-left"></p-toast>
+    <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+
+    <p-dialog [(visible)]="qrCodeDialog" [style]="{ width: '400px' }" [modal]="true" header="رمز QR للواتساب" [draggable]="false" [resizable]="false" dir="rtl" styleClass="rounded-xl overflow-hidden shadow-2xl">
+        <div class="p-5 text-center">
+            <div *ngIf="qrCodeLoading" class="flex justify-center items-center py-10">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-500"></div>
+            </div>
+
+            <div *ngIf="!qrCodeLoading && qrCodeImage" class="flex flex-col items-center">
+                <img [src]="qrCodeImage" alt="WhatsApp QR Code" class="max-w-full h-auto mb-4" />
+                <p class="text-gray-700 mb-4">امسح الرمز بواسطة تطبيق الواتساب لربط الجهاز</p>
+                <button pButton icon="pi pi-refresh" label="تحديث الرمز" class="p-button-outlined" (click)="showQRCode(selectedDevice!)"></button>
+            </div>
+
+            <div *ngIf="!qrCodeLoading && !qrCodeImage" class="text-center py-6">
+                <i class="pi pi-exclamation-circle text-4xl text-yellow-500 mb-4"></i>
+                <p class="text-gray-700">تعذر تحميل رمز QR، يرجى المحاولة مرة أخرى</p>
+                <button pButton icon="pi pi-refresh" label="إعادة المحاولة" class="p-button-outlined mt-4" (click)="showQRCode(selectedDevice!)"></button>
+            </div>
+        </div>
+    </p-dialog>
+    <p-toast position="bottom-left"></p-toast>
+</div>

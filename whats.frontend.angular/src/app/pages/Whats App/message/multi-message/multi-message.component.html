@@ -1,0 +1,110 @@
+<div class="p-4 min-h-[calc(100vh-4rem)]">
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-green-600 p-3">
+            <h1 class="text-xl font-bold text-white text-center">إرسال رسالة واتساب لعدة أرقام</h1>
+        </div>
+
+        <div class="p-4 md:p-6">
+            <form [formGroup]="multiMessageForm" (ngSubmit)="sendMultiMessage()">
+                <div class="grid">
+                    <div class="col-12 md:col-6 lg:col-4 mb-4">
+                        <label for="deviceSelect" class="font-medium mb-2 text-gray-700 block"> اختر الجهاز </label>
+                        <p-dropdown id="deviceSelect" [options]="onlineDevices" formControlName="deviceId" optionLabel="nameAr" optionValue="id" placeholder="اختر جهاز" [showClear]="false" styleClass="w-full" [disabled]="isLoading">
+                            <ng-template pTemplate="item" let-device>
+                                <div class="flex items-center justify-between py-1">
+                                    <span class="font-medium">{{ device.nameAr || device.nameEn }}</span>
+                                    <span class="text-sm text-gray-600 rtl:mr-2 ltr:ml-2">{{ device.whatsNumber }}</span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="selectedItem" let-device>
+                                <div class="flex items-center justify-between" *ngIf="device">
+                                    <span class="font-medium">{{ device.nameAr || device.nameEn }}</span>
+                                    <span class="text-sm text-gray-600 rtl:mr-2 ltr:ml-2">{{ device.whatsNumber }}</span>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <label for="phoneNumbers" class="font-medium mb-2 text-gray-700 block"> أرقام الهواتف </label>
+                        <div class="phone-numbers-container">
+                            <div class="mb-2">
+                                <div class="flex items-center mb-2">
+                                    <i class="pi pi-phone text-green-500 ml-2"></i>
+                                    <span class="text-sm font-medium text-gray-700">أدخل الأرقام (كل رقم في سطر منفصل أو مفصولة بفواصل)</span>
+                                </div>
+                                <textarea
+                                    #numbersTextarea
+                                    rows="4"
+                                    pInputTextarea
+                                    placeholder="مثال:
+01012345678
+01112345678
+01212345678"
+                                    class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                                    [disabled]="isLoading"
+                                ></textarea>
+                                <small class="text-gray-500 block mt-1 mb-2">يجب أن تحتوي الأرقام على أرقام فقط - كل رقم في سطر منفصل أو مفصولة بفواصل</small>
+                                <button pButton type="button" icon="pi pi-plus" label="إضافة الأرقام" class="p-button-success mt-2" (click)="addMultipleNumbers(numbersTextarea.value); numbersTextarea.value = ''"></button>
+                            </div>
+
+                            <div *ngIf="phoneNumbers.length > 0" class="phone-numbers-list mt-2 p-3 border border-gray-200 rounded-md bg-gray-50">
+                                <div class="flex flex-wrap gap-2">
+                                    <div *ngFor="let number of phoneNumbers; let i = index" class="phone-number-chip flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                                        <span>{{ number }}</span>
+                                        <button type="button" class="mr-2 flex items-center justify-center text-green-600 hover:text-green-800 focus:outline-none" (click)="onRemoveNumber(i)">
+                                            <i class="pi pi-times-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-gray-600 mt-2">عدد الأرقام: {{ phoneNumbers.length }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <label for="message" class="font-medium mb-2 text-gray-700 block"> الرسالة </label>
+                        <textarea
+                            pInputTextarea
+                            id="message"
+                            formControlName="message"
+                            rows="3"
+                            placeholder="أدخل رسالتك"
+                            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                            [disabled]="isLoading"
+                            autoResize="true"
+                        ></textarea>
+                    </div>
+
+                    <div class="col-12 flex justify-between gap-3 mt-4">
+                        <button
+                            type="submit"
+                            [disabled]="multiMessageForm.invalid || phoneNumbers.length === 0 || isSending"
+                            class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex-1 max-w-[200px]"
+                        >
+                            <span>إرسال الرسالة</span>
+                            <i class="pi pi-send" [class.hidden]="isSending"></i>
+                            <i class="pi pi-spin pi-spinner animate-spin" *ngIf="isSending"></i>
+                        </button>
+
+                        <button type="button" (click)="multiMessageForm.reset(); phoneNumbers = []" class="border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors">
+                            <span>مسح</span>
+                            <i class="pi pi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="grid mt-3">
+                <div class="col-12">
+                    <div *ngIf="isLoading" class="flex items-center justify-center mt-4 py-3 bg-gray-50 rounded-md">
+                        <div class="w-5 h-5 border-2 border-gray-300 border-t-green-600 rounded-full animate-spin"></div>
+                        <span class="mr-2 text-gray-600">جاري تحميل الأجهزة...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast position="bottom-left"></p-toast>

@@ -1,0 +1,394 @@
+<div class="card p-4 md:p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">إدارة الاشتراكات</h1>
+        <div class="flex gap-2">
+            <button pButton icon="pi pi-list" [label]="viewMode === 'cards' ? 'عرض جدول' : 'عرض بطاقات'" class="p-button-outlined" (click)="toggleViewMode()"></button>
+            <button pButton icon="pi pi-refresh" label="تحديث" class="p-button-outlined" [disabled]="loading" (click)="loadSubscriptions()"></button>
+        </div>
+    </div>
+
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+    </div>
+
+    <div *ngIf="!loading && error" class="bg-red-50 p-6 rounded-lg">
+        <div class="text-center">
+            <div class="text-red-600 text-xl mb-4">
+                <i class="pi pi-exclamation-circle mr-2"></i>
+                {{ errorMessage }}
+            </div>
+            <div class="text-sm text-gray-500 mb-4" *ngIf="retryCount > 0">جاري المحاولة تلقائياً... ({{ retryCount }}/{{ maxRetries }})</div>
+            <button pButton label="إعادة المحاولة" class="p-button-danger" (click)="retryManually()"></button>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !error && subscriptions.length === 0" class="bg-gray-50 p-12 rounded-lg text-center">
+        <div class="text-gray-500 text-xl mb-4">لا توجد اشتراكات حالياً</div>
+    </div>
+
+    <div *ngIf="!loading && !error && subscriptions.length > 0 && viewMode === 'table'" class="overflow-x-auto">
+        <p-table
+            [value]="filteredSubscriptions"
+            [paginator]="true"
+            [rows]="10"
+            [showGridlines]="true"
+            [rowsPerPageOptions]="[5, 10, 25, 50]"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="عرض {first} إلى {last} من أصل {totalRecords} اشتراك"
+            [globalFilterFields]="['user.fullName', 'user.companyName', 'user.mobileNumber', 'plan.nameAr', 'plan.nameEn']"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex justify-between items-center relative">
+                    <h5 class="m-0">قائمة الاشتراكات</h5>
+                    <span class="p-input-icon-right">
+                        <input pInputText type="text" class="w-full md:w-64" placeholder="بحث..." (input)="searchSubscriptions($event)" />
+                        <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th width="1rem"></th>
+                    <th>المستخدم</th>
+                    <th>الباقة</th>
+                    <th>المدة</th>
+                    <th>السعر</th>
+                    <th>تاريخ البدء</th>
+                    <th>تاريخ الانتهاء</th>
+                    <th>الدفع</th>
+                    <th>الحالة</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-sub>
+                <tr>
+                    <td>
+                        <div class="flex justify-center">
+                            <button pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-sm" (click)="op.toggle($event); selectedSubscription = sub"></button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex flex-col">
+                            <span class="font-medium">{{ sub.user.fullName }}</span>
+                            <span class="text-xs text-gray-500">{{ sub.user.companyName }}</span>
+                            <span class="text-xs text-gray-500">{{ sub.user.mobileNumber }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex flex-col">
+                            <span [ngClass]="getPlanColorClass(sub.plan.nameEn)" class="font-medium">{{ sub.plan.nameAr }}</span>
+                            <span class="text-xs text-gray-500">{{ sub.plan.nameEn }}</span>
+                        </div>
+                    </td>
+                    <td>{{ sub.period.nameAr }} ({{ sub.period.months }} أشهر)</td>
+                    <td>{{ sub.price | currency: 'USD' : 'symbol' : '1.0-0' }}</td>
+                    <td>{{ formatDate(sub.startDate) }}</td>
+                    <td>{{ formatDate(sub.endDate) }}</td>
+                    <td>
+                        <span *ngIf="sub.pricePayDate" class="flex items-center text-green-600 text-sm ml-2">
+                            <span>تم الدفع</span>
+                            <i class="pi pi-check-circle mr-1"></i>
+                        </span>
+                        <span *ngIf="!sub.pricePayDate" class="flex items-center text-red-600 text-sm ml-2">
+                            <span>لم يتم الدفع</span>
+                            <i class="pi pi-times-circle mr-1"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <p-tag [value]="getStatusText(sub)" [severity]="getStatusSeverity(sub)"></p-tag>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" class="text-center p-4">
+                        <div class="flex flex-col items-center">
+                            <i class="pi pi-info-circle text-4xl text-gray-400 mb-2"></i>
+                            <span *ngIf="searchTerm">لا توجد نتائج مطابقة لـ "{{ searchTerm }}"</span>
+                            <span *ngIf="!searchTerm">لا توجد اشتراكات متاحة</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="!loading && !error && subscriptions.length > 0 && viewMode === 'cards'">
+        <div class="mb-4 flex justify-between items-center relative">
+            <h5 class="m-0">عدد الاشتراكات : {{ subscriptions.length }}</h5>
+            <span class="p-input-icon-right">
+                <input pInputText type="text" class="w-full md:w-64" placeholder="بحث..." (input)="searchSubscriptions($event)" />
+                <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ng-container *ngIf="filteredSubscriptions.length > 0; else noSearchResults">
+                <div *ngFor="let sub of filteredSubscriptions" class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 transition-all hover:shadow-lg">
+                    <div
+                        class="p-4 border-b"
+                        [ngClass]="{
+                            'bg-purple-50': sub.plan.nameEn.toLowerCase().includes('basic'),
+                            'bg-blue-50': sub.plan.nameEn.toLowerCase().includes('advanced'),
+                            'bg-green-50': sub.plan.nameEn.toLowerCase().includes('professional'),
+                            'bg-yellow-50': sub.plan.nameEn.toLowerCase().includes('silver'),
+                            'bg-red-50': sub.plan.nameEn.toLowerCase().includes('gold'),
+                            'bg-indigo-50': sub.plan.nameEn.toLowerCase().includes('diamond')
+                        }"
+                    >
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3
+                                    class="text-xl font-bold"
+                                    [ngClass]="{
+                                        'text-purple-800': sub.plan.nameEn.toLowerCase().includes('basic'),
+                                        'text-blue-800': sub.plan.nameEn.toLowerCase().includes('advanced'),
+                                        'text-green-800': sub.plan.nameEn.toLowerCase().includes('professional'),
+                                        'text-yellow-800': sub.plan.nameEn.toLowerCase().includes('silver'),
+                                        'text-red-800': sub.plan.nameEn.toLowerCase().includes('gold'),
+                                        'text-indigo-800': sub.plan.nameEn.toLowerCase().includes('diamond'),
+                                        'text-gray-800':
+                                            !sub.plan.nameEn.toLowerCase().includes('basic') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('advanced') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('professional') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('silver') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('gold') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('diamond')
+                                    }"
+                                >
+                                    {{ sub.user.fullName }}
+                                </h3>
+                                <p class="text-sm text-gray-500">{{ sub.user.companyName }}</p>
+                                <p class="text-sm text-gray-500">{{ sub.user.mobileNumber }}</p>
+                            </div>
+                            <p-tag [value]="getStatusText(sub)" [severity]="getStatusSeverity(sub)"></p-tag>
+                        </div>
+                    </div>
+
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-xs text-gray-500 mb-1">الباقة</div>
+                                <div
+                                    class="text-lg font-bold"
+                                    [ngClass]="{
+                                        'text-purple-700': sub.plan.nameEn.toLowerCase().includes('basic'),
+                                        'text-blue-700': sub.plan.nameEn.toLowerCase().includes('advanced'),
+                                        'text-green-700': sub.plan.nameEn.toLowerCase().includes('professional'),
+                                        'text-yellow-700': sub.plan.nameEn.toLowerCase().includes('silver'),
+                                        'text-red-700': sub.plan.nameEn.toLowerCase().includes('gold'),
+                                        'text-indigo-700': sub.plan.nameEn.toLowerCase().includes('diamond'),
+                                        'text-gray-900':
+                                            !sub.plan.nameEn.toLowerCase().includes('basic') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('advanced') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('professional') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('silver') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('gold') &&
+                                            !sub.plan.nameEn.toLowerCase().includes('diamond')
+                                    }"
+                                >
+                                    {{ sub.plan.nameAr }}
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-xs text-gray-500 mb-1">السعر</div>
+                                <div class="text-lg font-bold text-gray-900">
+                                    {{ sub.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-xs text-gray-500 mb-1">تاريخ البدء</div>
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ formatDate(sub.startDate) }}
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-xs text-gray-500 mb-1">تاريخ الانتهاء</div>
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ formatDate(sub.endDate) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-sm text-gray-600">المدة</span>
+                                <span class="font-medium">{{ sub.period.nameAr }} ({{ sub.period.months }} أشهر)</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-sm text-gray-600">عدد الأجهزة</span>
+                                <span class="font-medium">{{ sub.plan.devices }}</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <span class="text-sm text-gray-600">الحد الشهري</span>
+                                <span class="font-medium">{{ sub.plan.monthlyLimit }}</span>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <span class="text-sm text-gray-600">تاريخ الدفع</span>
+                                <span class="font-medium">{{ sub.pricePayDate ? formatDate(sub.pricePayDate) : 'لم يتم تأكيد الدفع' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2 mt-4">
+                            <div class="flex justify-end gap-2">
+                                <div *ngIf="sub.pricePayDate" class="flex items-center text-green-600 bg-green-50 px-4 py-2 rounded-lg">
+                                    <span class="font-medium">تم تأكيد الدفع</span>
+                                    <i class="pi pi-check-circle mr-2"></i>
+                                </div>
+                                <button pButton icon="pi pi-eye" label="التفاصيل" class="p-button-sm p-button-outlined" (click)="showDetails(sub)"></button>
+
+                                <button *ngIf="!sub.pricePayDate" pButton icon="pi pi-check" label="تأكيد الدفع" class="p-button-sm p-button-success p-button-outlined" (click)="confirmSetPayment(sub)"></button>
+
+                                <button *ngIf="!sub.pricePayDate" pButton icon="pi pi-trash" label="إلغاء الاشتراك" class="p-button-sm p-button-danger p-button-outlined" (click)="confirmDelete(sub)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #noSearchResults>
+                <div class="col-span-3 bg-gray-50 p-12 rounded-lg text-center">
+                    <i class="pi pi-search text-4xl text-gray-400 mb-4"></i>
+                    <div class="text-gray-500 text-xl mb-2">لا توجد نتائج مطابقة لـ "{{ searchTerm }}"</div>
+                    <button pButton icon="pi pi-times" label="مسح البحث" class="p-button-outlined mt-3" (click)="clearSearch()"></button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="detailsDialog" [style]="{ width: '650px' }" [modal]="true" [draggable]="false" [resizable]="false" header="تفاصيل الاشتراك" dir="rtl">
+    <div *ngIf="selectedSubscription" class="p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-gray-800">معلومات المستخدم</h3>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">الاسم الكامل</dt>
+                        <dd class="mt-1 text-gray-900">{{ selectedSubscription.user.fullName }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">اسم الشركة</dt>
+                        <dd class="mt-1 text-gray-900">{{ selectedSubscription.user.companyName }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">رقم الجوال</dt>
+                        <dd class="mt-1 text-gray-900">{{ selectedSubscription.user.mobileNumber }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">الحالة</dt>
+                        <dd class="mt-1">
+                            <span [class]="selectedSubscription.user.isActive ? 'badge-success' : 'badge-danger'">
+                                {{ selectedSubscription.user.isActive ? 'نشط' : 'غير نشط' }}
+                            </span>
+                        </dd>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-gray-800">معلومات الاشتراك</h3>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">الباقة المختارة</dt>
+                        <dd class="mt-1 text-gray-900">
+                            {{ selectedSubscription.plan.nameAr }}
+                            <span class="text-gray-500">({{ selectedSubscription.plan.nameEn }})</span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">مدة الاشتراك</dt>
+                        <dd class="mt-1 text-gray-900">
+                            {{ selectedSubscription.period.nameAr }}
+                            <span class="text-gray-500">({{ selectedSubscription.period.months }} أشهر)</span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-semibold text-gray-500">القيمة المدفوعة</dt>
+                        <dd class="mt-1 text-primary font-bold">
+                            {{ selectedSubscription.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+                        </dd>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <dt class="text-sm font-semibold text-gray-500">تاريخ البدء</dt>
+                            <dd class="mt-1 text-gray-600">{{ formatDate(selectedSubscription.startDate) }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-semibold text-gray-500">تاريخ الانتهاء</dt>
+                            <dd class="mt-1 text-gray-600">{{ formatDate(selectedSubscription.endDate) }}</dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <h3 class="text-xl font-bold text-gray-800">مواصفات الباقة</h3>
+            <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                    <div class="p-3">
+                        <dt class="text-sm font-semibold text-gray-500">الأجهزة</dt>
+                        <dd class="mt-1 text-2xl font-bold text-primary">
+                            {{ selectedSubscription.plan.devices }}
+                        </dd>
+                    </div>
+                    <div class="p-3">
+                        <dt class="text-sm font-semibold text-gray-500">الحد اليومي</dt>
+                        <dd class="mt-1 text-2xl font-bold text-primary">
+                            {{ selectedSubscription.plan.dailyLimit }}
+                        </dd>
+                    </div>
+                    <div class="p-3">
+                        <dt class="text-sm font-semibold text-gray-500">الحد الشهري</dt>
+                        <dd class="mt-1 text-2xl font-bold text-primary">
+                            {{ selectedSubscription.plan.monthlyLimit }}
+                        </dd>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-2 w-full">
+            <div *ngIf="selectedSubscription?.pricePayDate" class="flex items-center text-green-600 bg-green-50 px-4 py-2 rounded-lg ml-auto">
+                <span class="font-medium">تم تأكيد الدفع بتاريخ {{ formatDate(selectedSubscription.pricePayDate) }}</span>
+                <i class="pi pi-check-circle mr-2"></i>
+            </div>
+            <button *ngIf="!selectedSubscription?.pricePayDate" pButton icon="pi pi-check" label="تأكيد الدفع" class="p-button-success" (click)="confirmSetPayment(selectedSubscription)"></button>
+
+            <button *ngIf="!selectedSubscription?.pricePayDate" pButton icon="pi pi-trash" label="إلغاء الاشتراك" class="p-button-danger" (click)="confirmDelete(selectedSubscription)"></button>
+
+            <button pButton icon="pi pi-times" label="إغلاق" class="p-button-outlined" (click)="detailsDialog = false"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }" dir="rtl"></p-confirmDialog>
+<p-toast position="bottom-left"></p-toast>
+
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{ width: '200px' }" dir="rtl">
+    <div class="flex flex-col">
+        <button pButton icon="pi pi-eye" label="عرض التفاصيل" class="p-button-text p-button-sm justify-start" (click)="showDetails(selectedSubscription); op.hide()"></button>
+
+        <button
+            *ngIf="selectedSubscription && !selectedSubscription.pricePayDate"
+            pButton
+            icon="pi pi-check"
+            label="تأكيد الدفع"
+            class="p-button-text p-button-sm p-button-success justify-start"
+            (click)="confirmSetPayment(selectedSubscription); op.hide()"
+        ></button>
+
+        <button
+            *ngIf="selectedSubscription && !selectedSubscription.pricePayDate"
+            pButton
+            icon="pi pi-trash"
+            label="إلغاء الاشتراك"
+            class="p-button-text p-button-sm p-button-danger justify-start"
+            (click)="confirmDelete(selectedSubscription); op.hide()"
+        ></button>
+    </div>
+</p-overlayPanel>

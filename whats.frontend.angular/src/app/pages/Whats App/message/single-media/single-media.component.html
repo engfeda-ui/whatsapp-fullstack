@@ -1,0 +1,169 @@
+<div class="p-4 min-h-[calc(100vh-4rem)]">
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-green-600 p-3">
+            <h1 class="text-xl font-bold text-white text-center">إرسال رسالة واتساب مع ملف</h1>
+        </div>
+
+        <div class="p-4 md:p-6">
+            <form [formGroup]="mediaForm" (ngSubmit)="sendMediaMessage()">
+                <div class="grid">
+                    <div class="col-12 md:col-6 lg:col-4 mb-4">
+                        <label for="deviceSelect" class="font-medium mb-2 text-gray-700 block"> اختر الجهاز </label>
+                        <p-dropdown id="deviceSelect" [options]="onlineDevices" formControlName="deviceId" optionLabel="nameAr" optionValue="id" placeholder="اختر جهاز" [showClear]="false" styleClass="w-full" [disabled]="isLoading">
+                            <ng-template pTemplate="item" let-device>
+                                <div class="flex items-center justify-between py-1">
+                                    <span class="font-medium">{{ device.nameAr || device.nameEn }}</span>
+                                    <span class="text-sm text-gray-600 rtl:mr-2 ltr:ml-2">{{ device.whatsNumber }}</span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="selectedItem" let-device>
+                                <div class="flex items-center justify-between" *ngIf="device">
+                                    <span class="font-medium">{{ device.nameAr || device.nameEn }}</span>
+                                    <span class="text-sm text-gray-600 rtl:mr-2 ltr:ml-2">{{ device.whatsNumber }}</span>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-8 mb-4">
+                        <label for="phoneNumber" class="font-medium mb-2 text-gray-700 block"> رقم الهاتف </label>
+                        <input
+                            type="text"
+                            pInputText
+                            id="phoneNumber"
+                            formControlName="number"
+                            placeholder="أدخل رقم الهاتف"
+                            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                            [disabled]="isLoading"
+                        />
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <label for="message" class="font-medium mb-2 text-gray-700 block"> الرسالة </label>
+                        <textarea
+                            pInputTextarea
+                            id="message"
+                            formControlName="message"
+                            rows="3"
+                            placeholder="أدخل رسالتك"
+                            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                            [disabled]="isLoading"
+                            autoResize="true"
+                        ></textarea>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <label class="font-medium mb-2 text-gray-700 block"> الملف المرفق </label>
+                        <div class="flex flex-col gap-3">
+                            <div
+                                class="drag-drop-zone p-4 border-2 border-dashed rounded-lg transition-all duration-300 flex flex-col items-center justify-center gap-3"
+                                [ngClass]="{
+                                    'border-green-400 bg-green-50': isDragOver,
+                                    'border-gray-300 hover:border-green-300 hover:bg-gray-50': !isDragOver
+                                }"
+                                (dragover)="onDragOver($event)"
+                                (dragleave)="onDragLeave($event)"
+                                (drop)="onDrop($event)"
+                            >
+                                <i
+                                    class="pi pi-cloud-upload text-3xl"
+                                    [ngClass]="{
+                                        'text-green-500': isDragOver,
+                                        'text-gray-400': !isDragOver
+                                    }"
+                                ></i>
+
+                                <div class="text-center">
+                                    <p class="font-medium mb-1">اسحب الملف وأفلته هنا</p>
+                                    <p class="text-sm text-gray-500">أو</p>
+                                </div>
+
+                                <p-fileUpload
+                                    #fileUpload
+                                    mode="basic"
+                                    chooseLabel="اختر ملفًا"
+                                    [auto]="true"
+                                    [maxFileSize]="maxFileSize"
+                                    accept="image/*,video/*,audio/*,application/pdf"
+                                    [showUploadButton]="false"
+                                    [showCancelButton]="false"
+                                    (onSelect)="onFileSelect($event)"
+                                    styleClass="p-button-outlined p-button-secondary"
+                                >
+                                </p-fileUpload>
+
+                                <p class="text-xs text-gray-500 mt-2">الحد الأقصى لحجم الملف: {{ maxFileSize / 1024 / 1024 }} ميجابايت</p>
+                            </div>
+
+                            <div *ngIf="selectedFile" class="mt-3 p-3 border border-gray-200 rounded-md bg-gray-50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <i
+                                            class="pi"
+                                            [ngClass]="{
+                                                'pi-image': fileType === 'image',
+                                                'pi-video': fileType === 'video',
+                                                'pi-volume-up': fileType === 'audio',
+                                                'pi-file-pdf': selectedFile && selectedFile.type === 'application/pdf',
+                                                'pi-file': !['image', 'video', 'audio'].includes(fileType) && selectedFile && selectedFile.type !== 'application/pdf'
+                                            }"
+                                        ></i>
+                                        <span class="font-medium">{{ selectedFile && selectedFile.name }}</span>
+                                    </div>
+                                    <button type="button" pButton icon="pi pi-times" class="p-button-rounded p-button-text p-button-danger" (click)="clearFile()"></button>
+                                </div>
+
+                                <div *ngIf="filePreview" class="mt-2">
+                                    <img [src]="filePreview" class="max-h-40 max-w-full rounded-md" alt="Preview" />
+                                </div>
+
+                                <div class="text-sm text-gray-600 mt-2">{{ selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(2) : '0' }} MB</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-4" *ngIf="selectedFile">
+                        <label for="fileName" class="font-medium mb-2 text-gray-700 block"> اسم الملف في الواتساب (اختياري) </label>
+                        <input
+                            type="text"
+                            pInputText
+                            id="fileName"
+                            formControlName="fileNameAppearsInWhatsMessage"
+                            placeholder="اسم الملف الذي سيظهر في الواتساب"
+                            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                        />
+                        <small class="text-gray-500">إذا تركت هذا الحقل فارغًا، سيتم استخدام اسم الملف الأصلي</small>
+                    </div>
+
+                    <div class="col-12 flex justify-between gap-3 mt-4">
+                        <button
+                            type="submit"
+                            [disabled]="mediaForm.invalid || !selectedFile || isSending"
+                            class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex-1 max-w-[200px]"
+                        >
+                            <span>إرسال الرسالة</span>
+                            <i class="pi pi-send" [class.hidden]="isSending"></i>
+                            <i class="pi pi-spin pi-spinner animate-spin" *ngIf="isSending"></i>
+                        </button>
+
+                        <button type="button" (click)="mediaForm.reset(); clearFile()" class="border border-gray-300 hover:bg-gray-100 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors">
+                            <span>مسح</span>
+                            <i class="pi pi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="grid mt-3">
+                <div class="col-12">
+                    <div *ngIf="isLoading" class="flex items-center justify-center mt-4 py-3 bg-gray-50 rounded-md">
+                        <div class="w-5 h-5 border-2 border-gray-300 border-t-green-600 rounded-full animate-spin"></div>
+                        <span class="mr-2 text-gray-600">جاري تحميل الأجهزة...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast position="bottom-left"></p-toast>

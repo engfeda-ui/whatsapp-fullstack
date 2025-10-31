@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@use './tailwind.css';
+@use './assets/layout/layout.scss';
+@use 'primeicons/primeicons.css';
+@use './assets/demo/demo.scss';
+
+* {
+    font-family: 'Tajawal';
+    font-optical-sizing: auto;
+}
+
+.p-overlay.p-component.ng-star-inserted  {
+    right: auto !important;
+}
+
+
+
+::ng-deep {
+    html[dir="rtl"] {
+        th {
+            border-width: 1px 1px 1px 0px !important;
+        }
+
+        .p-menu {
+            min-width:fit-content !important;
+        }
+
+    }
+}
+
+
+::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
+}
+
+html[dir="rtl"] ::-webkit-scrollbar {
+    right: 0px;
+    left: auto;
+}

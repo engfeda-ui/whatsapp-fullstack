@@ -1,0 +1,117 @@
+// .status-badge {
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 0.25rem 0.75rem;
+//   border-radius: 1rem;
+//   font-size: 0.75rem;
+//   font-weight: 500;
+// }
+
+// .status-active {
+//   background-color: #e6f7e6;
+//   color: #22c55e;
+//   border: 1px solid #22c55e;
+// }
+
+// .status-expiring-soon {
+//   background-color: #fff7e6;
+//   color: #f59e0b;
+//   border: 1px solid #f59e0b;
+// }
+
+// .status-expired {
+//   background-color: #fee2e2;
+//   color: #ef4444;
+//   border: 1px solid #ef4444;
+// }
+
+// :host ::ng-deep {
+//   .p-button.p-button-danger.p-button-outlined {
+//     color: #ef4444;
+//     border-color: #ef4444;
+
+//     &:hover {
+//       background: rgba(239, 68, 68, 0.04);
+//     }
+
+//     &:focus {
+//       box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(239, 68, 68, 0.5);
+//     }
+//   }
+
+//   .p-button-sm {
+//     font-size: 0.875rem;
+//     padding: 0.4rem 0.75rem;
+//   }
+
+//   .p-toast {
+//     .p-toast-message {
+//       border-radius: 0.5rem;
+//       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+//     }
+
+//     .p-toast-message-success {
+//       background-color: #f0fdf4;
+//       border-color: #22c55e;
+//       color: #166534;
+
+//       .p-toast-message-icon,
+//       .p-toast-icon-close {
+//         color: #166534;
+//       }
+//     }
+
+//     .p-toast-message-error {
+//       background-color: #fef2f2;
+//       border-color: #ef4444;
+//       color: #b91c1c;
+
+//       .p-toast-message-icon,
+//       .p-toast-icon-close {
+//         color: #b91c1c;
+//       }
+//     }
+//   }
+
+//   .p-confirm-dialog {
+//     .p-dialog-content {
+//       padding: 1.5rem;
+//     }
+
+//     .p-dialog-footer {
+//       padding: 1rem 1.5rem 1.5rem 1.5rem;
+//     }
+//   }
+// }
+
+
+.status-badge {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+
+    &.active {
+        @apply bg-green-100 text-green-800;
+    }
+
+    &.expired {
+        @apply bg-red-100 text-red-800;
+    }
+
+    &.pending {
+        @apply bg-yellow-100 text-yellow-800;
+    }
+
+    &.expiring-soon {
+        @apply bg-orange-100 text-orange-800;
+    }
+}
+
+@media (max-width: 640px) {
+    .grid-cols-1 > div {
+        @apply min-w-full;
+    }
+}
+
+.hover\\:shadow-lg {
+    transition: box-shadow 0.3s ease-in-out;
+}
