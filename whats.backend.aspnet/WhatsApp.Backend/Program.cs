@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
 using Microsoft.SemanticKernel.Memory;
-using Microsoft.SemanticKernel.Memory.Storage;
 using WhatsApp.Backend.Data;
 using WhatsApp.Backend.Data.Entities;
 using WhatsApp.Backend.Services;

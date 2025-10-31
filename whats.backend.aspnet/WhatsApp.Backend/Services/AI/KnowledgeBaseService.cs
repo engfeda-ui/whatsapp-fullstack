@@ -1,10 +1,10 @@
 #pragma warning disable SKEXP0001
 
-using Microsoft.SemanticKernel.Memory;
-using UglyToad.PdfPig;
+using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using System.Text;
+using Microsoft.SemanticKernel.Memory;
+using UglyToad.PdfPig;
 
 namespace WhatsApp.Backend.Services.AI;
 
@@ -39,7 +39,7 @@ public class KnowledgeBaseService
             FileName = fileName,
             FileType = "pdf",
             UploadDate = DateTime.UtcNow,
-            ChunkCount = chunks.Count
+            ChunkCount = chunks.Count,
         };
 
         return documentId;
@@ -61,7 +61,7 @@ public class KnowledgeBaseService
             FileName = fileName,
             FileType = "docx",
             UploadDate = DateTime.UtcNow,
-            ChunkCount = chunks.Count
+            ChunkCount = chunks.Count,
         };
 
         return documentId;
@@ -83,7 +83,7 @@ public class KnowledgeBaseService
             FileName = title,
             FileType = "text",
             UploadDate = DateTime.UtcNow,
-            ChunkCount = chunks.Count
+            ChunkCount = chunks.Count,
         };
 
         return documentId;
@@ -95,7 +95,8 @@ public class KnowledgeBaseService
     public async Task<List<KnowledgeSearchResult>> SearchAsync(
         string query,
         int limit = 5,
-        double minRelevance = 0.7)
+        double minRelevance = 0.7
+    )
     {
         if (_semanticMemory == null)
         {
@@ -105,27 +106,25 @@ public class KnowledgeBaseService
                 {
                     Text = "Knowledge base search is not available. Please configure Azure OpenAI.",
                     Relevance = 0,
-                    Source = "System"
-                }
+                    Source = "System",
+                },
             };
         }
 
         var results = new List<KnowledgeSearchResult>();
-        var memories = _semanticMemory.SearchAsync(
-            KnowledgeCollection,
-            query,
-            limit,
-            minRelevance);
+        var memories = _semanticMemory.SearchAsync(KnowledgeCollection, query, limit, minRelevance);
 
         await foreach (var memory in memories)
         {
-            results.Add(new KnowledgeSearchResult
-            {
-                Text = memory.Metadata.Text,
-                Relevance = memory.Relevance,
-                Source = memory.Metadata.Description ?? "Unknown",
-                DocumentId = memory.Metadata.Id.Split('_')[0]
-            });
+            results.Add(
+                new KnowledgeSearchResult
+                {
+                    Text = memory.Metadata.Text,
+                    Relevance = memory.Relevance,
+                    Source = memory.Metadata.Description ?? "Unknown",
+                    DocumentId = memory.Metadata.Id.Split('_')[0],
+                }
+            );
         }
 
         return results;
@@ -195,7 +194,10 @@ public class KnowledgeBaseService
         catch
         {
             // Fallback for invalid PDFs
-            return new List<string> { "Unable to extract text from PDF. File may be corrupted or encrypted." };
+            return new List<string>
+            {
+                "Unable to extract text from PDF. File may be corrupted or encrypted.",
+            };
         }
 
         return ChunkText(allText.ToString());
@@ -220,7 +222,10 @@ public class KnowledgeBaseService
         }
         catch
         {
-            return new List<string> { "Unable to extract text from Word document. File may be corrupted." };
+            return new List<string>
+            {
+                "Unable to extract text from Word document. File may be corrupted.",
+            };
         }
 
         return ChunkText(allText.ToString());
@@ -229,7 +234,10 @@ public class KnowledgeBaseService
     private List<string> ChunkText(string text, int chunkSize = 1000, int overlap = 200)
     {
         var chunks = new List<string>();
-        var words = text.Split(new[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        var words = text.Split(
+            new[] { ' ', '\n', '\r', '\t' },
+            StringSplitOptions.RemoveEmptyEntries
+        );
 
         var currentChunk = new StringBuilder();
         var currentSize = 0;
@@ -268,7 +276,8 @@ public class KnowledgeBaseService
         string documentId,
         string fileName,
         string fileType,
-        List<string> chunks)
+        List<string> chunks
+    )
     {
         if (_semanticMemory == null)
         {
