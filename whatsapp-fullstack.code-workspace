@@ -1,0 +1,250 @@
+{
+  "folders": [
+    {
+      "name": "Frontend (Angular)",
+      "path": "whats.frontend"
+    },
+    {
+      "name": "Backend (.NET)",
+      "path": "whats.backend.aspnet/WhatsApp.Backend"
+    }
+  ],
+  "settings": {
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[csharp]": {
+      "editor.defaultFormatter": "ms-dotnettools.csharp",
+      "editor.tabSize": 4
+    },
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.tabs.enabled": true,
+    "files.associations": {
+      "*.component.html": "html",
+      "*.component.ts": "typescript",
+      "*.service.ts": "typescript",
+      "*.module.ts": "typescript"
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bin": true,
+      "**/obj": true,
+      "**/.angular": true,
+      "**/dist": true
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/node_modules/**": true,
+      "**/bin/**": true,
+      "**/obj/**": true,
+      "**/.angular/**": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "angular.ng-template",
+      "johnpapa.angular2",
+      "cyrilletuzi.angular-schematics",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "kreativ-software.csharpextensions",
+      "eamodio.gitlens",
+      "christian-kohler.path-intellisense",
+      "streetsidesoftware.code-spell-checker",
+      "ms-vscode.vscode-typescript-next"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Frontend (Angular)",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "start"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend (Angular)}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "group": "frontend"
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Run Backend (.NET)",
+        "type": "shell",
+        "command": "dotnet",
+        "args": ["run"],
+        "options": {
+          "cwd": "${workspaceFolder:Backend (.NET)}"
+        },
+        "problemMatcher": "$msCompile",
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "group": "backend"
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Build Frontend",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "build"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend (Angular)}"
+        },
+        "problemMatcher": [],
+        "group": {
+          "kind": "build",
+          "isDefault": false
+        }
+      },
+      {
+        "label": "Build Backend",
+        "type": "shell",
+        "command": "dotnet",
+        "args": ["build"],
+        "options": {
+          "cwd": "${workspaceFolder:Backend (.NET)}"
+        },
+        "problemMatcher": "$msCompile",
+        "group": {
+          "kind": "build",
+          "isDefault": false
+        }
+      },
+      {
+        "label": "Run Both (Frontend + Backend)",
+        "dependsOn": [
+          "Run Backend (.NET)",
+          "Run Frontend (Angular)"
+        ],
+        "dependsOrder": "parallel",
+        "problemMatcher": []
+      },
+      {
+        "label": "Build Both (Frontend + Backend)",
+        "dependsOn": [
+          "Build Backend",
+          "Build Frontend"
+        ],
+        "dependsOrder": "sequence",
+        "problemMatcher": []
+      },
+      {
+        "label": "Test Frontend",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "test"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend (Angular)}"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Test Backend",
+        "type": "shell",
+        "command": "dotnet",
+        "args": ["test"],
+        "options": {
+          "cwd": "${workspaceFolder:Backend (.NET)}"
+        },
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "Install Frontend Dependencies",
+        "type": "shell",
+        "command": "npm",
+        "args": ["install"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend (Angular)}"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Restore Backend Packages",
+        "type": "shell",
+        "command": "dotnet",
+        "args": ["restore"],
+        "options": {
+          "cwd": "${workspaceFolder:Backend (.NET)}"
+        },
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Frontend (Chrome)",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:4200",
+        "webRoot": "${workspaceFolder:Frontend (Angular)}",
+        "sourceMaps": true,
+        "preLaunchTask": "Run Frontend (Angular)"
+      },
+      {
+        "name": "Debug Backend (.NET)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "Build Backend",
+        "program": "${workspaceFolder:Backend (.NET)}/bin/Debug/net9.0/WhatsApp.Backend.dll",
+        "args": [],
+        "cwd": "${workspaceFolder:Backend (.NET)}",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "sourceFileMap": {
+          "/Views": "${workspaceFolder:Backend (.NET)}/Views"
+        }
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Debug Both (Compound)",
+        "configurations": [
+          "Debug Backend (.NET)",
+          "Debug Frontend (Chrome)"
+        ],
+        "stopAll": true
+      }
+    ]
+  }
+}
