@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-    selector: 'app-notfound',
+    selector: 'p-notfound',
     standalone: true,
     imports: [RouterModule, ButtonModule, AppConfigurator],
     template: `
@@ -24,7 +24,7 @@ import { ButtonModule } from 'primeng/button';
                 <p-button [routerLink]="['/']" severity="warn" raised>Go to Dashboard</p-button>
             </div>
         </div>
-        <app-configurator [simple]="true" />
+        <p-configurator [simple]="true" />
     `
 })
 export class Notfound {}

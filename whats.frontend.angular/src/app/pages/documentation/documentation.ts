@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-documentation',
+    selector: 'p-documentation',
     standalone: true,
     imports: [CommonModule],
     template: `

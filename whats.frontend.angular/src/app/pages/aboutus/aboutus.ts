@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-about-us',
+    selector: 'p-about-us',
     imports: [CommonModule],
     template: `
         <div class="card px-6 py-20 md:px-12 lg:px-20">

@@ -81,6 +81,17 @@ public class DeviceService : IDeviceService
 
         if (!string.IsNullOrEmpty(request.PhoneNumber))
         {
+            if (!string.Equals(request.PhoneNumber, device.PhoneNumber, StringComparison.Ordinal))
+            {
+                var numberInUse = await _context.Devices
+                    .AnyAsync(d => d.UserId == userId && d.PhoneNumber == request.PhoneNumber && d.Id != id);
+
+                if (numberInUse)
+                {
+                    throw new InvalidOperationException("A device with this phone number already exists");
+                }
+            }
+
             device.PhoneNumber = request.PhoneNumber;
         }
 
@@ -180,3 +191,4 @@ public class DeviceService : IDeviceService
         };
     }
 }
+

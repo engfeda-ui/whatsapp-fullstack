@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     standalone: true,
-    selector: 'app-stats-banking-widget',
+    selector: 'p-stats-banking-widget',
     imports: [],
     template: `
         <div class="col-span-12 md:col-span-6 xl:col-span-4">

@@ -107,6 +107,7 @@ describe('EncryptionService', () => {
             for (let i = 0; i < 5; i++) {
                 const encrypted = service.encrypt(data);
                 const decrypted = service.decrypt(encrypted);
+
                 expect(decrypted).toBe(data);
                 data = decrypted!;
             }

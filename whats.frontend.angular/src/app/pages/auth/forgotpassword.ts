@@ -8,7 +8,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-    selector: 'app-forgot-password',
+    selector: 'p-forgot-password',
     imports: [ButtonModule, RouterModule, AppConfigurator, IconFieldModule, InputIconModule, InputTextModule],
     standalone: true,
     template: ` <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" class="fixed left-0 top-0 min-h-screen min-w-[100vw]" preserveAspectRatio="none">
@@ -51,7 +51,7 @@ import { InputTextModule } from 'primeng/inputtext';
             </div>
         </div>
 
-        <app-configurator [simple]="true" />`
+        <p-configurator [simple]="true" />`
 })
 export class ForgotPassword {
     LayoutService = inject(LayoutService);

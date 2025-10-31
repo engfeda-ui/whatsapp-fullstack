@@ -9,7 +9,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 
 @Component({
-    selector: 'app-lockscreen',
+    selector: 'p-lockscreen',
     imports: [ButtonModule, RouterModule, AppConfigurator, FormsModule, InputTextModule, IconFieldModule, InputIconModule],
     standalone: true,
     template: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" class="fixed left-0 top-0 min-h-screen min-w-screen" preserveAspectRatio="none">
@@ -53,7 +53,7 @@ import { InputIconModule } from 'primeng/inputicon';
                 </div>
             </div>
 
-            <app-configurator [simple]="true" />
+            <p-configurator [simple]="true" />
         </div> `
 })
 export class LockScreen {

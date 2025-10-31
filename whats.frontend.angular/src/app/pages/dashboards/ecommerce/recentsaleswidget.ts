@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -25,7 +25,7 @@ interface ExportColumn {
 
 @Component({
     standalone: true,
-    selector: 'app-recent-sales-widget',
+    selector: 'p-recent-sales-widget',
     imports: [CommonModule, TableModule, ButtonModule, RippleModule, IconFieldModule, InputIconModule, InputTextModule, FormsModule, TooltipModule, TagModule],
     template: ` <div class="card">
         <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
@@ -79,7 +79,7 @@ interface ExportColumn {
     </div>`,
     providers: [ProductService]
 })
-export class RecentSalesWidget {
+export class RecentSalesWidget implements OnInit {
     products!: Product[];
 
     filterSalesTable = {
@@ -117,6 +117,7 @@ export class RecentSalesWidget {
 
     onFilterGlobal(event: Event): void {
         const target = event.target as HTMLInputElement | null;
+
         if (target) {
             this.dt.filterGlobal(target.value, 'contains');
         }

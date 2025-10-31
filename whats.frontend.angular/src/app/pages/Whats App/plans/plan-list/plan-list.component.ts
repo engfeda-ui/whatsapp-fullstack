@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlansService } from '../plans.service';
 import { Plan } from '../plan.model';
@@ -34,12 +34,10 @@ export class PlanListComponent implements OnInit {
     displayDialog = false;
     submitting = false;
 
-    constructor(
-        private plansService: PlansService,
-        private subscriptionService: SubscriptionService,
-        private messageService: MessageService,
-        private planColorService: PlanColorService
-    ) {}
+    private readonly plansService = inject(PlansService);
+    private readonly subscriptionService = inject(SubscriptionService);
+    private readonly messageService = inject(MessageService);
+    private readonly planColorService = inject(PlanColorService);
 
     getPlanColorClasses(planId: number, isSelected: boolean = false): { [key: string]: boolean } {
         return this.planColorService.getAllClasses(planId, isSelected);
@@ -84,6 +82,7 @@ export class PlanListComponent implements OnInit {
                 } else {
                     this.error = true;
                 }
+
                 this.loading = false;
             },
             error: (error) => {
@@ -111,6 +110,7 @@ export class PlanListComponent implements OnInit {
                     this.periods = response.data;
                     this.periods.sort((a, b) => a.months - b.months);
                 }
+
                 this.periodsLoading = false;
             },
             error: (error) => {
@@ -146,6 +146,7 @@ export class PlanListComponent implements OnInit {
                 summary: 'خطأ',
                 detail: 'يرجى اختيار مدة الاشتراك'
             });
+
             return;
         }
 
@@ -158,6 +159,7 @@ export class PlanListComponent implements OnInit {
         this.subscriptionService.createSubscription(request).subscribe({
             next: (response) => {
                 this.submitting = false;
+
                 if (response.isSuccess) {
                     this.messageService.add({
                         severity: 'success',

@@ -35,6 +35,7 @@ export class SubscriptionService {
     createSubscription(request: SubscriptionRequest): Observable<ApiResponse<any>> {
         // Clear cache when creating a new subscription
         this.cacheService.clear('subscriptions_data');
+
         return this.http.post<ApiResponse<any>>(`${this.apiUrl}/Subscription/Create`, request);
     }
 }

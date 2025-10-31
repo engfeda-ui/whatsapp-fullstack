@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -10,7 +10,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 
 @Component({
-    selector: '[app-topbar]',
+    selector: 'p-topbar',
     standalone: true,
     imports: [RouterModule, CommonModule, StyleClassModule, AppBreadcrumb, InputTextModule, ButtonModule, IconFieldModule, InputIconModule],
     template: `<div class="layout-topbar">
@@ -18,7 +18,7 @@ import { InputIconModule } from 'primeng/inputicon';
             <button #menubutton type="button" class="topbar-menubutton p-link p-trigger" (click)="onMenuButtonClick()">
                 <i class="pi pi-bars"></i>
             </button>
-            <nav app-breadcrumb class="topbar-breadcrumb"></nav>
+            <nav p-breadcrumb class="topbar-breadcrumb"></nav>
         </div>
 
         <div class="topbar-end">
@@ -47,17 +47,17 @@ import { InputIconModule } from 'primeng/inputicon';
 export class AppTopbar {
     @ViewChild('menubutton') menuButton!: ElementRef;
 
-    constructor(public layoutService: LayoutService) {}
+    public readonly layoutService = inject(LayoutService);
 
-    onMenuButtonClick() {
+    onMenuButtonClick(): void {
         this.layoutService.onMenuToggle();
     }
 
-    onProfileButtonClick() {
+    onProfileButtonClick(): void {
         this.layoutService.showProfileSidebar();
     }
 
-    onConfigButtonClick() {
+    onConfigButtonClick(): void {
         this.layoutService.showConfigSidebar();
     }
 }

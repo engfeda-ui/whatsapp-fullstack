@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,9 +10,8 @@ import { ApiResponse, QueryOptions } from '../../core/ApiResponse';
     providedIn: 'root'
 })
 export class TemplateService {
+    private http = inject(HttpClient);
     private readonly apiUrl = `${environment.apiUrl}/templates`;
-
-    constructor(private http: HttpClient) {}
 
     /**
      * Get all templates
@@ -23,12 +22,15 @@ export class TemplateService {
         if (filter?.category) {
             params = params.set('category', filter.category);
         }
+
         if (filter?.status) {
             params = params.set('status', filter.status);
         }
+
         if (filter?.language) {
             params = params.set('language', filter.language);
         }
+
         if (filter?.search) {
             params = params.set('search', filter.search);
         }
@@ -36,6 +38,7 @@ export class TemplateService {
         if (options?.pageNumber) {
             params = params.set('page', options.pageNumber.toString());
         }
+
         if (options?.pageSize) {
             params = params.set('size', options.pageSize.toString());
         }
@@ -125,6 +128,7 @@ export class TemplateService {
 
         Object.keys(variables).forEach((key) => {
             const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
+
             result = result.replace(regex, variables[key]);
         });
 
@@ -144,6 +148,7 @@ export class TemplateService {
 
             if (variables[variable.key] && variable.validation) {
                 const regex = new RegExp(variable.validation);
+
                 if (!regex.test(variables[variable.key])) {
                     errors.push(`${variable.label} format is invalid`);
                 }
@@ -161,6 +166,7 @@ export class TemplateService {
      */
     getQuickReplies(category?: string): Observable<QuickReply[]> {
         let params = new HttpParams();
+
         if (category) {
             params = params.set('category', category);
         }
@@ -191,6 +197,7 @@ export class TemplateService {
         errors: string[];
     }> {
         const formData = new FormData();
+
         formData.append('file', file);
 
         return this.http.post<ApiResponse<{ imported: number; failed: number; errors: string[] }>>(`${this.apiUrl}/import`, formData).pipe(map((response) => response.data));

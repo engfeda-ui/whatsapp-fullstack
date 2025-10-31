@@ -4,7 +4,7 @@ import { TokenService } from './token.service';
 
 describe('WebSocketService', () => {
     let service: WebSocketService;
-    let tokenService: jasmine.SpyObj<TokenService>;
+    let _tokenService: jasmine.SpyObj<TokenService>;
 
     beforeEach(() => {
         const tokenServiceSpy = jasmine.createSpyObj('TokenService', ['getToken']);
@@ -14,7 +14,7 @@ describe('WebSocketService', () => {
         });
 
         service = TestBed.inject(WebSocketService);
-        tokenService = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
+        _tokenService = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
     });
 
     afterEach(() => {

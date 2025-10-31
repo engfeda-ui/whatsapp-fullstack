@@ -1,23 +1,22 @@
-﻿import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ErrorHandlerService {
-    constructor(
-        private messageService: MessageService,
-        private router: Router
-    ) {}
+    private readonly messageService = inject(MessageService);
+
+    private readonly router = inject(Router);
 
     /**
      * Handle HTTP errors
      */
-    handleError(error: HttpErrorResponse) {
+    handleError(error: HttpErrorResponse): Observable<never> {
         let errorMessage = 'An unexpected error occurred. Please try again later.';
 
         if (error.error instanceof ErrorEvent) {
@@ -31,6 +30,7 @@ export class ErrorHandlerService {
                     break;
                 case 401:
                     errorMessage = 'Session expired. Please sign in again.';
+
                     // Redirect to login page
                     this.router.navigate(['/auth/login']);
                     break;
@@ -72,8 +72,8 @@ export class ErrorHandlerService {
     /**
      * Handle non-HTTP errors
      */
-    handleGenericError(error: any) {
-        const errorMessage = error?.message || 'An unexpected error occurred. Please try again later.';
+    handleGenericError(error: unknown): Observable<never> {
+        const errorMessage = (error as { message?: string } | undefined)?.message ?? 'An unexpected error occurred. Please try again later.';
 
         this.messageService.add({
             severity: 'error',
@@ -85,6 +85,7 @@ export class ErrorHandlerService {
         if (!environment.production) {
             console.error('Error occurred:', error);
         }
+
         return throwError(() => errorMessage);
     }
 }

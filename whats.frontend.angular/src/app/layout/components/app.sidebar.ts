@@ -1,10 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { AppMenu } from './app.menu';
 import { LayoutService } from '@/layout/service/layout.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: '[app-sidebar]',
+    selector: 'p-sidebar',
     standalone: true,
     imports: [AppMenu, RouterModule],
     template: ` <div class="layout-sidebar" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
@@ -16,20 +16,19 @@ import { RouterModule } from '@angular/router';
         </div>
 
         <div #menuContainer class="layout-menu-container">
-            <app-menu></app-menu>
+            <p-menu></p-menu>
         </div>
     </div>`
 })
 export class AppSidebar {
-    timeout: any = null;
+    timeout: ReturnType<typeof setTimeout> | null = null;
 
     @ViewChild('menuContainer') menuContainer!: ElementRef;
-    constructor(
-        public layoutService: LayoutService,
-        public el: ElementRef
-    ) {}
 
-    onMouseEnter() {
+    public readonly layoutService = inject(LayoutService);
+    public readonly el = inject(ElementRef);
+
+    onMouseEnter(): void {
         if (!this.layoutService.layoutState().anchored) {
             if (this.timeout) {
                 clearTimeout(this.timeout);
@@ -43,12 +42,13 @@ export class AppSidebar {
                         sidebarActive: true
                     };
                 }
+
                 return state;
             });
         }
     }
 
-    onMouseLeave() {
+    onMouseLeave(): void {
         if (!this.layoutService.layoutState().anchored) {
             if (!this.timeout) {
                 this.timeout = setTimeout(() => {
@@ -59,6 +59,7 @@ export class AppSidebar {
                                 sidebarActive: false
                             };
                         }
+
                         return state;
                     });
                 }, 300);
@@ -66,7 +67,7 @@ export class AppSidebar {
         }
     }
 
-    anchor() {
+    anchor(): void {
         this.layoutService.layoutState.update((state) => ({
             ...state,
             anchored: !state.anchored

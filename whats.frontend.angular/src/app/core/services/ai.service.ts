@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -75,7 +75,7 @@ export interface CollaborativeResponse {
 export class AiService {
     private apiUrl = `${environment.apiUrl}/agent`;
 
-    constructor(private http: HttpClient) {}
+    private readonly http = inject(HttpClient);
 
     /**
      * Chat with AI using Semantic Kernel

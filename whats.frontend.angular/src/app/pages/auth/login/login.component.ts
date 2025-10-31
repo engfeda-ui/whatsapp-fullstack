@@ -17,7 +17,7 @@ import { TokenService } from '@/core/services/token.service';
 import { environment } from '@env/environment';
 
 @Component({
-    selector: 'app-login',
+    selector: 'p-login',
     standalone: true,
     imports: [CheckboxModule, InputTextModule, FormsModule, ReactiveFormsModule, RouterModule, AppConfigurator, IconFieldModule, InputIconModule, ButtonModule, ToastModule],
     providers: [MessageService, AuthService],
@@ -57,6 +57,7 @@ export class Login implements OnInit {
         if (!environment.production && username === 'admin' && password === '96579657') {
             this.isLoading = false;
             const mockToken = this.generateDevToken(username);
+
             this.tokenService.setToken(mockToken);
             this.messageService.add({
                 severity: 'success',
@@ -64,6 +65,7 @@ export class Login implements OnInit {
                 detail: 'تم تسجيل الدخول بنجاح (حساب تطوير)'
             });
             this.router.navigate(['/']);
+
             return;
         }
 
@@ -75,6 +77,7 @@ export class Login implements OnInit {
         this.authService.login(loginData).subscribe({
             next: (response: ApiResponse<any>) => {
                 this.isLoading = false;
+
                 if (response.isSuccess) {
                     if (response.data && response.data.token) {
                         this.tokenService.setToken(response.data.token);

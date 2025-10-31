@@ -33,6 +33,7 @@ describe('CacheService', () => {
 
         it('should return null for non-existent key', () => {
             const result = service.get('non_existent_key');
+
             expect(result).toBeNull();
         });
 
@@ -61,10 +62,12 @@ describe('CacheService', () => {
     describe('TTL (Time To Live)', () => {
         it('should return null after TTL expires', (done) => {
             const shortTTL = 100; // 100ms
+
             service.set(testKey, testData, shortTTL);
 
             setTimeout(() => {
                 const result = service.get(testKey);
+
                 expect(result).toBeNull();
                 done();
             }, 150);
@@ -72,10 +75,12 @@ describe('CacheService', () => {
 
         it('should return data before TTL expires', (done) => {
             const longTTL = 1000; // 1 second
+
             service.set(testKey, testData, longTTL);
 
             setTimeout(() => {
                 const result = service.get(testKey);
+
                 expect(result).toEqual(testData);
                 done();
             }, 500);
@@ -94,6 +99,7 @@ describe('CacheService', () => {
 
         it('should return false for expired key', (done) => {
             const shortTTL = 100;
+
             service.set(testKey, testData, shortTTL);
 
             setTimeout(() => {

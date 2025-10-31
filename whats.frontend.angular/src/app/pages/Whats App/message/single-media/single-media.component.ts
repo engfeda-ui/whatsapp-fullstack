@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessagesService } from '../message.service';
@@ -21,7 +21,7 @@ import { MessageService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
 import { environment } from '@env/environment';
 @Component({
-    selector: 'app-single-media',
+    selector: 'p-single-media',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, InputTextarea, DropdownModule, ToastModule, ProgressSpinnerModule, CardModule, DividerModule, MessageModule, MessagesModule, FileUploadModule],
     templateUrl: './single-media.component.html',
@@ -42,12 +42,12 @@ export class SingleMediaComponent implements OnInit {
     maxFileSize = 5 * 1024 * 1024; // 5MB
     isDragOver = false;
 
-    constructor(
-        private fb: FormBuilder,
-        private messagesService: MessagesService,
-        private deviceService: DeviceService,
-        private messageService: MessageService
-    ) {
+    private readonly fb = inject(FormBuilder);
+    private readonly messagesService = inject(MessagesService);
+    private readonly deviceService = inject(DeviceService);
+    private readonly messageService = inject(MessageService);
+
+    constructor() {
         this.mediaForm = this.fb.group({
             number: ['', [Validators.required]],
             message: ['', [Validators.required]],
@@ -80,7 +80,7 @@ export class SingleMediaComponent implements OnInit {
                         this.error = response.message || 'فشل في تحميل الأجهزة';
                     }
                 },
-                error: (err) => {
+                error: (_err) => {
                     this.error = 'حدث خطأ أثناء تحميل الأجهزة. يرجى المحاولة مرة أخرى.';
                 }
             });
@@ -88,6 +88,7 @@ export class SingleMediaComponent implements OnInit {
 
     onFileSelect(event: any): void {
         const file = event.files[0];
+
         if (file) {
             this.processFile(file);
         }
@@ -112,6 +113,7 @@ export class SingleMediaComponent implements OnInit {
 
         if (event.dataTransfer?.files.length) {
             const file = event.dataTransfer.files[0];
+
             // Check file size
             if (file.size > this.maxFileSize) {
                 this.messageService.add({
@@ -120,11 +122,13 @@ export class SingleMediaComponent implements OnInit {
                     detail: `حجم الملف كبير جدًا. الحد الأقصى هو ${this.maxFileSize / 1024 / 1024} ميجابايت`,
                     life: 5000
                 });
+
                 return;
             }
 
             const fileType = file.type.split('/')[0];
             const isPdf = file.type === 'application/pdf';
+
             if (!['image', 'video', 'audio'].includes(fileType) && !isPdf) {
                 this.messageService.add({
                     severity: 'error',
@@ -132,6 +136,7 @@ export class SingleMediaComponent implements OnInit {
                     detail: 'نوع الملف غير مدعوم. يرجى اختيار صورة أو فيديو أو ملف صوتي أو PDF',
                     life: 5000
                 });
+
                 return;
             }
 
@@ -152,9 +157,11 @@ export class SingleMediaComponent implements OnInit {
         // Create preview for images
         if (this.fileType === 'image') {
             const reader = new FileReader();
+
             reader.onload = () => {
                 this.filePreview = reader.result as string;
             };
+
             reader.readAsDataURL(file);
         } else {
             this.filePreview = null;
@@ -184,6 +191,7 @@ export class SingleMediaComponent implements OnInit {
         this.error = '';
 
         const formData = new FormData();
+
         formData.append('Number', this.mediaForm.value.number);
         formData.append('Message', this.mediaForm.value.message);
         formData.append('File', this.selectedFile);
@@ -221,7 +229,7 @@ export class SingleMediaComponent implements OnInit {
                         });
                     }
                 },
-                error: (err) => {
+                error: (_err) => {
                     this.error = 'حدث خطأ أثناء إرسال الرسالة والملف. يرجى المحاولة مرة أخرى.';
                     this.messageService.add({
                         severity: 'error',

@@ -6,7 +6,7 @@ import { SalesByCategoryWidget } from './ecommerce/salesbycategorywidget';
 import { TopProductsWidget } from './ecommerce/topproductswidget';
 
 @Component({
-    selector: 'app-ecommerce-dashboard',
+    selector: 'p-ecommerce-dashboard',
     standalone: true,
     imports: [StatsWidget, RecentSalesWidget, RevenueOverViewWidget, SalesByCategoryWidget, TopProductsWidget],
     template: `

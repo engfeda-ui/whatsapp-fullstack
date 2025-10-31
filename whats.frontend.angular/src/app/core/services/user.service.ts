@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -32,19 +32,23 @@ export interface ChangePasswordRequest {
     newPassword: string;
 }
 
+export interface ChangePasswordResponse {
+    success: boolean;
+    message?: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
+    private http = inject(HttpClient);
     private apiUrl = environment.apiUrl;
-
-    constructor(private http: HttpClient) {}
 
     getUserById(id: number): Observable<ApiResponse<User>> {
         return this.http.get<ApiResponse<User>>(`${this.apiUrl}/User/Get/${id}`);
     }
 
-    changePassword(request: ChangePasswordRequest): Observable<ApiResponse<any>> {
-        return this.http.post<ApiResponse<any>>(`${this.apiUrl}/User/ChangePassword`, request);
+    changePassword(request: ChangePasswordRequest): Observable<ApiResponse<ChangePasswordResponse>> {
+        return this.http.post<ApiResponse<ChangePasswordResponse>>(`${this.apiUrl}/User/ChangePassword`, request);
     }
 }

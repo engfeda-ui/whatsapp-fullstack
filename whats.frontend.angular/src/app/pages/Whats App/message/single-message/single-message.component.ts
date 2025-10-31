@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessagesService } from '../message.service';
@@ -22,7 +22,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageService, MessageService as PrimeMessageService } from 'primeng/api';
 
 @Component({
-    selector: 'app-single-message',
+    selector: 'p-single-message',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, InputTextarea, DropdownModule, ToastModule, ProgressSpinnerModule, CardModule, DividerModule, MessageModule, MessagesModule],
     templateUrl: './single-message.component.html',
@@ -38,12 +38,12 @@ export class SingleMessageComponent implements OnInit {
     success = false;
     error = '';
 
-    constructor(
-        private fb: FormBuilder,
-        private messagesService: MessagesService,
-        private deviceService: DeviceService,
-        private messageService: MessageService
-    ) {
+    private readonly fb = inject(FormBuilder);
+    private readonly messagesService = inject(MessagesService);
+    private readonly deviceService = inject(DeviceService);
+    private readonly messageService = inject(MessageService);
+
+    constructor() {
         this.messageForm = this.fb.group({
             number: ['', [Validators.required]],
             message: ['', [Validators.required]],
@@ -75,7 +75,7 @@ export class SingleMessageComponent implements OnInit {
                         this.error = response.message || 'Failed to load devices';
                     }
                 },
-                error: (err) => {
+                error: (_err) => {
                     this.error = 'Error loading devices. Please try again.';
                 }
             });
@@ -122,7 +122,7 @@ export class SingleMessageComponent implements OnInit {
                         });
                     }
                 },
-                error: (err) => {
+                error: (_err) => {
                     this.error = 'Error sending message. Please try again.';
                     this.messageService.add({
                         severity: 'error',

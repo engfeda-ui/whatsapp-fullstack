@@ -13,7 +13,7 @@ interface CacheEntry<T> {
     providedIn: 'root'
 })
 export class CacheService {
-    private cache = new Map<string, CacheEntry<any>>();
+    private cache = new Map<string, CacheEntry<unknown>>();
     private readonly MAX_CACHE_SIZE = 50;
     private readonly DEFAULT_TTL = 300000; // 5 minutes
 
@@ -22,17 +22,23 @@ export class CacheService {
     // Get data from cache if it exists and hasn't expired
     get<T>(key: string): T | null {
         const item = this.cache.get(key);
-        if (!item) return null;
+
+        if (!item) {
+            return null;
+        }
 
         // Check if the item has expired
         const now = Date.now();
+
         if (now - item.timestamp > item.ttl) {
             this.cache.delete(key);
+
             return null;
         }
 
         // Update access count for LRU tracking
         item.accessCount++;
+
         return item.data as T;
     }
 
@@ -82,6 +88,7 @@ export class CacheService {
     cacheObservable<T>(key: string, source$: Observable<T>, ttl: number = this.DEFAULT_TTL): Observable<T> {
         // Check if we have fresh data in cache
         const cachedData = this.get<T>(key);
+
         if (cachedData) {
             return of(cachedData);
         }

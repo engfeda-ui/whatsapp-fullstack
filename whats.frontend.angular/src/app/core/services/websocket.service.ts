@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subject, timer, EMPTY } from 'rxjs';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Observable, Subject, timer } from 'rxjs';
 import { retryWhen, tap, delayWhen, takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { TokenService } from './token.service';
@@ -21,6 +21,7 @@ export interface ConnectionStatus {
     providedIn: 'root'
 })
 export class WebSocketService implements OnDestroy {
+    private tokenService = inject(TokenService);
     private socket: WebSocket | null = null;
     private messageSubject = new Subject<WebSocketMessage>();
     private connectionStatusSubject = new Subject<ConnectionStatus>();
@@ -29,8 +30,6 @@ export class WebSocketService implements OnDestroy {
     private readonly MAX_RECONNECT_ATTEMPTS = 5;
     private readonly RECONNECT_DELAY = 3000; // 3 seconds
     private heartbeatInterval: ReturnType<typeof setInterval> | null = null;
-
-    constructor(private tokenService: TokenService) {}
 
     /**
      * Connect to WebSocket server
@@ -59,6 +58,7 @@ export class WebSocketService implements OnDestroy {
     send<T>(message: WebSocketMessage<T>): void {
         if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
             console.error('WebSocket is not connected');
+
             return;
         }
 
@@ -121,17 +121,19 @@ export class WebSocketService implements OnDestroy {
 
             if (!token) {
                 console.error('No authentication token available');
+
                 return;
             }
 
             // Construct WebSocket URL from API URL
             const wsUrl = this.getWebSocketUrl();
+
             this.socket = new WebSocket(`${wsUrl}?token=${token}`);
 
-            this.socket.onopen = () => this.handleOpen();
-            this.socket.onmessage = (event) => this.handleMessage(event);
-            this.socket.onerror = (error) => this.handleError(error);
-            this.socket.onclose = (event) => this.handleClose(event);
+            this.socket.onopen = (): void => this.handleOpen();
+            this.socket.onmessage = (event: MessageEvent): void => this.handleMessage(event);
+            this.socket.onerror = (error: Event): void => this.handleError(error);
+            this.socket.onclose = (event: CloseEvent): void => this.handleClose(event);
         } catch (error) {
             console.error('Error initializing WebSocket:', error);
             this.updateConnectionStatus({
@@ -143,16 +145,42 @@ export class WebSocketService implements OnDestroy {
     }
 
     private getWebSocketUrl(): string {
-        // Convert HTTP(S) URL to WS(S)
-        const apiUrl = environment.apiUrl;
-        const wsProtocol = apiUrl.startsWith('https') ? 'wss' : 'ws';
-        const urlWithoutProtocol = apiUrl.replace(/^https?:\/\//, '');
+        const baseUrl = environment.signalRUrl || environment.apiUrl;
 
-        return `${wsProtocol}://${urlWithoutProtocol}/ws`;
+        if (!baseUrl) {
+            throw new Error('SignalR URL is not configured.');
+        }
+
+        if (baseUrl.startsWith('ws://') || baseUrl.startsWith('wss://')) {
+            return baseUrl;
+        }
+
+        const origin = this.resolveOrigin();
+        const resolvedUrl = new URL(baseUrl, origin);
+
+        resolvedUrl.protocol = resolvedUrl.protocol === 'https:' ? 'wss:' : 'ws:';
+
+        return resolvedUrl.toString();
+    }
+
+    private resolveOrigin(): string {
+        if (typeof window !== 'undefined' && window.location?.origin) {
+            return window.location.origin;
+        }
+
+        const apiUrl = environment.apiUrl;
+
+        if (apiUrl && apiUrl.startsWith('http')) {
+            const { origin } = new URL(apiUrl);
+
+            return origin;
+        }
+
+        throw new Error('Unable to resolve origin for SignalR connection.');
     }
 
     private handleOpen(): void {
-        console.log('WebSocket connected successfully');
+        console.info('WebSocket connected successfully');
         this.reconnectAttempts = 0;
         this.updateConnectionStatus({ connected: true, reconnecting: false });
         this.startHeartbeat();
@@ -161,6 +189,7 @@ export class WebSocketService implements OnDestroy {
     private handleMessage(event: MessageEvent): void {
         try {
             const message: WebSocketMessage = JSON.parse(event.data);
+
             this.messageSubject.next(message);
         } catch (error) {
             console.error('Error parsing WebSocket message:', error);
@@ -177,7 +206,7 @@ export class WebSocketService implements OnDestroy {
     }
 
     private handleClose(event: CloseEvent): void {
-        console.log('WebSocket closed:', event.code, event.reason);
+        console.info('WebSocket closed:', event.code, event.reason);
 
         if (this.heartbeatInterval) {
             clearInterval(this.heartbeatInterval);
@@ -200,11 +229,12 @@ export class WebSocketService implements OnDestroy {
                 reconnecting: false,
                 error: 'Failed to reconnect after maximum attempts'
             });
+
             return;
         }
 
         this.reconnectAttempts++;
-        console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.MAX_RECONNECT_ATTEMPTS})...`);
+        console.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.MAX_RECONNECT_ATTEMPTS})...`);
 
         this.updateConnectionStatus({ connected: false, reconnecting: true });
 

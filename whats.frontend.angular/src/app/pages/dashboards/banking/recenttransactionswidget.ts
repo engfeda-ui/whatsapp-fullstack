@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     standalone: true,
-    selector: 'app-recent-transactions-widget',
+    selector: 'p-recent-transactions-widget',
     imports: [],
     template: `
         <div class="card">

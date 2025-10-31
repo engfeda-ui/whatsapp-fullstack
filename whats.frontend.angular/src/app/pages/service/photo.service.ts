@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 
+export interface PhotoData {
+    itemImageSrc: string;
+    thumbnailImageSrc: string;
+    alt: string;
+    title: string;
+}
+
 @Injectable()
 export class PhotoService {
-    getData() {
+    getData(): PhotoData[] {
         return [
             {
                 itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg',
@@ -97,7 +104,7 @@ export class PhotoService {
         ];
     }
 
-    getImages() {
+    getImages(): Promise<PhotoData[]> {
         return Promise.resolve(this.getData());
     }
 }

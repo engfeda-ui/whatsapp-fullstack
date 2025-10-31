@@ -6,10 +6,5 @@ import { ErrorHandlerService } from '../services/error-handler.service';
 export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
     const errorHandlerService = inject(ErrorHandlerService);
 
-    return next(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-            // Use the centralized error handler
-            return errorHandlerService.handleError(error);
-        })
-    );
+    return next(req).pipe(catchError((error: HttpErrorResponse) => errorHandlerService.handleError(error)));
 };

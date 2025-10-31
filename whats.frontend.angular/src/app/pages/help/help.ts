@@ -5,7 +5,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-    selector: 'app-help',
+    selector: 'p-help',
     standalone: true,
     imports: [IconFieldModule, InputIconModule, InputTextModule],
     template: `

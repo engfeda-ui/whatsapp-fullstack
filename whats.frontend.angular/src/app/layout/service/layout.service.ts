@@ -3,32 +3,32 @@ import { Subject } from 'rxjs';
 
 export type ColorScheme = 'light' | 'dark' | 'dim';
 
-export interface layoutConfig {
+export interface LayoutConfig {
     inputStyle: string;
-    preset?: string;
-    primary?: string;
-    surface?: string | undefined | null;
+    preset: string;
+    primary: string;
+    surface: string | null;
     ripple: boolean;
-    darkTheme?: boolean;
-    menuMode?: string;
-    menuTheme?: string;
+    darkTheme: boolean;
+    menuMode: 'static' | 'overlay' | 'slim' | 'slim-plus' | 'horizontal' | 'reveal' | 'drawer';
+    menuTheme: 'colorScheme' | 'primaryColor' | 'transparent';
     colorScheme?: ColorScheme;
 }
 
 interface LayoutState {
-    staticMenuDesktopInactive?: boolean;
-    overlayMenuActive?: boolean;
+    staticMenuDesktopInactive: boolean;
+    overlayMenuActive: boolean;
     configSidebarVisible: boolean;
-    staticMenuMobileActive?: boolean;
-    menuHoverActive?: boolean;
+    staticMenuMobileActive: boolean;
+    menuHoverActive: boolean;
     profileSidebarVisible: boolean;
     sidebarActive: boolean;
     anchored: boolean;
     overlaySubmenuActive: boolean;
-    activeMenuItem: any;
+    activeMenuItem: string | null;
 }
 
-interface MenuChangeEvent {
+export interface MenuChangeEvent {
     key: string;
     routeEvent?: boolean;
 }
@@ -37,7 +37,7 @@ interface MenuChangeEvent {
     providedIn: 'root'
 })
 export class LayoutService {
-    _config: layoutConfig = {
+    private _config: LayoutConfig = {
         ripple: false,
         preset: 'Aura',
         primary: 'indigo',
@@ -48,7 +48,7 @@ export class LayoutService {
         menuTheme: 'colorScheme'
     };
 
-    _state: LayoutState = {
+    private _state: LayoutState = {
         staticMenuDesktopInactive: false,
         overlayMenuActive: false,
         sidebarActive: false,
@@ -61,17 +61,17 @@ export class LayoutService {
         activeMenuItem: null
     };
 
-    layoutConfig = signal<layoutConfig>(this._config);
+    layoutConfig = signal<LayoutConfig>(this._config);
 
     layoutState = signal<LayoutState>(this._state);
 
-    private configUpdate = new Subject<layoutConfig>();
+    private configUpdate = new Subject<LayoutConfig>();
 
-    private overlayOpen = new Subject<any>();
+    private overlayOpen = new Subject<void>();
 
     private menuSource = new Subject<MenuChangeEvent>();
 
-    private resetSource = new Subject();
+    private resetSource = new Subject<void>();
 
     menuSource$ = this.menuSource.asObservable();
 
@@ -94,8 +94,9 @@ export class LayoutService {
     transitionComplete = signal<boolean>(false);
 
     isSidebarStateChanged = computed(() => {
-        const layoutConfig = this.layoutConfig();
-        return layoutConfig.menuMode === 'horizontal' || layoutConfig.menuMode === 'slim' || layoutConfig.menuMode === 'slim-plus';
+        const { menuMode } = this.layoutConfig();
+
+        return menuMode === 'horizontal' || menuMode === 'slim' || menuMode === 'slim-plus';
     });
 
     private initialized = false;
@@ -103,6 +104,7 @@ export class LayoutService {
     constructor() {
         effect(() => {
             const config = this.layoutConfig();
+
             if (config) {
                 this.onConfigUpdate();
             }
@@ -113,6 +115,7 @@ export class LayoutService {
 
             if (!this.initialized || !config) {
                 this.initialized = true;
+
                 return;
             }
 
@@ -120,11 +123,13 @@ export class LayoutService {
         });
 
         effect(() => {
-            this.isSidebarStateChanged() && this.reset();
+            if (this.isSidebarStateChanged()) {
+                this.reset();
+            }
         });
     }
 
-    private handleDarkModeTransition(config: layoutConfig): void {
+    private handleDarkModeTransition(config: LayoutConfig): void {
         const supportsViewTransition = 'startViewTransition' in document;
 
         if (supportsViewTransition) {
@@ -135,7 +140,7 @@ export class LayoutService {
         }
     }
 
-    private startViewTransition(config: layoutConfig): void {
+    private startViewTransition(config: LayoutConfig): void {
         const transition = (document as any).startViewTransition(() => {
             this.toggleDarkMode(config);
         });
@@ -147,81 +152,94 @@ export class LayoutService {
             .catch(() => {});
     }
 
-    toggleDarkMode(config?: layoutConfig): void {
-        const _config = config || this.layoutConfig();
-        if (_config.darkTheme) {
+    toggleDarkMode(config?: LayoutConfig): void {
+        const nextConfig = config || this.layoutConfig();
+
+        if (nextConfig.darkTheme) {
             document.documentElement.classList.add('app-dark');
         } else {
             document.documentElement.classList.remove('app-dark');
         }
     }
 
-    private onTransitionEnd() {
+    private onTransitionEnd(): void {
         this.transitionComplete.set(true);
         setTimeout(() => {
             this.transitionComplete.set(false);
         });
     }
 
-    onMenuToggle() {
+    onMenuToggle(): void {
         if (this.isOverlay()) {
-            this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
+            this.layoutState.update((prev) => ({
+                ...prev,
+                overlayMenuActive: !this.layoutState().overlayMenuActive
+            }));
 
             if (this.layoutState().overlayMenuActive) {
-                this.overlayOpen.next(null);
+                this.overlayOpen.next();
             }
         }
 
         if (this.isDesktop()) {
-            this.layoutState.update((prev) => ({ ...prev, staticMenuDesktopInactive: !this.layoutState().staticMenuDesktopInactive }));
+            this.layoutState.update((prev) => ({
+                ...prev,
+                staticMenuDesktopInactive: !this.layoutState().staticMenuDesktopInactive
+            }));
         } else {
-            this.layoutState.update((prev) => ({ ...prev, staticMenuMobileActive: !this.layoutState().staticMenuMobileActive }));
+            const isActive = !this.layoutState().staticMenuMobileActive;
 
-            if (this.layoutState().staticMenuMobileActive) {
-                this.overlayOpen.next(null);
+            this.layoutState.update((prev) => ({
+                ...prev,
+                staticMenuMobileActive: isActive
+            }));
+
+            if (isActive) {
+                this.overlayOpen.next();
             }
         }
     }
-    onConfigUpdate() {
+
+    onConfigUpdate(): void {
         this._config = { ...this.layoutConfig() };
         this.configUpdate.next(this.layoutConfig());
     }
 
-    onMenuStateChange(event: MenuChangeEvent) {
+    onMenuStateChange(event: MenuChangeEvent): void {
         this.menuSource.next(event);
     }
 
-    reset() {
-        this.resetSource.next(true);
+    reset(): void {
+        this.resetSource.next();
     }
 
-    onOverlaySubmenuOpen() {
-        this.overlayOpen.next(null);
+    onOverlaySubmenuOpen(): void {
+        this.overlayOpen.next();
     }
 
-    showProfileSidebar() {
+    showProfileSidebar(): void {
         this.layoutState.update((state) => ({
             ...state,
             profileSidebarVisible: true
         }));
     }
 
-    showConfigSidebar() {
+    showConfigSidebar(): void {
         this.layoutState.update((state) => ({
             ...state,
             configSidebarVisible: true
         }));
     }
 
-    hideConfigSidebar() {
+    hideConfigSidebar(): void {
         this.layoutState.update((prev) => ({ ...prev, configSidebarVisible: false }));
     }
 
-    isDesktop() {
+    isDesktop(): boolean {
         return window.innerWidth > 991;
     }
 
-    isMobile() {
+    isMobile(): boolean {
         return !this.isDesktop();
     }
 }

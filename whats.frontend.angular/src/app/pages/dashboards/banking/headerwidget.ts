@@ -4,7 +4,7 @@ import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
     standalone: true,
-    selector: 'app-header-widget',
+    selector: 'p-header-widget',
     imports: [ButtonModule, TooltipModule],
     template: `
         <div class="flex flex-col sm:flex-row items-center gap-6">

@@ -48,34 +48,42 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
                     switchMap(() => {
                         // Get the new token
                         const newToken = tokenService.getToken();
+
                         if (!newToken) {
                             throw new Error('Token refresh failed');
                         }
+
                         // Clone the request with the new token
                         const authReq = req.clone({
                             setHeaders: {
                                 Authorization: `Bearer ${newToken}`
                             }
                         });
+
                         // Retry the request with the new token
                         return next(authReq);
                     }),
                     catchError((refreshError) => {
                         // If refresh fails, logout, notify the user, and redirect to login
                         tokenService.logout();
+
                         localStorage.removeItem('user');
+
                         messageService.add({
                             severity: 'warn',
                             summary: 'Session Expired',
                             detail: 'Your session has expired. Please sign in again.',
                             life: 4000
                         });
+
                         router.navigate(['/auth/login']);
+
                         return throwError(() => refreshError);
                     })
                 );
             }
             // For other errors, just pass them through
+
             return throwError(() => error);
         })
     );

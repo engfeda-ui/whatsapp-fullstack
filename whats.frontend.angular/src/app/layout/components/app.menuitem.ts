@@ -1,5 +1,5 @@
-import { Component, computed, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Component, computed, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild, AfterViewChecked, inject } from '@angular/core';
+import { IsActiveMatchOptions, NavigationEnd, QueryParamsHandling, Router, RouterModule } from '@angular/router';
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -8,10 +8,20 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { LayoutService } from '@/layout/service/layout.service';
+import { MenuItem as PrimeMenuItem } from 'primeng/api';
+
+export interface AppMenuItem extends PrimeMenuItem {
+    separator?: boolean;
+    visible?: boolean | (() => boolean);
+    badgeClass?: string;
+    queryParamsHandling?: QueryParamsHandling;
+    routerLinkActiveOptions?: IsActiveMatchOptions;
+    state?: Record<string, unknown>;
+    items?: AppMenuItem[];
+}
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: '[app-menuitem]',
+    selector: 'p-menuitem',
     imports: [CommonModule, RouterModule, RippleModule, TooltipModule],
     template: `
         <ng-container>
@@ -69,7 +79,7 @@ import { LayoutService } from '@/layout/service/layout.service';
 
             <ul #submenu *ngIf="item.items && isVisible()" [@children]="submenuAnimation" (@children.done)="onSubmenuAnimated($event)">
                 <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
-                    <li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child['badgeClass']"></li>
+                    <li p-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child['badgeClass']"></li>
                 </ng-template>
             </ul>
         </ng-container>
@@ -104,8 +114,8 @@ import { LayoutService } from '@/layout/service/layout.service';
         ])
     ]
 })
-export class AppMenuitem implements OnInit, OnDestroy {
-    @Input() item: any;
+export class AppMenuitem implements OnInit, OnDestroy, AfterViewChecked {
+    @Input() item!: MenuItem;
 
     @Input() index!: number;
 
@@ -116,7 +126,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
     @ViewChild('submenu') submenu!: ElementRef;
 
     @HostBinding('class.active-menuitem')
-    get activeClass() {
+    get activeClass(): boolean {
         return this.active;
     }
 
@@ -128,10 +138,13 @@ export class AppMenuitem implements OnInit, OnDestroy {
 
     key: string = '';
 
-    get submenuAnimation() {
+    public readonly layoutService = inject(LayoutService);
+    public readonly router = inject(Router);
+
+    get submenuAnimation(): string {
         if (this.layoutService.isDesktop() && (this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus())) {
             return this.active ? 'visible' : 'hidden';
-        } else return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
+        } else {return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';}
     }
 
     isSlim = computed(() => this.layoutService.isSlim());
@@ -140,18 +153,15 @@ export class AppMenuitem implements OnInit, OnDestroy {
 
     isHorizontal = computed(() => this.layoutService.isHorizontal());
 
-    get isDesktop() {
+    get isDesktop(): boolean {
         return this.layoutService.isDesktop();
     }
 
-    get isMobile() {
+    get isMobile(): boolean {
         return this.layoutService.isMobile();
     }
 
-    constructor(
-        public layoutService: LayoutService,
-        public router: Router
-    ) {
+    constructor() {
         this.menuSourceSubscription = this.layoutService.menuSource$.subscribe((value) => {
             Promise.resolve(null).then(() => {
                 if (value.routeEvent) {
@@ -168,7 +178,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
             this.active = false;
         });
 
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((params) => {
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((_params) => {
             if (this.isSlimPlus() || this.isSlim() || this.isHorizontal()) {
                 this.active = false;
             } else {
@@ -179,7 +189,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
 
         if (!(this.isSlimPlus() || this.isSlim() || this.isHorizontal()) && this.item.routerLink) {
@@ -187,14 +197,14 @@ export class AppMenuitem implements OnInit, OnDestroy {
         }
     }
 
-    ngAfterViewChecked() {
+    ngAfterViewChecked(): void {
         if (this.root && this.active && this.isDesktop && (this.isHorizontal() || this.isSlim() || this.isSlimPlus())) {
             this.calculatePosition(this.submenu?.nativeElement, this.submenu?.nativeElement.parentElement);
         }
     }
 
-    updateActiveStateFromRoute() {
-        let activeRoute = this.router.isActive(this.item.routerLink[0], {
+    updateActiveStateFromRoute(): void {
+        const activeRoute = this.router.isActive(this.item.routerLink[0], {
             paths: 'exact',
             queryParams: 'ignored',
             matrixParams: 'ignored',
@@ -208,38 +218,43 @@ export class AppMenuitem implements OnInit, OnDestroy {
             });
         }
     }
-    onSubmenuAnimated(event: AnimationEvent) {
+    onSubmenuAnimated(event: AnimationEvent): void {
         if (event.toState === 'visible' && this.isDesktop && (this.isHorizontal() || this.isSlim() || this.isSlimPlus())) {
             const el = <HTMLUListElement>event.element;
             const elParent = <HTMLUListElement>el.parentElement;
+
             this.calculatePosition(el, elParent);
         }
     }
 
-    calculatePosition(overlay: HTMLElement, target: HTMLElement) {
+    calculatePosition(overlay: HTMLElement, target: HTMLElement): void {
         if (overlay) {
             const { left, top } = target.getBoundingClientRect();
             const [vWidth, vHeight] = [window.innerWidth, window.innerHeight];
             const [oWidth, oHeight] = [overlay.offsetWidth, overlay.offsetHeight];
             const scrollbarWidth = DomHandler.calculateScrollbarWidth();
+
             // reset
             overlay.style.top = '';
             overlay.style.left = '';
 
             if (this.layoutService.isHorizontal()) {
                 const width = left + oWidth + scrollbarWidth;
+
                 overlay.style.left = vWidth < width ? `${left - (width - vWidth)}px` : `${left}px`;
             } else if (this.layoutService.isSlim() || this.layoutService.isSlimPlus()) {
                 const height = top + oHeight;
+
                 overlay.style.top = vHeight < height ? `${top - (height - vHeight)}px` : `${top}px`;
             }
         }
     }
 
-    itemClick(event: Event) {
+    itemClick(event: Event): void {
         // avoid processing disabled items
         if (this.item.disabled) {
             event.preventDefault();
+
             return;
         }
 
@@ -283,7 +298,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
         this.layoutService.onMenuStateChange({ key: this.key });
     }
 
-    onMouseEnter() {
+    onMouseEnter(): void {
         // activate item on hover
         if (this.root && (this.isSlim() || this.isHorizontal() || this.isSlimPlus()) && this.layoutService.isDesktop()) {
             if (this.layoutService.layoutState().menuHoverActive) {
@@ -303,7 +318,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
         return this.item.visible !== false;
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.menuSourceSubscription) {
             this.menuSourceSubscription.unsubscribe();
         }

@@ -19,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiResponse } from '@/core/ApiResponse';
 
 @Component({
-    selector: 'app-register',
+    selector: 'p-register',
     standalone: true,
     imports: [CommonModule, PasswordModule, FormsModule, ReactiveFormsModule, InputTextModule, CheckboxModule, RouterModule, AppConfigurator, IconFieldModule, InputIconModule, ButtonModule, RippleModule, ToastModule, HttpClientModule],
     providers: [MessageService, AuthService],
@@ -50,18 +50,23 @@ export class Register implements OnInit {
 
     get mobileNumberError(): string {
         const control = this.registerForm.get('mobileNumber');
+
         if (control?.hasError('required')) {
             return 'رقم الهاتف مطلوب';
         }
+
         if (control?.hasError('pattern')) {
             return 'رقم الهاتف غير صحيح. يجب أن يحتوي على أرقام فقط (10-15 رقم)';
         }
+
         if (control?.hasError('minlength')) {
             return 'رقم الهاتف قصير جداً (الحد الأدنى 10 أرقام)';
         }
+
         if (control?.hasError('maxlength')) {
             return 'رقم الهاتف طويل جداً (الحد الأقصى 15 رقم)';
         }
+
         return '';
     }
 
@@ -72,6 +77,7 @@ export class Register implements OnInit {
                 summary: 'تحذير',
                 detail: 'يرجى ملء جميع الحقول المطلوبة وقبول الشروط والأحكام'
             });
+
             return;
         }
 
@@ -87,6 +93,7 @@ export class Register implements OnInit {
         this.authService.register(registerData).subscribe({
             next: (response: ApiResponse<any>) => {
                 this.isLoading = false;
+
                 if (response.isSuccess) {
                     this.messageService.add({
                         severity: 'success',

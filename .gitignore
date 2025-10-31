@@ -1,24 +1,100 @@
-﻿# Frontend
-whats.frontend.angular/node_modules
-whats.frontend.angular/dist
+# ========================================
+# Frontend (Angular)
+# ========================================
+whats.frontend.angular/node_modules/
+whats.frontend.angular/dist/
+whats.frontend.angular/.angular/
+whats.frontend.angular/coverage/
+whats.frontend.angular/.nx/
+whats.frontend.angular/npm-debug.log*
+whats.frontend.angular/yarn-error.log*
 
+# ========================================
 # Backend (.NET)
-**/bin
-**/obj
+# ========================================
+**/bin/
+**/obj/
+**/out/
+**/publish/
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+whats.backend.aspnet/Migrations/
 
-# OS/IDE
+# ========================================
+# Database Files
+# ========================================
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# ========================================
+# Environment Files
+# ========================================
+.env
+.env.local
+.env.*.local
+*.env
+
+# ========================================
+# IDE & Editors
+# ========================================
 .DS_Store
 Thumbs.db
 .vscode/
-# Frontend
-whats.frontend.angular/node_modules
-whats.frontend.angular/dist
+.idea/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
 
-# Backend (.NET)
-**/bin
-**/obj
+# ========================================
+# Logs
+# ========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
-# OS/IDE
+# ========================================
+# Test Results
+# ========================================
+TestResults/
+coverage/
+*.trx
+*.coverage
+*.coveragexml
+
+# ========================================
+# OS Files
+# ========================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-.vscode/
+desktop.ini
+
+# ========================================
+# Build Artifacts
+# ========================================
+*.dll
+*.exe
+*.pdb
+*.cache
+*.tmp
+.angular/

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -10,9 +10,8 @@ import { Imessage } from './Imessage';
     providedIn: 'root'
 })
 export class MessagesService {
+    private readonly http = inject(HttpClient);
     private apiUrl = `${environment.apiUrl}/whatsapp`;
-
-    constructor(private http: HttpClient) {}
 
     sendMessage(message: Imessage, deviceId: number): Observable<ApiResponse<any>> {
         return this.http
@@ -53,9 +52,12 @@ export class MessagesService {
     }
 
     private getMediaType(mimeType: string): string {
-        if (mimeType.startsWith('image/')) return 'image';
-        if (mimeType.startsWith('video/')) return 'video';
-        if (mimeType.startsWith('audio/')) return 'audio';
+        if (mimeType.startsWith('image/')) {return 'image';}
+
+        if (mimeType.startsWith('video/')) {return 'video';}
+
+        if (mimeType.startsWith('audio/')) {return 'audio';}
+
         return 'document';
     }
 
@@ -75,6 +77,7 @@ export class MessagesService {
         // TODO: Implement proper file upload and bulk media sending
         const recipients: string[] = [];
         const message = formData.get('Message') as string || '';
+
         return this.sendMessageToMultipleNumbers(deviceId, recipients, message);
     }
 

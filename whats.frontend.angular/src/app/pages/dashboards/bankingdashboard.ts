@@ -8,7 +8,7 @@ import { MonthlyPaymentsWidget } from './banking/monthlypaymentswidget';
 import { ProductService } from '@/pages/service/product.service';
 
 @Component({
-    selector: 'app-banking-dashboard',
+    selector: 'p-banking-dashboard',
     standalone: true,
     imports: [HeaderWidget, StatsBankingWidget, RecentTransactionsWidget, OverviewWidget, RecentTransactionsTwoWidget, MonthlyPaymentsWidget],
     providers: [ProductService],

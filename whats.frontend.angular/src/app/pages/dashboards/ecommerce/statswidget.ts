@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
     standalone: true,
-    selector: 'app-stats-widget',
+    selector: 'p-stats-widget',
     imports: [CommonModule, KnobModule, FormsModule],
     template: ` <div class="col-span-12 md:col-span-6 xl:col-span-3">
             <div class="card h-full">

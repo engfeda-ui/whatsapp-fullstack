@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
@@ -25,18 +25,26 @@ interface AuthResponse {
     };
 }
 
+export interface UserData {
+    id: string;
+    fullName: string;
+    email: string;
+    phoneNumber?: string;
+    isActive: boolean;
+    createdAt: string;
+    lastLoginAt?: string;
+    [key: string]: unknown;
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+    private http = inject(HttpClient);
+    private tokenService = inject(TokenService);
     private readonly API_URL = `${environment.apiUrl}/auth`;
 
-    constructor(
-        private http: HttpClient,
-        private tokenService: TokenService
-    ) {}
-
-    login(request: LoginRequest): Observable<ApiResponse<any>> {
+    login(request: LoginRequest): Observable<ApiResponse<AuthResponse>> {
         const dotNetRequest = toDotNetLoginRequest(request);
         
         return this.http
@@ -53,9 +61,9 @@ export class AuthService {
             );
     }
 
-    register(request: RegisterRequest): Observable<ApiResponse<any>> {
+    register(request: RegisterRequest): Observable<ApiResponse<AuthResponse>> {
         const dotNetRequest = toDotNetRegisterRequest(request);
-        
+
         return this.http
             .post<DotNetApiResponse<AuthResponse>>(`${this.API_URL}/register`, dotNetRequest)
             .pipe(
@@ -71,7 +79,7 @@ export class AuthService {
     }
 
     // Verification not supported in .NET backend, return success
-    verify(request: VerificationRequest): Observable<ApiResponse<any>> {
+    verify(request: VerificationRequest): Observable<ApiResponse<{ verified: boolean }>> {
         // For now, just return success as .NET doesn't have verification endpoint
         return of({
             isSuccess: true,
@@ -88,7 +96,7 @@ export class AuthService {
     }
 
     // Resend code not supported in .NET backend
-    resendCode(request: { Id: number; SecurityCode: string }): Observable<ApiResponse<any>> {
+    resendCode(request: { Id: number; SecurityCode: string }): Observable<ApiResponse<{ sent: boolean }>> {
         // For now, just return success as .NET doesn't have resend code endpoint
         return of({
             isSuccess: true,
@@ -104,14 +112,15 @@ export class AuthService {
         });
     }
 
-    getCurrentUser(): Observable<ApiResponse<any>> {
+    getCurrentUser(): Observable<ApiResponse<UserData>> {
         return this.http
-            .get<DotNetApiResponse<any>>(`${this.API_URL}/me`)
+            .get<DotNetApiResponse<UserData>>(`${this.API_URL}/me`)
             .pipe(map(convertDotNetResponse));
     }
 
     logout(): void {
         const refreshToken = this.tokenService.getRefreshToken();
+
         if (refreshToken) {
             this.http
                 .post<DotNetApiResponse<boolean>>(`${this.API_URL}/revoke-token`, {
@@ -119,6 +128,7 @@ export class AuthService {
                 })
                 .subscribe();
         }
+
         this.tokenService.logout();
         localStorage.removeItem('user');
     }
@@ -127,8 +137,9 @@ export class AuthService {
         return this.tokenService.isLoggedIn();
     }
 
-    getStoredUser(): any {
+    getStoredUser(): UserData | null {
         const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
+
+        return user ? JSON.parse(user) as UserData : null;
     }
 }

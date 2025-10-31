@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { ChartModule } from 'primeng/chart';
@@ -13,7 +13,7 @@ interface Week {
 
 @Component({
     standalone: true,
-    selector: 'app-revenue-overview-widget',
+    selector: 'p-revenue-overview-widget',
     imports: [SelectModule, ChartModule, FormsModule],
     template: ` <div class="card h-full">
         <div class="flex items-start justify-between mb-12">
@@ -23,7 +23,7 @@ interface Week {
         <p-chart type="bar" height="300" [data]="barData" [options]="barOptions"></p-chart>
     </div>`
 })
-export class RevenueOverViewWidget {
+export class RevenueOverViewWidget implements OnInit {
     weeks: Week[] = [
         {
             label: 'Last Week',
@@ -134,7 +134,8 @@ export class RevenueOverViewWidget {
     }
 
     onWeekChange() {
-        let newBarData = { ...this.barData };
+        const newBarData = { ...this.barData };
+
         newBarData.datasets[0].data = this.selectedWeek.data[0];
         newBarData.datasets[1].data = this.selectedWeek.data[1];
         this.barData = newBarData;

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 
 @Component({
-    selector: 'app-faq',
+    selector: 'p-faq',
     imports: [AccordionModule, CommonModule, RippleModule],
     template: `
         <div>

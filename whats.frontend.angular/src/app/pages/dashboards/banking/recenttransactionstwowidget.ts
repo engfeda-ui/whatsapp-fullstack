@@ -5,7 +5,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
     standalone: true,
-    selector: 'app-recent-transactions-two-widget',
+    selector: 'p-recent-transactions-two-widget',
     imports: [FormsModule, InputNumberModule, ButtonModule],
     template: `
         <div class="card h-full">

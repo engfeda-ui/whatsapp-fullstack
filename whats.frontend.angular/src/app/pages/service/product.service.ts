@@ -1,10 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-interface InventoryStatus {
-    label: string;
-    value: string;
-}
+import { Injectable, inject } from '@angular/core';
 
 export interface Product {
     id?: string;
@@ -21,7 +16,44 @@ export interface Product {
 
 @Injectable()
 export class ProductService {
-    getProductsData() {
+    private http = inject(HttpClient);
+
+    status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
+
+    productNames: string[] = [
+        'Bamboo Watch',
+        'Black Watch',
+        'Blue Band',
+        'Blue T-Shirt',
+        'Bracelet',
+        'Brown Purse',
+        'Chakra Bracelet',
+        'Galaxy Earrings',
+        'Game Controller',
+        'Gaming Set',
+        'Gold Phone Case',
+        'Green Earbuds',
+        'Green T-Shirt',
+        'Grey T-Shirt',
+        'Headphones',
+        'Light Green T-Shirt',
+        'Lime Band',
+        'Mini Speakers',
+        'Painted Phone Case',
+        'Pink Band',
+        'Pink Purse',
+        'Purple Band',
+        'Purple Gemstone Necklace',
+        'Purple T-Shirt',
+        'Shoes',
+        'Sneakers',
+        'Teal T-Shirt',
+        'Yellow Earbuds',
+        'Yoga Mat',
+        'Yoga Set'
+    ];
+
+    getProductsData(): Product[] {
         return [
             {
                 id: '1000',
@@ -1220,56 +1252,19 @@ export class ProductService {
         ];
     }
 
-    status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
-
-    productNames: string[] = [
-        'Bamboo Watch',
-        'Black Watch',
-        'Blue Band',
-        'Blue T-Shirt',
-        'Bracelet',
-        'Brown Purse',
-        'Chakra Bracelet',
-        'Galaxy Earrings',
-        'Game Controller',
-        'Gaming Set',
-        'Gold Phone Case',
-        'Green Earbuds',
-        'Green T-Shirt',
-        'Grey T-Shirt',
-        'Headphones',
-        'Light Green T-Shirt',
-        'Lime Band',
-        'Mini Speakers',
-        'Painted Phone Case',
-        'Pink Band',
-        'Pink Purse',
-        'Purple Band',
-        'Purple Gemstone Necklace',
-        'Purple T-Shirt',
-        'Shoes',
-        'Sneakers',
-        'Teal T-Shirt',
-        'Yellow Earbuds',
-        'Yoga Mat',
-        'Yoga Set'
-    ];
-
-    constructor(private http: HttpClient) {}
-
-    getProductsMini() {
+    getProductsMini(): Promise<Product[]> {
         return Promise.resolve(this.getProductsData().slice(0, 5));
     }
 
-    getProductsSmall() {
+    getProductsSmall(): Promise<Product[]> {
         return Promise.resolve(this.getProductsData().slice(0, 10));
     }
 
-    getProducts() {
+    getProducts(): Promise<Product[]> {
         return Promise.resolve(this.getProductsData());
     }
 
-    getProductsWithOrdersSmall() {
+    getProductsWithOrdersSmall(): Promise<Product[]> {
         return Promise.resolve(this.getProductsWithOrdersData().slice(0, 10));
     }
 
@@ -1286,37 +1281,38 @@ export class ProductService {
         };
 
         product.image = product.name?.toLocaleLowerCase().split(/[ ,]+/).join('-') + '.jpg';
+
         return product;
     }
 
-    generateId() {
+    generateId(): string {
         let text = '';
-        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-        for (var i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
 
         return text;
     }
 
-    generateName() {
+    generateName(): string {
         return this.productNames[Math.floor(Math.random() * Math.floor(30))];
     }
 
-    generatePrice() {
+    generatePrice(): number {
         return Math.floor(Math.random() * Math.floor(299) + 1);
     }
 
-    generateQuantity() {
+    generateQuantity(): number {
         return Math.floor(Math.random() * Math.floor(75) + 1);
     }
 
-    generateStatus() {
+    generateStatus(): string {
         return this.status[Math.floor(Math.random() * Math.floor(3))];
     }
 
-    generateRating() {
+    generateRating(): number {
         return Math.floor(Math.random() * Math.floor(5) + 1);
     }
 }

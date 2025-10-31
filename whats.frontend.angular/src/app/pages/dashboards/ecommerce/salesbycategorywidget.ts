@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '@/layout/service/layout.service';
 
 @Component({
     standalone: true,
-    selector: 'app-sales-by-category-widget',
+    selector: 'p-sales-by-category-widget',
     imports: [ChartModule],
     template: ` <div class="card h-full">
         <div class="text-surface-900 dark:text-surface-0 text-xl font-semibold mb-12">Sales by Category</div>
         <p-chart type="pie" [data]="pieData" height="300" [options]="pieOptions"></p-chart>
     </div>`
 })
-export class SalesByCategoryWidget {
+export class SalesByCategoryWidget implements OnInit, OnDestroy {
     pieData: any;
 
     pieOptions: any;

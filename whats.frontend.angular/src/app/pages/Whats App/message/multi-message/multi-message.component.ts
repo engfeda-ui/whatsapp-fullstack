@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessagesService } from '../message.service';
@@ -21,7 +21,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
-    selector: 'app-multi-message',
+    selector: 'p-multi-message',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, InputTextarea, DropdownModule, ToastModule, ProgressSpinnerModule, CardModule, DividerModule, MessageModule, MessagesModule, InputGroupModule, InputGroupAddonModule],
     templateUrl: './multi-message.component.html',
@@ -29,6 +29,11 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     providers: [MessageService]
 })
 export class MultiMessageComponent implements OnInit {
+    private readonly fb = inject(FormBuilder);
+    private readonly messagesService = inject(MessagesService);
+    private readonly deviceService = inject(DeviceService);
+    private readonly messageService = inject(MessageService);
+
     multiMessageForm: FormGroup;
     devices: IDevice[] = [];
     onlineDevices: IDevice[] = [];
@@ -38,12 +43,7 @@ export class MultiMessageComponent implements OnInit {
     error = '';
     phoneNumbers: string[] = [];
 
-    constructor(
-        private fb: FormBuilder,
-        private messagesService: MessagesService,
-        private deviceService: DeviceService,
-        private messageService: MessageService
-    ) {
+    constructor() {
         this.multiMessageForm = this.fb.group({
             phoneNumbers: [[], [Validators.required]],
             message: ['', [Validators.required]],
@@ -75,7 +75,7 @@ export class MultiMessageComponent implements OnInit {
                         this.error = response.message || 'فشل في تحميل الأجهزة';
                     }
                 },
-                error: (err) => {
+                error: (_err) => {
                     this.error = 'حدث خطأ أثناء تحميل الأجهزة. يرجى المحاولة مرة أخرى.';
                 }
             });
@@ -166,6 +166,7 @@ export class MultiMessageComponent implements OnInit {
                 detail: 'يجب أن يحتوي رقم الهاتف على أرقام فقط',
                 life: 3000
             });
+
             return;
         }
 
@@ -196,6 +197,7 @@ export class MultiMessageComponent implements OnInit {
 
     onChipRemove(number: string): void {
         const index = this.phoneNumbers.indexOf(number);
+
         if (index !== -1) {
             this.phoneNumbers.splice(index, 1);
             this.multiMessageForm.patchValue({ phoneNumbers: this.phoneNumbers });
@@ -243,7 +245,7 @@ export class MultiMessageComponent implements OnInit {
                         });
                     }
                 },
-                error: (err) => {
+                error: (_err) => {
                     this.error = 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.';
                     this.messageService.add({
                         severity: 'error',

@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -29,12 +29,13 @@ export interface NotificationOptions {
     providedIn: 'root'
 })
 export class NotificationService implements OnDestroy {
+    private messageService = inject(MessageService);
     private notifications: Notification[] = [];
     private notificationSubject = new Subject<Notification>();
     private audioContext?: AudioContext;
     private destroy$ = new Subject<void>();
 
-    constructor(private messageService: MessageService) {
+    constructor() {
         this.requestNotificationPermission();
         this.loadNotifications();
     }
@@ -98,6 +99,7 @@ export class NotificationService implements OnDestroy {
      */
     deviceNotification(action: string, deviceName: string, options?: NotificationOptions): void {
         const message = `Device "${deviceName}" ${action}`;
+
         this.showToast('info', 'Device Update', message, {
             ...options,
             sound: true,
@@ -118,6 +120,7 @@ export class NotificationService implements OnDestroy {
         };
 
         const severity = type === 'failed' ? 'error' : 'success';
+
         this.showToast(severity, 'Message Update', messages[type], {
             ...options,
             sound: true
@@ -181,6 +184,7 @@ export class NotificationService implements OnDestroy {
      */
     markAsRead(id: string): void {
         const notification = this.notifications.find((n) => n.id === id);
+
         if (notification) {
             notification.read = true;
             this.saveNotifications();
@@ -218,6 +222,7 @@ export class NotificationService implements OnDestroy {
         if (type) {
             return this.notificationSubject.asObservable().pipe(filter((n) => n.type === type));
         }
+
         return this.notificationSubject.asObservable();
     }
 
@@ -250,7 +255,7 @@ export class NotificationService implements OnDestroy {
                 requireInteraction: false
             });
 
-            notification.onclick = () => {
+            notification.onclick = (): void => {
                 window.focus();
                 notification.close();
             };
@@ -291,6 +296,7 @@ export class NotificationService implements OnDestroy {
         try {
             const audioPath = `/assets/sounds/${type}.mp3`;
             const audio = new Audio(audioPath);
+
             audio.volume = 0.5;
             audio.play().catch((e) => console.warn('Could not play sound:', e));
         } catch (error) {
@@ -322,6 +328,7 @@ export class NotificationService implements OnDestroy {
     private loadNotifications(): void {
         try {
             const saved = localStorage.getItem('notifications');
+
             if (saved) {
                 this.notifications = JSON.parse(saved).map((n: Notification) => ({
                     ...n,

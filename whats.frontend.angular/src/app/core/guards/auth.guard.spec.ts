@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { authGuard } from './auth.guard';
 import { TokenService } from '../services/token.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -40,7 +40,8 @@ describe('authGuard', () => {
 
     it('should deny access and redirect to login when user is not logged in', () => {
         tokenService.isLoggedIn.and.returnValue(false);
-        const mockUrlTree = {} as any;
+        const mockUrlTree = {} as UrlTree;
+
         router.createUrlTree.and.returnValue(mockUrlTree);
 
         const result = TestBed.runInInjectionContext(() => authGuard(mockRoute, mockState));
@@ -55,8 +56,10 @@ describe('authGuard', () => {
     it('should preserve returnUrl in query params', () => {
         tokenService.isLoggedIn.and.returnValue(false);
         const protectedUrl = '/subscription';
+
         mockState = { url: protectedUrl } as RouterStateSnapshot;
-        const mockUrlTree = {} as any;
+        const mockUrlTree = {} as UrlTree;
+
         router.createUrlTree.and.returnValue(mockUrlTree);
 
         TestBed.runInInjectionContext(() => authGuard(mockRoute, mockState));
@@ -80,7 +83,8 @@ describe('authGuard', () => {
     it('should handle root path', () => {
         tokenService.isLoggedIn.and.returnValue(false);
         mockState = { url: '/' } as RouterStateSnapshot;
-        const mockUrlTree = {} as any;
+        const mockUrlTree = {} as UrlTree;
+
         router.createUrlTree.and.returnValue(mockUrlTree);
 
         TestBed.runInInjectionContext(() => authGuard(mockRoute, mockState));

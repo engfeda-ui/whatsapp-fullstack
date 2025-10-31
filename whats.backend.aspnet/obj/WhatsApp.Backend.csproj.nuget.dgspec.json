@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\angular\\whats.backend.aspnet\\WhatsApp.Backend\\WhatsApp.Backend.csproj": {}
+    "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj": {}
   },
   "projects": {
-    "D:\\angular\\whats.backend.aspnet\\WhatsApp.Backend\\WhatsApp.Backend.csproj": {
+    "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\angular\\whats.backend.aspnet\\WhatsApp.Backend\\WhatsApp.Backend.csproj",
+        "projectUniqueName": "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
         "projectName": "WhatsApp.Backend",
-        "projectPath": "D:\\angular\\whats.backend.aspnet\\WhatsApp.Backend\\WhatsApp.Backend.csproj",
+        "projectPath": "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
         "packagesPath": "C:\\Users\\engfe\\.nuget\\packages\\",
-        "outputPath": "D:\\angular\\whats.backend.aspnet\\WhatsApp.Backend\\obj\\",
+        "outputPath": "D:\\whats.app\\whats.backend.aspnet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

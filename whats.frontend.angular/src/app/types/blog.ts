@@ -1,6 +1,6 @@
 export interface Blog {
     name?: string;
-    coverImage?: any;
+    coverImage?: string | File;
     profile?: string;
     title?: string;
     description?: string;

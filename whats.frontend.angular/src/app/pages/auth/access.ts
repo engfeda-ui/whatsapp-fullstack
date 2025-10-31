@@ -5,7 +5,7 @@ import { RippleModule } from 'primeng/ripple';
 import { AppConfigurator } from '@/layout/components/app.configurator';
 
 @Component({
-    selector: 'app-access',
+    selector: 'p-access',
     standalone: true,
     imports: [ButtonModule, RouterModule, RippleModule, ButtonModule, AppConfigurator],
     template: ` <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="min-h-screen min-w-[100vw] fixed left-0" style="bottom:-10rem" preserveAspectRatio="none">
@@ -24,6 +24,6 @@ import { AppConfigurator } from '@/layout/components/app.configurator';
                 <p-button [routerLink]="['/']" severity="help" raised>Go to Dashboard</p-button>
             </div>
         </div>
-        <app-configurator [simple]="true" />`
+        <p-configurator [simple]="true" />`
 })
 export class Access {}

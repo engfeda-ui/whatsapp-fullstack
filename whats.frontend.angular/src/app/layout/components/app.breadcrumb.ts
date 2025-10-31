@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterModule } from '@angular/router';
 
@@ -10,7 +10,7 @@ interface Breadcrumb {
 }
 
 @Component({
-    selector: '[app-breadcrumb]',
+    selector: 'p-breadcrumb',
     standalone: true,
     imports: [CommonModule, RouterModule],
     template: `<nav class="layout-breadcrumb">
@@ -23,21 +23,23 @@ interface Breadcrumb {
     </nav> `
 })
 export class AppBreadcrumb {
+    private router = inject(Router);
     private readonly _breadcrumbs$ = new BehaviorSubject<Breadcrumb[]>([]);
 
     readonly breadcrumbs$ = this._breadcrumbs$.asObservable();
 
-    constructor(private router: Router) {
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+    constructor() {
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((_event) => {
             const root = this.router.routerState.snapshot.root;
             const breadcrumbs: Breadcrumb[] = [];
+
             this.addBreadcrumb(root, [], breadcrumbs);
 
             this._breadcrumbs$.next(breadcrumbs);
         });
     }
 
-    private addBreadcrumb(route: ActivatedRouteSnapshot, parentUrl: string[], breadcrumbs: Breadcrumb[]) {
+    private addBreadcrumb(route: ActivatedRouteSnapshot, parentUrl: string[], breadcrumbs: Breadcrumb[]): void {
         const routeUrl = parentUrl.concat(route.url.map((url) => url.path));
         const breadcrumb = route.data['breadcrumb'];
         const parentBreadcrumb = route.parent && route.parent.data ? route.parent.data['breadcrumb'] : null;

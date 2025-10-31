@@ -94,6 +94,7 @@ export class PlanColorService {
 
     getAllClasses(planId: number, isSelected: boolean = false): { [key: string]: boolean } {
         const config = this.getColorConfig(planId);
+
         return {
             [config.border]: true,
             'border-opacity-100': isSelected,

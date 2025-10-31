@@ -9,7 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 
 @Component({
-    selector: 'app-new-password',
+    selector: 'p-new-password',
     imports: [ButtonModule, RouterModule, AppConfigurator, IconFieldModule, InputIconModule, InputTextModule, PasswordModule, AppConfigurator],
     standalone: true,
     template: ` <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" class="fixed left-0 top-0 min-h-screen min-w-screen" preserveAspectRatio="none">
@@ -56,7 +56,7 @@ import { PasswordModule } from 'primeng/password';
             </div>
         </div>
 
-        <app-configurator [simple]="true" />`
+        <p-configurator [simple]="true" />`
 })
 export class NewPassword {
     LayoutService = inject(LayoutService);

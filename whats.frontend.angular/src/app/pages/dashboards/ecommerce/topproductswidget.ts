@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product, ProductService } from '@/pages/service/product.service';
 import { CommonModule } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
     standalone: true,
-    selector: 'app-top-products-widget',
+    selector: 'p-top-products-widget',
     imports: [CommonModule, RatingModule, FormsModule],
     template: `<div class="card h-full">
         <div class="text-surface-900 dark:text-surface-0 text-xl font-semibold mb-4">Top Products</div>
@@ -29,7 +29,7 @@ import { FormsModule } from '@angular/forms';
     </div> `,
     providers: [ProductService]
 })
-export class TopProductsWidget {
+export class TopProductsWidget implements OnInit {
     products!: Product[];
 
     constructor(private productService: ProductService) {}

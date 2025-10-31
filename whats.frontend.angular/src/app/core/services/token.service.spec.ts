@@ -54,6 +54,7 @@ describe('TokenService', () => {
 
         it('should return null if no token exists', () => {
             const token = service.getToken();
+
             expect(token).toBeNull();
         });
 
@@ -62,6 +63,7 @@ describe('TokenService', () => {
             encryptionService.decrypt.and.returnValue(null);
 
             const token = service.getToken();
+
             expect(token).toBeNull();
         });
     });
@@ -121,11 +123,13 @@ describe('TokenService', () => {
 
         it('should return false when token does not exist', () => {
             const result = service.isLoggedIn();
+
             expect(result).toBeFalse();
         });
 
         it('should return false when token is expired', () => {
             const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.abc123';
+
             localStorage.setItem('token', 'encrypted_token');
             encryptionService.decrypt.and.returnValue(expiredToken);
 
@@ -160,6 +164,7 @@ describe('TokenService', () => {
 
         it('should return null for invalid token', () => {
             const expirationDate = service.getTokenExpirationDate();
+
             expect(expirationDate).toBeNull();
         });
     });

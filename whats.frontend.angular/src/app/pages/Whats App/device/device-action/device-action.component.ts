@@ -11,7 +11,7 @@ import { ApiResponse } from '@/core/ApiResponse';
 import { IDevice } from '../IDevice';
 
 @Component({
-    selector: 'app-device-action',
+    selector: 'p-device-action',
     standalone: true,
     imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule],
     providers: [MessageService],
@@ -73,10 +73,12 @@ export class DeviceActionComponent implements OnInit {
         if (this.deviceForm.invalid) {
             Object.keys(this.deviceForm.controls).forEach((key) => {
                 const control = this.deviceForm.get(key);
+
                 if (control) {
                     control.markAsTouched();
                 }
             });
+
             return;
         }
 
@@ -86,7 +88,7 @@ export class DeviceActionComponent implements OnInit {
         if (this.isEditMode && this.deviceId) {
             deviceData.id = this.deviceId;
             this.deviceService.updateDevice(deviceData).subscribe({
-                next: (response: ApiResponse<IDevice>) => {
+                next: (response: ApiResponse<IDevice | null>) => {
                     this.handleResponse(response, 'تم تحديث الجهاز بنجاح');
                 },
                 error: (error: unknown) => {
@@ -95,8 +97,9 @@ export class DeviceActionComponent implements OnInit {
             });
         } else {
             this.deviceService.createDevice(deviceData).subscribe({
-                next: (response: ApiResponse<IDevice>) => {
+                next: (response: ApiResponse<IDevice | null>) => {
                     this.handleResponse(response, 'تم إنشاء الجهاز بنجاح');
+
                     if (response.isSuccess && response.data && response.data.newDeviceApiKey) {
                         this.apiKey = response.data.newDeviceApiKey;
                     }
@@ -108,8 +111,9 @@ export class DeviceActionComponent implements OnInit {
         }
     }
 
-    private handleResponse(response: ApiResponse<IDevice>, successMessage: string) {
+    private handleResponse(response: ApiResponse<IDevice | null>, successMessage: string) {
         this.submitting = false;
+
         if (response.isSuccess) {
             this.messageService.add({ severity: 'success', summary: 'نجاح', detail: successMessage });
             this.dialogRef.close(response.data);

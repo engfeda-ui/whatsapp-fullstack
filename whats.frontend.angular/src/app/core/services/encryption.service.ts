@@ -16,7 +16,7 @@ export class EncryptionService {
     encrypt(data: string): string {
         try {
             return CryptoJS.AES.encrypt(data, this.secretKey).toString();
-        } catch (error) {
+        } catch {
             throw new Error('Encryption failed');
         }
     }
@@ -28,11 +28,13 @@ export class EncryptionService {
         try {
             const bytes = CryptoJS.AES.decrypt(encryptedData, this.secretKey);
             const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
             if (!decrypted) {
                 throw new Error('Decryption resulted in empty string');
             }
+
             return decrypted;
-        } catch (error) {
+        } catch {
             throw new Error('Decryption failed');
         }
     }

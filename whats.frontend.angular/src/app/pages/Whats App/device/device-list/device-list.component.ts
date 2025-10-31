@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -24,7 +24,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
-    selector: 'app-device-list',
+    selector: 'p-device-list',
     standalone: true,
     imports: [CommonModule, TableModule, ButtonModule, MenuModule, ToastModule, ConfirmDialogModule, OverlayPanelModule, InputTextModule, CardModule, TagModule, ToolbarModule, ProgressBarModule, DynamicDialogModule, DialogModule, TooltipModule],
     providers: [MessageService, ConfirmationService, DialogService],
@@ -34,6 +34,11 @@ import { TooltipModule } from 'primeng/tooltip';
 })
 export class DeviceListComponent implements OnInit {
     @ViewChild('op') overlayPanel!: OverlayPanel;
+
+    private readonly deviceService = inject(DeviceService);
+    private readonly messageService = inject(MessageService);
+    private readonly confirmationService = inject(ConfirmationService);
+    private readonly dialogService = inject(DialogService);
 
     devices: IDevice[] = [];
     filteredDevices: IDevice[] = [];
@@ -54,24 +59,17 @@ export class DeviceListComponent implements OnInit {
     qrCodeImage: string | null = null;
     qrCodeLoading: boolean = false;
 
-    constructor(
-        private deviceService: DeviceService,
-        private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private dialogService: DialogService
-    ) {}
-
-    ngOnInit() {
+    ngOnInit(): void {
         this.getMenuItems();
         this.loadDevices();
     }
 
-    setCurrentDevice(device: IDevice, event: Event, menu: any) {
+    setCurrentDevice(device: IDevice, event: Event, menu: any): void {
         this.currentDevice = device;
         menu.toggle(event);
     }
 
-    loadDevices() {
+    loadDevices(): void {
         this.loading = true;
         this.error = false;
         this.deviceService.getAllDevices().subscribe({
@@ -84,17 +82,18 @@ export class DeviceListComponent implements OnInit {
                     this.errorMessage = response.message || 'حدث خطأ أثناء تحميل الأجهزة';
                     this.messageService.add({ severity: 'error', summary: 'خطأ', detail: this.errorMessage });
                 }
+
                 this.loading = false;
             },
-            error: (error) => {
+            error: (_error) => {
                 this.error = true;
                 this.loading = false;
 
-                if (error.status === 0) {
+                if (_error.status === 0) {
                     this.errorMessage = 'لا يمكن الاتصال بالخادم، يرجى التحقق من اتصال الإنترنت';
-                } else if (error.status === 401) {
+                } else if (_error.status === 401) {
                     this.errorMessage = 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى';
-                } else if (error.status === 403) {
+                } else if (_error.status === 403) {
                     this.errorMessage = 'ليس لديك صلاحية للوصول إلى هذه البيانات';
                 } else {
                     this.errorMessage = 'حدث خطأ أثناء تحميل الأجهزة';
@@ -149,19 +148,22 @@ export class DeviceListComponent implements OnInit {
                 detail: 'معرف الجهاز غير متوفر'
             });
             this.qrCodeLoading = false;
+
             return;
         }
 
         this.deviceService.getQRCodeAsImage(device.id).subscribe({
             next: (blob) => {
                 const reader = new FileReader();
+
                 reader.onload = () => {
                     this.qrCodeImage = reader.result as string;
                     this.qrCodeLoading = false;
                 };
+
                 reader.readAsDataURL(blob);
             },
-            error: (error) => {
+            error: (_error) => {
                 this.qrCodeLoading = false;
                 this.messageService.add({
                     severity: 'error',
@@ -174,22 +176,22 @@ export class DeviceListComponent implements OnInit {
 
     searchDevices(event: any): void {
         const term = event.target.value.toLowerCase();
+
         this.searchTerm = term;
 
         if (!term) {
             this.filteredDevices = [...this.devices];
+
             return;
         }
 
-        this.filteredDevices = this.devices.filter((device) => {
-            return (
+        this.filteredDevices = this.devices.filter((device) => (
                 (device.nameAr && device.nameAr.toLowerCase().includes(term)) ||
                 (device.nameEn && device.nameEn.toLowerCase().includes(term)) ||
                 (device.whatsNumber && device.whatsNumber.toLowerCase().includes(term)) ||
                 (device.subscriptionNameAr && device.subscriptionNameAr.toLowerCase().includes(term)) ||
                 (device.subscriptionNameEn && device.subscriptionNameEn.toLowerCase().includes(term))
-            );
-        });
+            ));
     }
 
     clearSearch(): void {
@@ -198,15 +200,21 @@ export class DeviceListComponent implements OnInit {
     }
 
     getSubscriptionColorClass(subscriptionName: string | undefined): string {
-        if (!subscriptionName) return '';
+        if (!subscriptionName) {return '';}
 
         const name = subscriptionName.toLowerCase();
-        if (name.includes('basic') || name.includes('أساس')) return 'subscription-basic';
-        if (name.includes('advanced') || name.includes('متقدم')) return 'subscription-advanced';
-        if (name.includes('professional') || name.includes('احتراف')) return 'subscription-professional';
-        if (name.includes('silver') || name.includes('فض')) return 'subscription-silver';
-        if (name.includes('gold') || name.includes('ذهب')) return 'subscription-gold';
-        if (name.includes('diamond') || name.includes('ماس')) return 'subscription-diamond';
+
+        if (name.includes('basic') || name.includes('أساس')) {return 'subscription-basic';}
+
+        if (name.includes('advanced') || name.includes('متقدم')) {return 'subscription-advanced';}
+
+        if (name.includes('professional') || name.includes('احتراف')) {return 'subscription-professional';}
+
+        if (name.includes('silver') || name.includes('فض')) {return 'subscription-silver';}
+
+        if (name.includes('gold') || name.includes('ذهب')) {return 'subscription-gold';}
+
+        if (name.includes('diamond') || name.includes('ماس')) {return 'subscription-diamond';}
 
         return '';
     }
@@ -269,7 +277,7 @@ export class DeviceListComponent implements OnInit {
         ];
     }
 
-    editDevice(device: IDevice) {
+    editDevice(device: IDevice): void {
         this.dialogRef = this.dialogService.open(DeviceActionComponent, {
             header: 'تعديل جهاز',
             width: '30%',
@@ -285,7 +293,7 @@ export class DeviceListComponent implements OnInit {
         });
     }
 
-    addNewDevice() {
+    addNewDevice(): void {
         this.dialogRef = this.dialogService.open(DeviceActionComponent, {
             header: 'إضافة جهاز جديد',
             width: '30%',
@@ -301,7 +309,7 @@ export class DeviceListComponent implements OnInit {
         });
     }
 
-    regenerateApiKey(device: IDevice) {
+    regenerateApiKey(device: IDevice): void {
         this.confirmationService.confirm({
             message: 'هل أنت متأكد من أنك تريد إعادة توليد مفتاح API لهذا الجهاز؟',
             header: 'تأكيد إعادة توليد المفتاح',
@@ -312,15 +320,17 @@ export class DeviceListComponent implements OnInit {
                         next: (response) => {
                             if (response.isSuccess) {
                                 const index = this.devices.findIndex((d) => d.id === device.id);
+
                                 if (index !== -1) {
                                     this.devices[index] = response.data;
                                 }
+
                                 this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تم إعادة توليد مفتاح API بنجاح' });
                             } else {
                                 this.messageService.add({ severity: 'error', summary: 'خطأ', detail: response.message || 'حدث خطأ أثناء إعادة توليد المفتاح' });
                             }
                         },
-                        error: (error) => {
+                        error: (_error) => {
                             this.messageService.add({ severity: 'error', summary: 'خطأ', detail: 'حدث خطأ أثناء الاتصال بالخادم' });
                         }
                     });
@@ -329,7 +339,7 @@ export class DeviceListComponent implements OnInit {
         });
     }
 
-    confirmDelete(device: IDevice) {
+    confirmDelete(device: IDevice): void {
         this.confirmationService.confirm({
             message: 'هل أنت متأكد من أنك تريد حذف هذا الجهاز؟',
             header: 'تأكيد الحذف',
@@ -345,7 +355,7 @@ export class DeviceListComponent implements OnInit {
                                 this.messageService.add({ severity: 'error', summary: 'خطأ', detail: response.message || 'حدث خطأ أثناء حذف الجهاز' });
                             }
                         },
-                        error: (error) => {
+                        error: (_error) => {
                             this.messageService.add({ severity: 'error', summary: 'خطأ', detail: 'حدث خطأ أثناء الاتصال بالخادم' });
                         }
                     });

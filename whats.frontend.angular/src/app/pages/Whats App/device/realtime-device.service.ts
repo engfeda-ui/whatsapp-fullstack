@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { WebSocketService, WebSocketMessage } from '../../../core/services/websocket.service';
-import { Device, DeviceStatus } from '../types/device.types';
+import { WebSocketService } from '../../../core/services/websocket.service';
+import { DeviceStatus } from '../types/device.types';
 
 export interface DeviceStatusUpdate {
     deviceId: string | number;
@@ -22,7 +22,7 @@ export interface DeviceQRCodeUpdate {
     providedIn: 'root'
 })
 export class RealtimeDeviceService {
-    constructor(private websocketService: WebSocketService) {}
+    private websocketService = inject(WebSocketService);
 
     /**
      * Subscribe to device status updates

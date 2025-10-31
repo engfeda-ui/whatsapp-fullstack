@@ -1,0 +1,517 @@
+
+> apollo-ng@19.0.0 lint
+> ng lint
+
+
+Linting "apollo-ng"...
+
+D:\whats.app\whats.frontend.angular\src\app\core\services\token.service.ts
+   45:18  warning  '_error' is defined but never used  @typescript-eslint/no-unused-vars
+  146:18  warning  '_error' is defined but never used  @typescript-eslint/no-unused-vars
+  188:18  warning  '_error' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.breadcrumb.ts
+  13:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.configurator.ts
+   43:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+  185:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  191:5   error    Member surfaces should be declared before all public instance method definitions                         @typescript-eslint/member-ordering
+  330:5   error    Member selectedPrimaryColor should be declared before all public instance method definitions             @typescript-eslint/member-ordering
+  332:5   error    Member selectedSurfaceColor should be declared before all public instance method definitions             @typescript-eslint/member-ordering
+  334:5   error    Member selectedPreset should be declared before all public instance method definitions                   @typescript-eslint/member-ordering
+  336:5   error    Member menuMode should be declared before all public instance method definitions                         @typescript-eslint/member-ordering
+  338:5   error    Member visible should be declared before all public instance method definitions                          @typescript-eslint/member-ordering
+  340:5   error    Member darkTheme should be declared before all public instance method definitions                        @typescript-eslint/member-ordering
+  342:5   error    Member selectedSurface should be declared before all public instance method definitions                  @typescript-eslint/member-ordering
+  344:5   error    Member primaryColors should be declared before all public instance method definitions                    @typescript-eslint/member-ordering
+  359:5   error    Member menuTheme should be declared before all public instance method definitions                        @typescript-eslint/member-ordering
+  361:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  363:15  warning  'preset' is assigned a value but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+  452:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  452:25  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  452:51  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  470:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  470:37  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  478:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  478:27  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  489:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  493:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  516:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  520:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  527:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  531:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  538:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.layout.ts
+   12:15   error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   31:31   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   33:25   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   40:9    error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   41:9    error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   42:9    error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   54:120  warning  'event' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+   71:5    warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+   71:29   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   78:5    warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  116:5    warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  141:5    warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.menu.ts
+   8:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+  19:12  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  21:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  23:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  43:25  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.menuitem.ts
+  108:20  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  119:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  131:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  143:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  147:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  152:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  153:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  171:95  warning  'params' is defined but never used. Allowed unused args must match /^_/u                                                                                                @typescript-eslint/no-unused-vars
+  182:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  190:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  196:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  211:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  220:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  243:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  291:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  311:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.profilesidebar.ts
+   17:15  error    The selector should be used as an element (https://angular.dev/style-guide#style-05-03)                                                                                 @angular-eslint/component-selector
+  146:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  147:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  148:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  149:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  150:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  153:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  158:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  169:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  180:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  200:22  warning  'error' is defined but never used                                                                                                                                       @typescript-eslint/no-unused-vars
+  208:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  212:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  217:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  247:21  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+  254:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  259:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.sidebar.ts
+   7:15  error    The selector should be used as an element (https://angular.dev/style-guide#style-05-03)                                                                                 @angular-eslint/component-selector
+  24:14  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  28:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  29:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  32:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  52:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  71:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\components\app.topbar.ts
+  13:15  error    The selector should be used as an element (https://angular.dev/style-guide#style-05-03)                                                                                 @angular-eslint/component-selector
+  50:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  52:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  56:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  60:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\layout\service\layout.service.ts
+   28:21  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   70:39  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  126:13  error    Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  142:41  warning  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  163:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  170:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  189:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  194:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  198:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  202:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  206:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  213:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  220:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  224:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+  228:5   warning  Missing return type on function                                        @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\device\device-action\device-action.component.ts
+   14:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+   48:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+   72:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  114:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  125:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  125:25  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                  @typescript-eslint/no-unused-vars
+  130:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  134:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  139:14  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                    @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\device\device-list\device-list.component.ts
+   27:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   58:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   59:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   60:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   61:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   64:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+   69:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+   69:59  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   74:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  126:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  161:36  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  168:21  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+  179:26  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  237:17  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  246:17  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  255:17  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  264:17  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  273:17  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  282:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  298:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  314:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  335:33  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+  344:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  360:33  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\device\device-routing.module.ts
+  3:10  warning  'DeviceListComponent' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\device\device.service.ts
+  16:17  error  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\message\message.service.ts
+  15:17   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  17:78   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  19:37   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  28:138  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  30:37   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  42:84   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  65:115  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  67:37   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  76:101  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  85:79   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  87:36   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  91:63   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  93:36   warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\message\multi-media\multi-media.component.ts
+   23:10  warning  'environment' is defined but never used. Allowed unused vars must match /^_/u                                                                                           @typescript-eslint/no-unused-vars
+   25:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   64:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   65:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   66:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   67:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  101:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+  225:25  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  247:32  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  323:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\message\multi-message\multi-message.component.ts
+   24:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   42:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   43:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   44:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   45:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   78:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+   84:24  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  248:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\message\single-media\single-media.component.ts
+   22:10  warning  'environment' is defined but never used. Allowed unused vars must match /^_/u                                                                                           @typescript-eslint/no-unused-vars
+   24:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   46:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   47:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   48:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   49:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   83:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+   89:25  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  161:32  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  232:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\message\single-message\single-message.component.ts
+   25:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   42:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   43:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   44:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   45:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   78:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+  125:25  warning  'err' is defined but never used. Allowed unused args must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\plans\plan-list\plan-list.component.ts
+    5:10  warning  'Observable' is defined but never used. Allowed unused vars must match /^_/u                                                                                            @typescript-eslint/no-unused-vars
+    6:10  warning  'ApiResponse' is defined but never used. Allowed unused vars must match /^_/u                                                                                           @typescript-eslint/no-unused-vars
+   18:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   38:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   39:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   40:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   41:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   90:21  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+  118:21  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+  180:21  warning  'error' is defined but never used. Allowed unused args must match /^_/u                                                                                                 @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\plans\subscription.service.ts
+  23:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  24:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  32:88  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  35:78  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  39:43  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\subscription\admin-subscription\admin-subscription.component.ts
+   21:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   29:26  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   31:20  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   32:28  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   33:27  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   45:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   46:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   47:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   48:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  107:31  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  112:37  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  150:33  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  193:34  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  209:33  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  221:37  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  251:32  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  283:32  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\Whats App\subscription\subscrip-list\subscrip-list.component.ts
+   19:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   36:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   37:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   38:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   39:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   56:24  error    Empty block statement                                                                                                                                                   no-empty
+  125:48  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\aboutus\aboutus.ts
+  5:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\access.ts
+  8:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\auth.service.ts
+  82:12  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  99:16  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\error.ts
+  7:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\forgotpassword.ts
+  11:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\lockscreen.ts
+  12:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\login\login.component.ts
+   20:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+   40:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+   47:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+   78:42  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  100:28  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\newpassword.ts
+  12:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\register\register.component.ts
+   22:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+   41:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+   73:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+   94:42  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  104:40  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  119:28  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\auth\verification\verification.component.ts
+   11:10  warning  'KeyFilterModule' is defined but never used. Allowed unused vars must match /^_/u                        @typescript-eslint/no-unused-vars
+   12:10  warning  'InputNumber' is defined but never used. Allowed unused vars must match /^_/u                            @typescript-eslint/no-unused-vars
+   23:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+   64:20  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+   69:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+   98:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  122:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  128:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  147:42  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  165:28  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  177:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  189:42  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  208:28  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\blocks\blocks.ts
+  11:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\blocks\components\blockviewer.ts
+   11:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+  213:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+  218:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\contactus\contactus.ts
+  12:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+  60:14  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  68:14  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  78:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  80:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\crud\crud.ts
+   35:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+  225:16  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  234:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  235:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  236:9   error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  239:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  243:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  247:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  276:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  280:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  286:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  291:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  309:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  314:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  356:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  369:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\banking\headerwidget.ts
+  7:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\banking\monthlypaymentswidget.ts
+  14:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+  50:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\banking\overviewwidget.ts
+   8:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+  18:16  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  20:19  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  26:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  34:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  38:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  80:29  warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\banking\recenttransactionstwowidget.ts
+  8:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\banking\recenttransactionswidget.ts
+  5:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\banking\statsbankingwidget.ts
+  5:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\bankingdashboard.ts
+  11:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\bestsellingwidget.ts
+  8:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\notificationswidget.ts
+  7:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\recentsaleswidget.ts
+   28:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   95:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   97:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  126:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\revenueoverviewwidget.ts
+   16:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   48:14  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   50:17  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   54:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   60:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+   65:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  136:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\revenuestreamwidget.ts
+    8:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+   16:16  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   18:19  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+   22:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   28:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+   32:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  108:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\salesbycategorywidget.ts
+   8:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+  16:14  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  18:17  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  22:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  28:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  32:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  68:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\statswidget.ts
+  8:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommerce\topproductswidget.ts
+   9:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)                                                                 @angular-eslint/component-selector
+  35:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  36:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\dashboards\ecommercedashboard.ts
+  9:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\documentation\documentation.ts
+  5:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\empty\empty.ts
+  4:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\faq\faq.ts
+   7:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+  55:12  warning  Unexpected any. Specify a different type                                                                 @typescript-eslint/no-explicit-any
+  90:5   warning  Missing return type on function                                                                          @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\help\help.ts
+  1:10  warning  'CommonModule' is defined but never used. Allowed unused vars must match /^_/u                           @typescript-eslint/no-unused-vars
+  8:15  error    The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\invoice\invoice.ts
+  4:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\media\media.service.ts
+   6:91  warning  'MediaProcessing' is defined but never used. Allowed unused vars must match /^_/u                                                                                       @typescript-eslint/no-unused-vars
+  16:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+
+D:\whats.app\whats.frontend.angular\src\app\pages\notfound\notfound.ts
+  7:15  error  The selector should start with one of these prefixes: "p" (https://angular.dev/style-guide#style-02-07)  @angular-eslint/component-selector
+
+D:\whats.app\whats.frontend.angular\src\app\pages\service\country.service.ts
+    5:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  255:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\service\customer.service.ts
+    27:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9032:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  9034:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9038:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9042:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9046:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9050:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9054:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  9054:27  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  9056:18  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\service\icon.service.ts
+   7:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+   9:13  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  11:19  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+  15:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  17:28  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\service\member.service.ts
+   9:17  error    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  @angular-eslint/prefer-inject
+  11:5   warning  Missing return type on function                                                                                                                                         @typescript-eslint/explicit-function-return-type
+  13:18  warning  Unexpected any. Specify a different type                                                                                                                                @typescript-eslint/no-explicit-any
+
+D:\whats.app\whats.frontend.angular\src\app\pages\service\node.service.ts
+    6:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  127:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  480:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  506:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  844:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  848:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  852:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  856:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  860:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  864:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+D:\whats.app\whats.frontend.angular\src\app\pages\service\product.service.ts
+  421:5  warning  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+✖ 376 problems (127 errors, 249 warnings)
+

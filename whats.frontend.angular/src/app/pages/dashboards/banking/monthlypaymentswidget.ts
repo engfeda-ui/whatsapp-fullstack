@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 
@@ -11,7 +11,7 @@ type Payment = {
 
 @Component({
     standalone: true,
-    selector: 'app-monthly-payments-widget',
+    selector: 'p-monthly-payments-widget',
     imports: [TableModule, TagModule],
     template: `
         <div class="card">
@@ -44,7 +44,7 @@ type Payment = {
         </div>
     `
 })
-export class MonthlyPaymentsWidget {
+export class MonthlyPaymentsWidget implements OnInit {
     payments!: Payment[];
 
     ngOnInit() {

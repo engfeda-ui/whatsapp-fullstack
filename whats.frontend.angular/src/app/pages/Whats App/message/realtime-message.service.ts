@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { WebSocketService } from '../../../core/services/websocket.service';
@@ -20,7 +20,7 @@ export interface NewMessageEvent {
     providedIn: 'root'
 })
 export class RealtimeMessageService {
-    constructor(private websocketService: WebSocketService) {}
+    private websocketService = inject(WebSocketService);
 
     /**
      * Subscribe to message status updates

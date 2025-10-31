@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
@@ -11,7 +11,7 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 
 @Component({
-    selector: 'user-list',
+    selector: 'p-user-list',
     standalone: true,
     imports: [CommonModule, TableModule, InputTextModule, ProgressBarModule, ButtonModule, IconField, InputIcon],
     template: `<div class="card">
@@ -80,23 +80,21 @@ import { InputIcon } from 'primeng/inputicon';
     </div>`,
     providers: [CustomerService]
 })
-export class UserList {
+export class UserList implements OnInit {
+    private readonly customerService = inject(CustomerService);
+    private readonly router = inject(Router);
+
     customers: Customer[] = [];
 
-    constructor(
-        private customerService: CustomerService,
-        private router: Router
-    ) {}
-
-    ngOnInit() {
+    ngOnInit(): void {
         this.customerService.getCustomersLarge().then((customers) => (this.customers = customers));
     }
 
-    onGlobalFilter(table: Table, event: Event) {
+    onGlobalFilter(table: Table, event: Event): void {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    navigateToCreateUser() {
+    navigateToCreateUser(): void {
         this.router.navigate(['profile/create']);
     }
 }

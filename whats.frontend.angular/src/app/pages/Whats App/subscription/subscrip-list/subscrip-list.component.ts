@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { SubscriptionService } from '../subscription.service';
 import { Subscription } from '../subscription.model';
@@ -55,6 +55,7 @@ export class SubscripListComponent implements OnInit {
                     this.retryCount = 0;
                 } else {
                 }
+
                 this.loading = false;
             }
         });
@@ -110,16 +111,20 @@ export class SubscripListComponent implements OnInit {
         const start = new Date(subscription.startDate);
         const end = new Date(subscription.endDate);
 
-        if (now < start) return 'pending';
-        if (now > end) return 'expired';
+        if (now < start) {return 'pending';}
+
+        if (now > end) {return 'expired';}
 
         const thirtyDaysBeforeEnd = new Date(end);
+
         thirtyDaysBeforeEnd.setDate(end.getDate() - 30);
+
         return now > thirtyDaysBeforeEnd ? 'expiring-soon' : 'active';
     }
 
     getStatusText(subscription: Subscription): any {
         const status = this.getStatusClass(subscription);
+
         return {
             active: 'نشط',
             expired: 'منتهي',

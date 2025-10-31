@@ -9,7 +9,7 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 
 @Component({
-    selector: 'app-contact-us',
+    selector: 'p-contact-us',
     imports: [CommonModule, FormsModule, InputTextModule, TextareaModule, ButtonModule, IconField, InputIcon],
     template: `
         <div class="grid grid-cols-12 gap-4 card grid-nogutter" style="column-gap: 2rem; row-gap: 2rem;">

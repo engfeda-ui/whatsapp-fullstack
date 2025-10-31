@@ -6,10 +6,13 @@ import { EnvironmentValidator } from './app/core/validators/environment.validato
 // Validate environment configuration before bootstrapping
 try {
     EnvironmentValidator.validate();
+
     const config = EnvironmentValidator.getConfigSummary();
-    console.log('🔧 Environment validated successfully:', config);
+
+    console.info('🔧 Environment validated successfully:', config);
 } catch (error) {
     console.error('❌ Environment validation failed:', error);
+
     throw error;
 }
 

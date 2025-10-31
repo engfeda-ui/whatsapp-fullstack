@@ -1,4 +1,4 @@
-import { Component, computed, OnInit } from '@angular/core';
+import { Component, computed, OnInit, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
 import { BadgeModule } from 'primeng/badge';
@@ -7,14 +7,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { LayoutService } from '@/layout/service/layout.service';
 import { TokenService } from '@/core/services/token.service';
 import { UserService, User, ChangePasswordRequest } from '@/core/services/user.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: '[app-profilesidebar]',
+    selector: 'p-profilesidebar',
     imports: [CommonModule, ButtonModule, DrawerModule, BadgeModule, DialogModule, InputTextModule, PasswordModule, ToastModule, FormsModule, ReactiveFormsModule],
     providers: [MessageService],
     template: `
@@ -142,20 +142,18 @@ export class AppProfileSidebar implements OnInit {
     passwordForm!: FormGroup;
     isSubmitting = false;
 
-    constructor(
-        public layoutService: LayoutService,
-        private tokenService: TokenService,
-        private userService: UserService,
-        private formBuilder: FormBuilder,
-        private messageService: MessageService
-    ) {}
+    public readonly layoutService = inject(LayoutService);
+    private readonly tokenService = inject(TokenService);
+    private readonly userService = inject(UserService);
+    private readonly formBuilder = inject(FormBuilder);
+    private readonly messageService = inject(MessageService);
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.initPasswordForm();
         this.loadUserData();
     }
 
-    initPasswordForm() {
+    initPasswordForm(): void {
         this.passwordForm = this.formBuilder.group(
             {
                 oldPassword: ['', Validators.required],
@@ -166,7 +164,7 @@ export class AppProfileSidebar implements OnInit {
         );
     }
 
-    passwordMatchValidator(form: FormGroup) {
+    passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
         const newPassword = form.get('newPassword')?.value;
         const confirmPassword = form.get('confirmPassword')?.value;
 
@@ -177,8 +175,9 @@ export class AppProfileSidebar implements OnInit {
         return null;
     }
 
-    loadUserData() {
+    loadUserData(): void {
         const token = this.tokenService.getToken();
+
         if (token) {
             try {
                 const decodedToken = this.tokenService.decodeToken(token);
@@ -196,7 +195,7 @@ export class AppProfileSidebar implements OnInit {
                         ...decodedToken
                     };
                 }
-            } catch (error) {
+            } catch (_error) {
                 this.currentUser = null;
             }
         } else {
@@ -204,22 +203,23 @@ export class AppProfileSidebar implements OnInit {
         }
     }
 
-    showProfileDialog() {
+    showProfileDialog(): void {
         this.profileDialogVisible = true;
     }
 
-    showPasswordDialog() {
+    showPasswordDialog(): void {
         this.passwordForm.reset();
         this.passwordDialogVisible = true;
     }
 
-    changePassword() {
+    changePassword(): void {
         if (this.passwordForm.invalid) {
             return;
         }
 
         if (!this.currentUser || !this.currentUser.id) {
             this.messageService.add({ severity: 'error', summary: 'خطأ', detail: 'يجب تسجيل الدخول أولاً' });
+
             return;
         }
 
@@ -233,6 +233,7 @@ export class AppProfileSidebar implements OnInit {
         this.userService.changePassword(request).subscribe({
             next: (response) => {
                 this.isSubmitting = false;
+
                 if (response.isSuccess) {
                     this.messageService.add({ severity: 'success', summary: 'نجاح', detail: 'تم تغيير كلمة المرور بنجاح' });
                     this.passwordDialogVisible = false;
@@ -241,19 +242,19 @@ export class AppProfileSidebar implements OnInit {
                     this.messageService.add({ severity: 'error', summary: 'خطأ', detail: response.message || 'فشل في تغيير كلمة المرور' });
                 }
             },
-            error: (error) => {
+            error: (_error) => {
                 this.isSubmitting = false;
                 this.messageService.add({ severity: 'error', summary: 'خطأ', detail: 'فشل في تغيير كلمة المرور' });
             }
         });
     }
 
-    logout() {
+    logout(): void {
         this.tokenService.logout();
         window.location.href = '/auth/login';
     }
 
-    onDrawerHide() {
+    onDrawerHide(): void {
         this.layoutService.layoutState.update((state) => ({
             ...state,
             profileSidebarVisible: false

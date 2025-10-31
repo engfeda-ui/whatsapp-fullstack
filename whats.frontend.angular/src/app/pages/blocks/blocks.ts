@@ -8,7 +8,7 @@ import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-blocks',
+    selector: 'p-blocks',
     standalone: true,
     imports: [CommonModule, BlockViewer, Button, Chip, InputText, Checkbox, FormsModule],
     template: `<div>

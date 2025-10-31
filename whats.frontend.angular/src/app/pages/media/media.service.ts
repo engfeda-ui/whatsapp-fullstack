@@ -22,16 +22,21 @@ export class MediaService {
         let params = new HttpParams();
 
         if (filter) {
-            if (filter.mimeType) params = params.set('mimeType', filter.mimeType);
-            if (filter.tags) params = params.set('tags', filter.tags.join(','));
-            if (filter.search) params = params.set('search', filter.search);
-            if (filter.minSize) params = params.set('minSize', filter.minSize.toString());
-            if (filter.maxSize) params = params.set('maxSize', filter.maxSize.toString());
+            if (filter.mimeType) {params = params.set('mimeType', filter.mimeType);}
+
+            if (filter.tags) {params = params.set('tags', filter.tags.join(','));}
+
+            if (filter.search) {params = params.set('search', filter.search);}
+
+            if (filter.minSize) {params = params.set('minSize', filter.minSize.toString());}
+
+            if (filter.maxSize) {params = params.set('maxSize', filter.maxSize.toString());}
         }
 
         if (options) {
-            if (options.pageNumber) params = params.set('page', options.pageNumber.toString());
-            if (options.pageSize) params = params.set('size', options.pageSize.toString());
+            if (options.pageNumber) {params = params.set('page', options.pageNumber.toString());}
+
+            if (options.pageSize) {params = params.set('size', options.pageSize.toString());}
         }
 
         return this.http.get<ApiResponse<MediaFile[]>>(this.apiUrl, { params });
@@ -49,20 +54,25 @@ export class MediaService {
      */
     uploadMedia(options: MediaUploadOptions): Observable<HttpEvent<MediaFile>> {
         const formData = new FormData();
+
         formData.append('file', options.file);
 
         if (options.tags) {
             formData.append('tags', JSON.stringify(options.tags));
         }
+
         if (options.description) {
             formData.append('description', options.description);
         }
+
         if (options.generateThumbnail !== undefined) {
             formData.append('generateThumbnail', options.generateThumbnail.toString());
         }
+
         if (options.compress !== undefined) {
             formData.append('compress', options.compress.toString());
         }
+
         if (options.quality) {
             formData.append('quality', options.quality.toString());
         }
@@ -78,6 +88,7 @@ export class MediaService {
      */
     uploadMultiple(files: File[]): Observable<MediaFile[]> {
         const formData = new FormData();
+
         files.forEach((file, index) => {
             formData.append(`files[${index}]`, file);
         });
@@ -184,7 +195,7 @@ export class MediaService {
      * Get file size formatted
      */
     formatFileSize(bytes: number): string {
-        if (bytes === 0) return '0 Bytes';
+        if (bytes === 0) {return '0 Bytes';}
 
         const k = 1024;
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -201,6 +212,7 @@ export class MediaService {
             if (type.endsWith('/*')) {
                 return file.type.startsWith(type.replace('/*', ''));
             }
+
             return file.type === type;
         });
     }
@@ -210,6 +222,7 @@ export class MediaService {
      */
     isValidFileSize(file: File, maxSizeMB: number): boolean {
         const maxBytes = maxSizeMB * 1024 * 1024;
+
         return file.size <= maxBytes;
     }
 
@@ -224,12 +237,18 @@ export class MediaService {
      * Get MIME type icon
      */
     getMimeTypeIcon(mimeType: string): string {
-        if (mimeType.startsWith('image/')) return 'pi-image';
-        if (mimeType.startsWith('video/')) return 'pi-video';
-        if (mimeType.startsWith('audio/')) return 'pi-volume-up';
-        if (mimeType.includes('pdf')) return 'pi-file-pdf';
-        if (mimeType.includes('word')) return 'pi-file-word';
-        if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return 'pi-file-excel';
+        if (mimeType.startsWith('image/')) {return 'pi-image';}
+
+        if (mimeType.startsWith('video/')) {return 'pi-video';}
+
+        if (mimeType.startsWith('audio/')) {return 'pi-volume-up';}
+
+        if (mimeType.includes('pdf')) {return 'pi-file-pdf';}
+
+        if (mimeType.includes('word')) {return 'pi-file-word';}
+
+        if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) {return 'pi-file-excel';}
+
         return 'pi-file';
     }
 

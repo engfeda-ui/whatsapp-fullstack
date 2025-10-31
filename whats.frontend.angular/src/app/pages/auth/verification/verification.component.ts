@@ -20,7 +20,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { ApiResponse } from '@/core/ApiResponse';
 
 @Component({
-    selector: 'app-verification',
+    selector: 'p-verification',
     imports: [
         ButtonModule,
         RouterModule,
@@ -43,7 +43,7 @@ import { ApiResponse } from '@/core/ApiResponse';
     templateUrl: './verification.component.html',
     styleUrls: ['./verification.component.scss']
 })
-export class Verification implements OnInit {
+export class Verification implements OnInit, OnDestroy {
     layoutService = inject(LayoutService);
     private formBuilder = inject(FormBuilder);
     private authService = inject(AuthService);
@@ -79,10 +79,12 @@ export class Verification implements OnInit {
 
             if (params['mobile']) {
                 this.mobileNumber = params['mobile'];
+
                 // معالجة رقم الموبايل لعرضه بشكل مخفي جزئياً
                 if (this.mobileNumber && this.mobileNumber.length > 4) {
                     const visiblePart = this.mobileNumber.slice(-3);
                     const hiddenPart = this.mobileNumber.slice(0, -3).replace(/\d/g, '*');
+
                     this.mobileNumber = hiddenPart + visiblePart;
                 }
             }
@@ -130,6 +132,7 @@ export class Verification implements OnInit {
                 summary: 'تحذير',
                 detail: 'يرجى ملء جميع الحقول المطلوبة'
             });
+
             return;
         }
 
@@ -143,6 +146,7 @@ export class Verification implements OnInit {
         this.authService.verify(verificationData).subscribe({
             next: (response: ApiResponse<any>) => {
                 this.isLoading = false;
+
                 if (response.isSuccess) {
                     this.messageService.add({
                         severity: 'success',
@@ -184,6 +188,7 @@ export class Verification implements OnInit {
         this.authService.resendCode(resendData).subscribe({
             next: (response: ApiResponse<any>) => {
                 this.isResending = false;
+
                 if (response.isSuccess) {
                     this.messageService.add({
                         severity: 'success',

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Select } from 'primeng/select';
 import { InputText } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
@@ -8,8 +8,13 @@ import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { RippleModule } from 'primeng/ripple';
 
+interface Country {
+    name: string;
+    code: string;
+}
+
 @Component({
-    selector: 'user-create',
+    selector: 'p-user-create',
     standalone: true,
     imports: [Select, InputText, TextareaModule, FileUploadModule, InputGroupAddon, ButtonModule, InputGroupModule, RippleModule],
     template: `<div class="card">
@@ -73,10 +78,10 @@ import { RippleModule } from 'primeng/ripple';
         </div>
     </div> `
 })
-export class UserCreate {
-    countries: any[] = [];
+export class UserCreate implements OnInit {
+    countries: Country[] = [];
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.countries = [
             { name: 'Australia', code: 'AU' },
             { name: 'Brazil', code: 'BR' },

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,15 +10,15 @@ import { ApiResponse } from '../../core/ApiResponse';
     providedIn: 'root'
 })
 export class AnalyticsService {
+    private http = inject(HttpClient);
     private readonly apiUrl = `${environment.apiUrl}/analytics`;
-
-    constructor(private http: HttpClient) {}
 
     /**
      * Get analytics overview
      */
     getOverview(filter?: AnalyticsFilter): Observable<AnalyticsOverview> {
         const params = this.buildParams(filter);
+
         return this.http.get<ApiResponse<AnalyticsOverview>>(`${this.apiUrl}/overview`, { params }).pipe(map((response) => response.data));
     }
 
@@ -27,6 +27,7 @@ export class AnalyticsService {
      */
     getMessageAnalytics(filter?: AnalyticsFilter): Observable<MessageAnalytics> {
         const params = this.buildParams(filter);
+
         return this.http.get<ApiResponse<MessageAnalytics>>(`${this.apiUrl}/messages`, { params }).pipe(map((response) => response.data));
     }
 
@@ -42,6 +43,7 @@ export class AnalyticsService {
      */
     getCostAnalytics(filter?: AnalyticsFilter): Observable<CostAnalytics> {
         const params = this.buildParams(filter);
+
         return this.http.get<ApiResponse<CostAnalytics>>(`${this.apiUrl}/costs`, { params }).pipe(map((response) => response.data));
     }
 
@@ -50,6 +52,7 @@ export class AnalyticsService {
      */
     getUsageStatistics(filter?: AnalyticsFilter): Observable<UsageStatistics> {
         const params = this.buildParams(filter);
+
         return this.http.get<ApiResponse<UsageStatistics>>(`${this.apiUrl}/usage`, { params }).pipe(map((response) => response.data));
     }
 
@@ -58,6 +61,7 @@ export class AnalyticsService {
      */
     getTimeSeriesData(metric: string, filter?: AnalyticsFilter): Observable<TimeSeriesData[]> {
         const params = this.buildParams(filter);
+
         return this.http
             .get<ApiResponse<TimeSeriesData[]>>(`${this.apiUrl}/timeseries/${metric}`, {
                 params
@@ -70,6 +74,7 @@ export class AnalyticsService {
      */
     getChartData(chartType: string, filter?: AnalyticsFilter): Observable<ChartData> {
         const params = this.buildParams(filter);
+
         return this.http.get<ApiResponse<ChartData>>(`${this.apiUrl}/charts/${chartType}`, { params }).pipe(map((response) => response.data));
     }
 
@@ -78,6 +83,7 @@ export class AnalyticsService {
      */
     exportData(format: 'csv' | 'excel' | 'pdf', filter?: AnalyticsFilter): Observable<Blob> {
         const params = this.buildParams(filter);
+
         params.set('format', format);
 
         return this.http.get(`${this.apiUrl}/export`, {
@@ -151,6 +157,7 @@ export class AnalyticsService {
         if (previous === 0) {
             return current > 0 ? 100 : 0;
         }
+
         return Math.round(((current - previous) / previous) * 100);
     }
 
@@ -178,7 +185,9 @@ export class AnalyticsService {
         if (ms < 1000) {
             return `${ms}ms`;
         }
+
         const seconds = Math.floor(ms / 1000);
+
         return `${seconds}s`;
     }
 }

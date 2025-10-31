@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { SubscriptionService } from '../subscription.service';
 import { TableModule } from 'primeng/table';
@@ -67,6 +67,7 @@ export class AdminSubscriptionComponent implements OnInit {
                     this.error = true;
                     this.errorMessage = response.message || 'حدث خطأ أثناء تحميل الاشتراكات';
                 }
+
                 this.loading = false;
             },
             error: (error) => {
@@ -185,6 +186,7 @@ export class AdminSubscriptionComponent implements OnInit {
 
     formatDate(dateString: string): string {
         const formattedDate = this.datePipe.transform(dateString, 'yyyy-MM-dd');
+
         return formattedDate || '';
     }
 
@@ -193,11 +195,14 @@ export class AdminSubscriptionComponent implements OnInit {
         const start = new Date(subscription.startDate);
         const end = new Date(subscription.endDate);
 
-        if (now < start) return 'pending';
-        if (now > end) return 'expired';
+        if (now < start) {return 'pending';}
+
+        if (now > end) {return 'expired';}
 
         const thirtyDaysBeforeEnd = new Date(end);
+
         thirtyDaysBeforeEnd.setDate(end.getDate() - 30);
+
         return now > thirtyDaysBeforeEnd ? 'expiring-soon' : 'active';
     }
 
@@ -209,6 +214,7 @@ export class AdminSubscriptionComponent implements OnInit {
             pending: 'معلق',
             'expiring-soon': 'ينتهي قريباً'
         };
+
         return statusMap[status] || '';
     }
 
@@ -220,31 +226,40 @@ export class AdminSubscriptionComponent implements OnInit {
             pending: 'warn',
             'expiring-soon': 'warn'
         };
+
         return severityMap[status] || 'info';
     }
 
     getPlanColorClass(planName: string): string {
         const plan = planName.toLowerCase();
-        if (plan.includes('basic')) return 'plan-basic';
-        if (plan.includes('advanced')) return 'plan-advanced';
-        if (plan.includes('professional')) return 'plan-professional';
-        if (plan.includes('silver')) return 'plan-silver';
-        if (plan.includes('gold')) return 'plan-gold';
-        if (plan.includes('diamond')) return 'plan-diamond';
+
+        if (plan.includes('basic')) {return 'plan-basic';}
+
+        if (plan.includes('advanced')) {return 'plan-advanced';}
+
+        if (plan.includes('professional')) {return 'plan-professional';}
+
+        if (plan.includes('silver')) {return 'plan-silver';}
+
+        if (plan.includes('gold')) {return 'plan-gold';}
+
+        if (plan.includes('diamond')) {return 'plan-diamond';}
+
         return '';
     }
 
     searchSubscriptions(event: any): void {
         const term = event.target.value.toLowerCase();
+
         this.searchTerm = term;
 
         if (!term) {
             this.filteredSubscriptions = [...this.subscriptions];
+
             return;
         }
 
-        this.filteredSubscriptions = this.subscriptions.filter((sub) => {
-            return (
+        this.filteredSubscriptions = this.subscriptions.filter((sub) => (
                 sub.user.fullName.toLowerCase().includes(term) ||
                 (sub.user.email && sub.user.email.toLowerCase().includes(term)) ||
                 (sub.user.companyName && sub.user.companyName.toLowerCase().includes(term)) ||
@@ -253,8 +268,7 @@ export class AdminSubscriptionComponent implements OnInit {
                 (sub.plan && sub.plan.nameEn && sub.plan.nameEn.toLowerCase().includes(term)) ||
                 (sub.period && sub.period.nameAr && sub.period.nameAr.toLowerCase().includes(term)) ||
                 sub.price.toString().includes(term)
-            );
-        });
+            ));
     }
 
     clearSearch(): void {

@@ -1,4 +1,4 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
@@ -9,38 +9,38 @@ import { AppConfigurator } from './app.configurator';
 import { AppProfileSidebar } from './app.profilesidebar';
 
 @Component({
-    selector: 'app-layout',
+    selector: 'p-layout',
     standalone: true,
     imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppConfigurator, AppProfileSidebar],
     template: `<div class="layout-container" [ngClass]="containerClass">
-        <div app-sidebar></div>
+        <p-sidebar></p-sidebar>
         <div class="layout-content-wrapper">
-            <div app-topbar></div>
+            <p-topbar></p-topbar>
             <div class="layout-content">
                 <router-outlet></router-outlet>
             </div>
         </div>
-        <div app-profilesidebar></div>
-        <app-configurator></app-configurator>
+        <p-profilesidebar></p-profilesidebar>
+        <p-configurator></p-configurator>
         <div class="layout-mask animate-fadein"></div>
     </div> `
 })
-export class AppLayout {
+export class AppLayout implements OnDestroy {
     overlayMenuOpenSubscription: Subscription;
 
-    menuOutsideClickListener: any;
+    menuOutsideClickListener: (() => void) | null = null;
 
-    menuScrollListener: any;
+    menuScrollListener: (() => void) | null = null;
 
     @ViewChild(AppSidebar) appSidebar!: AppSidebar;
 
     @ViewChild(AppTopbar) appTopBar!: AppTopbar;
 
-    constructor(
-        public layoutService: LayoutService,
-        public renderer: Renderer2,
-        public router: Router
-    ) {
+    public readonly layoutService = inject(LayoutService);
+    public readonly renderer = inject(Renderer2);
+    public readonly router = inject(Router);
+
+    constructor() {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', (event) => {
@@ -49,31 +49,43 @@ export class AppLayout {
                     }
                 });
             }
-            if ((this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus()) && !this.menuScrollListener) {
-                this.menuScrollListener = this.renderer.listen(this.appSidebar.menuContainer.nativeElement, 'scroll', (event) => {
+
+            const menuContainerEl = this.appSidebar?.menuContainer?.nativeElement;
+
+            if ((this.layoutService.isHorizontal() || this.layoutService.isSlim() || this.layoutService.isSlimPlus()) && menuContainerEl && !this.menuScrollListener) {
+                this.menuScrollListener = this.renderer.listen(menuContainerEl, 'scroll', () => {
                     if (this.layoutService.isDesktop()) {
                         this.hideMenu();
                     }
                 });
             }
+
             if (this.layoutService.layoutState().staticMenuMobileActive) {
                 this.blockBodyScroll();
             }
         });
 
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((_event) => {
             this.hideMenu();
         });
     }
 
-    isOutsideClicked(event: any) {
-        const sidebarEl = document.querySelector('.layout-sidebar');
-        const topbarButtonEl = document.querySelector('.topbar-menubutton');
+    isOutsideClicked(event: MouseEvent): boolean {
+        const target = event.target as Node | null;
+        const sidebarNode = this.appSidebar?.el?.nativeElement as Node | undefined;
+        const topbarButtonNode = this.appTopBar?.menuButton?.nativeElement as Node | undefined;
 
-        return !(sidebarEl?.isSameNode(event.target) || sidebarEl?.contains(event.target) || topbarButtonEl?.isSameNode(event.target) || topbarButtonEl?.contains(event.target));
+        if (!target) {
+            return true;
+        }
+
+        const clickedSidebar = sidebarNode ? sidebarNode === target || sidebarNode.contains(target) : false;
+        const clickedTopbarButton = topbarButtonNode ? topbarButtonNode === target || topbarButtonNode.contains(target) : false;
+
+        return !(clickedSidebar || clickedTopbarButton);
     }
 
-    hideMenu() {
+    hideMenu(): void {
         this.layoutService.layoutState.update((prev) => ({
             ...prev,
             overlayMenuActive: false,
@@ -81,6 +93,7 @@ export class AppLayout {
             menuHoverActive: false
         }));
         this.layoutService.reset();
+
         if (this.menuOutsideClickListener) {
             this.menuOutsideClickListener();
             this.menuOutsideClickListener = null;
@@ -110,7 +123,7 @@ export class AppLayout {
         }
     }
 
-    get containerClass() {
+    get containerClass(): Record<string, boolean> {
         const layoutConfig = this.layoutService.layoutConfig();
         const layoutState = this.layoutService.layoutState();
 
@@ -135,7 +148,7 @@ export class AppLayout {
         };
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.overlayMenuOpenSubscription) {
             this.overlayMenuOpenSubscription.unsubscribe();
         }

@@ -100,9 +100,7 @@
                         "lintFilePatterns": [
                             "src/**/*.ts",
                             "src/**/*.html"
-                        ],
-                        "eslintConfig": "eslint.config.js",
-                        "exclude": ["**/node_modules/**", "**/dist/**"]
+                        ]
                     }
                 }
             }

@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, effect, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { LayoutService } from '@/layout/service/layout.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     standalone: true,
-    selector: 'app-overview-widget',
+    selector: 'p-overview-widget',
     imports: [ChartModule],
     template: `
         <div class="card h-full">
@@ -14,7 +14,7 @@ import { isPlatformBrowser } from '@angular/common';
         </div>
     `
 })
-export class OverviewWidget {
+export class OverviewWidget implements OnInit {
     chartData: any;
 
     chartOptions: any;
@@ -87,6 +87,7 @@ export class OverviewWidget {
                                 if (context.parsed.y !== null) {
                                     label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
                                 }
+
                                 return label;
                             }
                         }

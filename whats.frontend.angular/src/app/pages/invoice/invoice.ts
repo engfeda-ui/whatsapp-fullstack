@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-invoice',
+    selector: 'p-invoice',
     standalone: true,
     template: `
         <div class="card py-20 px-12 md:px-20 overflow-auto">

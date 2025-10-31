@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UQ9QnK3+KAA=",
+  "dgSpecHash": "Oaj5fQboZKE=",
   "success": true,
-  "projectFilePath": "D:\\angular\\whats.backend.aspnet\\WhatsApp.Backend\\WhatsApp.Backend.csproj",
+  "projectFilePath": "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\engfe\\.nuget\\packages\\autogen.core\\0.2.3\\autogen.core.0.2.3.nupkg.sha512",
     "C:\\Users\\engfe\\.nuget\\packages\\autogen.openai\\0.2.3\\autogen.openai.0.2.3.nupkg.sha512",

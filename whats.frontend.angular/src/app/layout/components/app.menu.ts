@@ -1,75 +1,81 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenService } from '@/core/services/token.service';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AppMenuitem } from './app.menuitem';
+import { TokenService } from '@/core/services/token.service';
+import { AppMenuitem, AppMenuItem } from './app.menuitem';
 
 @Component({
-    selector: 'app-menu',
+    selector: 'p-menu',
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule],
-    template: `<ul class="layout-menu">
-        <ng-container *ngFor="let item of model; let i = index">
-            <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
-            <li *ngIf="item.separator" class="menu-separator"></li>
-        </ng-container>
-    </ul> `
+    template: `
+        <ul class="layout-menu">
+            <ng-container *ngFor="let item of model; let index = index">
+                <p-menuitem *ngIf="!item.separator" [item]="item" [index]="index" [root]="true" parentKey=""></p-menuitem>
+                <li *ngIf="item.separator" class="menu-separator"></li>
+            </ng-container>
+        </ul>
+    `
 })
 export class AppMenu implements OnInit {
-    model: any[] = [];
+    model: AppMenuItem[] = [];
 
-    constructor(private tokenService: TokenService) {}
+    private readonly tokenService = inject(TokenService);
 
-    ngOnInit() {
-        this.model = [
+    ngOnInit(): void {
+        this.model = this.buildMenuModel();
+    }
+
+    private buildMenuModel(): AppMenuItem[] {
+        return [
             {
-                label: 'الرئيسية',
+                label: 'OU,O�O�USO3USOc',
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'الباقات',
+                        label: 'OU,O"OU,OO�',
                         icon: 'pi pi-tags',
                         routerLink: ['/plans']
                     },
                     {
-                        label: 'اشتراكاتي',
+                        label: 'OO\'O�O�OU�OO�US',
                         icon: 'pi pi-credit-card',
                         routerLink: ['/subscription']
                     },
                     {
-                        label: 'الاشتراكات',
+                        label: 'OU,OO\'O�O�OU�OO�',
                         icon: 'pi pi-credit-card',
                         routerLink: ['/subscription/admin'],
                         visible: () => this.tokenService.isAdmin()
                     },
                     {
-                        label: 'الاجهزه',
+                        label: 'OU,OO�U�O�U�',
                         icon: 'pi pi-mobile',
                         routerLink: ['/device']
                     }
                 ]
             },
             {
-                label: 'الرسائل',
+                label: 'OU,O�O3OO�U,',
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'رسالة واحدة',
+                        label: 'O�O3OU,Oc U^OO-O_Oc',
                         icon: 'pi pi-envelope',
                         routerLink: ['/message/single']
                     },
                     {
-                        label: 'رسالة واحدة مع ملف',
+                        label: 'O�O3OU,Oc U^OO-O_Oc U.O1 U.U,U?',
                         icon: 'pi pi-envelope',
                         routerLink: ['/message/single-media']
                     },
                     {
-                        label: 'رسالة لعدة أرقام',
+                        label: 'O�O3OU,Oc U,O1O_Oc O�O�U,OU.',
                         icon: 'pi pi-users',
                         routerLink: ['/message/multi']
                     },
                     {
-                        label: 'رسالة مع ملف لعدة أرقام',
+                        label: 'O�O3OU,Oc U.O1 U.U,U? U,O1O_Oc O�O�U,OU.',
                         icon: 'pi pi-images',
                         routerLink: ['/message/multi-media']
                     }
