@@ -1,18 +1,18 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass';
-import { LayoutService } from '@/layout/service/layout.service';
-import { InputTextModule } from 'primeng/inputtext';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { AppBreadcrumb } from './app.breadcrumb';
 import { ButtonModule } from 'primeng/button';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { LayoutService } from '@/layout/service/layout.service';
+import { RouterModule } from '@angular/router';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
     selector: 'p-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, BreadcrumbModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule],
+    imports: [RouterModule, CommonModule, StyleClassModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, AppBreadcrumb],
     template: `<div class="layout-topbar">
         <div class="topbar-start">
             <button #menubutton type="button" class="topbar-menubutton p-link p-trigger" (click)="onMenuButtonClick()">
@@ -21,21 +21,7 @@ import { InputIconModule } from 'primeng/inputicon';
             <nav p-breadcrumb class="topbar-breadcrumb"></nav>
         </div>
 
-        <div class="topbar-end">
-            <ul class="topbar-menu">
-                <!-- <li class="topbar-search">
-                    <p-iconfield>
-                        <p-inputicon class="pi pi-search" />
-                        <input type="text" pInputText placeholder="Search" class="w-48 sm:w-full" />
-                    </p-iconfield>
-                </li>
-                <li class="ml-3">
-                    <p-button icon="pi pi-palette" rounded (onClick)="onConfigButtonClick()"></p-button>
-                </li> -->
-                <li class="relative">
-                    <button type="button" class="flex items-center justify-center w-10 h-10 rounded-full bg-primary-900 hover:bg-primary-800 transition duration-200 shadow" (click)="onProfileButtonClick()">
-                        <!-- Ãƒâ„¢Ã…Â Ãƒâ„¢Ã¢â‚¬Â¦Ãƒâ„¢Ã†â€™Ãƒâ„¢Ã¢â‚¬Â Ãƒâ„¢Ã†â€™ ÃƒËœÃ‚Â§ÃƒËœÃ‚Â³ÃƒËœÃ‚ÂªÃƒËœÃ‚Â®ÃƒËœÃ‚Â¯ÃƒËœÃ‚Â§Ãƒâ„¢Ã¢â‚¬Â¦ ÃƒËœÃ‚ÂµÃƒâ„¢Ã‹â€ ÃƒËœÃ‚Â±ÃƒËœÃ‚Â© ÃƒËœÃ‚Â¨ÃƒËœÃ‚Â¯Ãƒâ„¢Ã¢â‚¬Å¾ÃƒËœÃ‚Â§Ãƒâ„¢Ã¢â‚¬Â¹ Ãƒâ„¢Ã¢â‚¬Â¦Ãƒâ„¢Ã¢â‚¬Â  ÃƒËœÃ‚Â§Ãƒâ„¢Ã¢â‚¬Å¾ÃƒËœÃ‚Â£Ãƒâ„¢Ã…Â Ãƒâ„¢Ã¢â‚¬Å¡Ãƒâ„¢Ã‹â€ Ãƒâ„¢Ã¢â‚¬Â ÃƒËœÃ‚Â© ÃƒËœÃ‚Â¥ÃƒËœÃ‚Â°ÃƒËœÃ‚Â§ ÃƒËœÃ‚Â£ÃƒËœÃ‚Â±ÃƒËœÃ‚Â¯ÃƒËœÃ‚Âª -->
-                        <!-- <img src="/layout/images/avatar.png" alt="Profile" class="w-10 h-10 rounded-full" /> -->
+    imports: [RouterModule, CommonModule, StyleClassModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, AppBreadcrumb],
 
                         <i class="pi pi-user text-white text-xl"></i>
                     </button>
@@ -61,3 +47,4 @@ export class AppTopbar {
         this.layoutService.showConfigSidebar();
     }
 }
+
