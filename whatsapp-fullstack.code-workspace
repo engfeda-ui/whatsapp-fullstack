@@ -2,11 +2,11 @@
   "folders": [
     {
       "name": "Frontend (Angular)",
-      "path": "whats.frontend"
+      "path": "whats.frontend.angular"
     },
     {
       "name": "Backend (.NET)",
-      "path": "whats.backend.aspnet/WhatsApp.Backend"
+      "path": "whats.backend.aspnet"
     }
   ],
   "settings": {
