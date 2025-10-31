@@ -17,6 +17,7 @@ public class KnowledgeBaseService
     private readonly ISemanticTextMemory? _semanticMemory;
     private const string KnowledgeCollection = "knowledge_base";
     private readonly Dictionary<string, DocumentMetadata> _documentIndex = new();
+    private readonly Dictionary<string, List<string>> _documentChunks = new();
 
     public KnowledgeBaseService(ISemanticTextMemory? semanticMemory = null)
     {
@@ -33,6 +34,7 @@ public class KnowledgeBaseService
 
         await IndexDocumentChunksAsync(documentId, fileName, "pdf", chunks);
 
+        _documentChunks[documentId] = chunks;
         _documentIndex[documentId] = new DocumentMetadata
         {
             Id = documentId,
@@ -55,6 +57,7 @@ public class KnowledgeBaseService
 
         await IndexDocumentChunksAsync(documentId, fileName, "docx", chunks);
 
+        _documentChunks[documentId] = chunks;
         _documentIndex[documentId] = new DocumentMetadata
         {
             Id = documentId,
@@ -77,6 +80,7 @@ public class KnowledgeBaseService
 
         await IndexDocumentChunksAsync(documentId, title, "text", chunks);
 
+        _documentChunks[documentId] = chunks;
         _documentIndex[documentId] = new DocumentMetadata
         {
             Id = documentId,
@@ -100,15 +104,7 @@ public class KnowledgeBaseService
     {
         if (_semanticMemory == null)
         {
-            return new List<KnowledgeSearchResult>
-            {
-                new KnowledgeSearchResult
-                {
-                    Text = "Knowledge base search is not available. Please configure Azure OpenAI.",
-                    Relevance = 0,
-                    Source = "System",
-                },
-            };
+            return FallbackSearch(query, limit, minRelevance);
         }
 
         var results = new List<KnowledgeSearchResult>();
@@ -159,11 +155,11 @@ public class KnowledgeBaseService
     /// <summary>
     /// Delete a document from knowledge base
     /// </summary>
-    public async Task<bool> DeleteDocumentAsync(string documentId)
+    public Task<bool> DeleteDocumentAsync(string documentId)
     {
         if (!_documentIndex.ContainsKey(documentId))
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         // Remove from memory (if available)
@@ -174,7 +170,8 @@ public class KnowledgeBaseService
         }
 
         _documentIndex.Remove(documentId);
-        return true;
+        _documentChunks.Remove(documentId);
+        return Task.FromResult(true);
     }
 
     // Private helper methods
@@ -294,6 +291,89 @@ public class KnowledgeBaseService
                 additionalMetadata: fileType
             );
         }
+    }
+
+    private List<KnowledgeSearchResult> FallbackSearch(string query, int limit, double minRelevance)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return new List<KnowledgeSearchResult>();
+        }
+
+        var queryTerms = query
+            .ToLowerInvariant()
+            .Split(
+                new[] { ' ', '\n', '\r', '\t', ',', '.', ';', ':', '!', '?' },
+                StringSplitOptions.RemoveEmptyEntries
+            );
+
+        var results = new List<KnowledgeSearchResult>();
+
+        foreach (var (documentId, chunks) in _documentChunks)
+        {
+            if (chunks.Count == 0)
+            {
+                continue;
+            }
+
+            var metadata = _documentIndex.TryGetValue(documentId, out var docMetadata) ? docMetadata : null;
+
+            for (var i = 0; i < chunks.Count; i++)
+            {
+                var chunk = chunks[i];
+                var relevance = CalculateRelevanceScore(queryTerms, chunk);
+
+                if (relevance < minRelevance)
+                {
+                    continue;
+                }
+
+                results.Add(
+                    new KnowledgeSearchResult
+                    {
+                        Text = chunk,
+                        Relevance = relevance,
+                        Source = metadata?.FileName is { Length: > 0 }
+                            ? $"{metadata.FileName} (جزء {i + 1})"
+                            : $"Document {documentId} (جزء {i + 1})",
+                        DocumentId = documentId,
+                    }
+                );
+            }
+        }
+
+        return results
+            .OrderByDescending(r => r.Relevance)
+            .ThenBy(r => r.Source, StringComparer.Ordinal)
+            .Take(limit)
+            .ToList();
+    }
+
+    private static double CalculateRelevanceScore(string[] queryTerms, string chunk)
+    {
+        if (queryTerms.Length == 0 || string.IsNullOrWhiteSpace(chunk))
+        {
+            return 0;
+        }
+
+        var chunkText = chunk.ToLowerInvariant();
+        double matchedTerms = 0;
+
+        foreach (var term in queryTerms)
+        {
+            if (chunkText.Contains(term, StringComparison.Ordinal))
+            {
+                matchedTerms += 1;
+            }
+        }
+
+        if (matchedTerms == 0)
+        {
+            return 0;
+        }
+
+        var score = matchedTerms / queryTerms.Length;
+        return Math.Clamp(score, 0, 1);
     }
 }
 

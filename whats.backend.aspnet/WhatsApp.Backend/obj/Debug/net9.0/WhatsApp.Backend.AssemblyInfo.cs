@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WhatsApp.Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+262e11022ffdfd93c6a87675c5ad22a2acf4999d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b15f8db71895d7d2ea772afc1effa0b366b51c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("WhatsApp.Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WhatsApp.Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
