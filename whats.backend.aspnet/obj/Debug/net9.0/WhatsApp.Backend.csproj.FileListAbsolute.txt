@@ -452,3 +452,4 @@ D:\whats.app\whats.backend.aspnet\obj\Debug\net9.0\refint\WhatsApp.Backend.dll
 D:\whats.app\whats.backend.aspnet\obj\Debug\net9.0\WhatsApp.Backend.pdb
 D:\whats.app\whats.backend.aspnet\obj\Debug\net9.0\WhatsApp.Backend.genruntimeconfig.cache
 D:\whats.app\whats.backend.aspnet\obj\Debug\net9.0\ref\WhatsApp.Backend.dll
+D:\whats.app\whats.backend.aspnet\bin\Debug\net9.0\package-lock.json
