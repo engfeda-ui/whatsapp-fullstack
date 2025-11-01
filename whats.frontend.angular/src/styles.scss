@@ -4,30 +4,38 @@
 @use 'primeicons/primeicons.css';
 @use './assets/demo/demo.scss';
 
+/* ============================================
+   COMPREHENSIVE ARABIC FONT CONFIGURATION
+   ============================================ */
+
 /* Font family definitions for dynamic font switching */
 :root {
     --font-family-override: 'Tajawal', sans-serif;
+    --font-family: var(--font-family-override);
 }
 
 /* Font-specific CSS rules */
 html.font-tajawal {
     --font-family-override: 'Tajawal', 'Poppins', sans-serif;
+    --font-family: var(--font-family-override);
 }
 
 html.font-poppins {
     --font-family-override: 'Poppins', 'Tajawal', sans-serif;
+    --font-family: var(--font-family-override);
 }
 
 html.font-droid-sans {
     --font-family-override: 'Droid Sans', 'Tajawal', sans-serif;
+    --font-family: var(--font-family-override);
 }
 
 html.font-al-jazeera {
     --font-family-override: 'Al Jazeera Plus', 'Tajawal', sans-serif;
+    --font-family: var(--font-family-override);
 }
 
 /* تعيين الخط الافتراضي للتطبيق */
-
 html,
 body,
 .p-component,
@@ -39,7 +47,26 @@ body,
 .p-toast,
 .p-menu {
     font-family: var(--font-family-override) !important;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
 }
+
+body {
+    min-height: 100%;
+    background: var(--surface-ground);
+    color: var(--text-color);
+    font-family: Tajawal, Poppins, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   RTL & ARABIC TEXT RENDERING OPTIMIZATION
+   ============================================ */
 
 /* عربي = بدون تباعد حروف + تفعيل اللِّيجشرات */
 :lang(ar),
@@ -51,30 +78,198 @@ body,
     font-feature-settings:
         'liga' 1,
         'kern' 1;
+    direction: rtl;
+    text-align: right;
+}
+
+/* Disable text-transform for all Arabic elements */
+:lang(ar) * {
+    text-transform: none !important;
 }
 
 /* امنع أي letter-spacing جاي من الثيم على العناصر الشائعة */
 h1,
 h2,
 h3,
+h4,
+h5,
+h6,
 .p-card-title,
 .p-dialog-title,
 .p-button-label,
 label,
-.p-menubar .p-menuitem-text {
+.p-menubar .p-menuitem-text,
+.p-datatable-thead > tr > th {
     letter-spacing: 0 !important;
 }
+
+/* ============================================
+   INPUT & FORM FIELDS RTL SUPPORT
+   ============================================ */
 
 /* عناصر الإدخال في RTL */
 [dir='rtl'] .p-inputtext,
 [dir='rtl'] .p-password input,
 [dir='rtl'] .p-dropdown,
-[dir='rtl'] .p-input-icon-right > .p-inputtext {
+[dir='rtl'] .p-input-icon-right > .p-inputtext,
+[dir='rtl'] input[type='text'],
+[dir='rtl'] input[type='email'],
+[dir='rtl'] input[type='password'],
+[dir='rtl'] textarea,
+[dir='rtl'] select {
     direction: rtl;
+    text-align: right;
+    font-family: var(--font-family-override) !important;
+}
+
+/* Input placeholder text alignment */
+[dir='rtl'] .p-inputtext::placeholder,
+[dir='rtl'] input::placeholder,
+[dir='rtl'] textarea::placeholder {
     text-align: right;
 }
 
-/* تجنّب أحرف كبيرة على العربي */
-:lang(ar) * {
-    text-transform: none !important;
+/* ============================================
+   PRIMENG COMPONENTS ARABIC FIXES
+   ============================================ */
+
+/* Dropdown RTL */
+[dir='rtl'] .p-dropdown-trigger {
+    left: 0.75rem;
+    right: auto;
+}
+
+[dir='rtl'] .p-dropdown-panel {
+    text-align: right;
+}
+
+/* Button text alignment */
+[dir='rtl'] .p-button {
+    flex-direction: row-reverse;
+    text-align: right;
+    font-family: var(--font-family-override) !important;
+}
+
+[dir='rtl'] .p-button-label {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Dialog & Modal RTL */
+[dir='rtl'] .p-dialog-header {
+    text-align: right;
+}
+
+[dir='rtl'] .p-dialog-title {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Menu & Menubar RTL */
+[dir='rtl'] .p-menubar {
+    flex-direction: row-reverse;
+}
+
+[dir='rtl'] .p-menubar .p-menuitem-text {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Toast messages RTL */
+[dir='rtl'] .p-toast {
+    right: auto;
+    left: 1rem;
+}
+
+[dir='rtl'] .p-toast-message {
+    text-align: right;
+    font-family: var(--font-family-override) !important;
+}
+
+/* Data Table RTL */
+[dir='rtl'] .p-datatable {
+    text-align: right;
+}
+
+[dir='rtl'] .p-datatable-thead > tr > th,
+[dir='rtl'] .p-datatable-tbody > tr > td {
+    font-family: var(--font-family-override) !important;
+    text-align: right;
+}
+
+/* Checkbox & Radio RTL */
+[dir='rtl'] .p-checkbox,
+[dir='rtl'] .p-radiobutton {
+    flex-direction: row-reverse;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+[dir='rtl'] .p-checkbox-box,
+[dir='rtl'] .p-radiobutton-box {
+    margin-right: 0.5rem;
+    margin-left: 0;
+}
+
+/* ============================================
+   FONT FAMILY OVERRIDE FOR ALL ELEMENTS
+   ============================================ */
+
+/* Ensure all elements use the selected font */
+* {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Typography elements */
+p,
+span,
+div,
+a,
+button,
+input,
+textarea,
+select,
+li,
+td,
+th,
+label {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Code and monospace should keep their fonts */
+code,
+pre,
+kbd,
+samp {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+}
+
+/* ============================================
+   SPECIAL HANDLING FOR TAJAWAL FONT
+   ============================================ */
+
+/* Tajawal-specific optimizations */
+html.font-tajawal,
+html.font-tajawal * {
+    font-variant-numeric: normal;
+    font-variant-position: normal;
+    font-feature-settings:
+        'liga' 1,
+        'kern' 1,
+        'calt' 1;
+}
+
+/* ============================================
+   ENSURE UTF-8 & PROPER TEXT RENDERING
+   ============================================ */
+
+html {
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    font-family: var(--font-family-override) !important;
 }

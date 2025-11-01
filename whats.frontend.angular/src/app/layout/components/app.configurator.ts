@@ -99,6 +99,16 @@ declare type SurfacesType = {
                     <p-selectbutton [ngModel]="darkTheme()" (ngModelChange)="toggleDarkMode()" [options]="themeOptions" optionLabel="name" optionValue="value" [allowEmpty]="false"></p-selectbutton>
                 </div>
 
+                <div class="flex flex-col gap-2">
+                    <span class="text-lg font-semibold">Language</span>
+                    <p-selectbutton [options]="languageOptions" [ngModel]="currentLanguage()" (ngModelChange)="changeLanguage($event)" optionLabel="name" optionValue="value" [allowEmpty]="false"></p-selectbutton>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <span class="text-lg font-semibold">Font Family</span>
+                    <p-selectbutton [options]="fontOptions" [ngModel]="currentFont()" (ngModelChange)="changeFont($event)" optionLabel="name" optionValue="value" [allowEmpty]="false"></p-selectbutton>
+                </div>
+
                 <div *ngIf="!simple" class="flex flex-col gap-2">
                     <span class="text-lg font-semibold">Menu Type</span>
                     <div class="flex flex-wrap flex-col gap-3">
@@ -180,6 +190,18 @@ export class AppConfigurator implements OnInit {
     themeOptions = [
         { name: 'Light', value: false },
         { name: 'Dark', value: true }
+    ];
+
+    languageOptions = [
+        { name: 'العربية', value: 'ar' },
+        { name: 'English', value: 'en' }
+    ];
+
+    fontOptions = [
+        { name: 'Tajawal', value: 'font-tajawal' },
+        { name: 'Poppins', value: 'font-poppins' },
+        { name: 'Droid Sans', value: 'font-droid-sans' },
+        { name: 'Al Jazeera', value: 'font-al-jazeera' }
     ];
 
     surfaces: SurfacesType[] = [
@@ -336,6 +358,16 @@ export class AppConfigurator implements OnInit {
     selectedSurface = computed(() => this.layoutService.layoutConfig().surface);
 
     menuTheme = computed(() => this.layoutService.layoutConfig().menuTheme);
+
+    currentLanguage = computed(() => {
+        const lang = localStorage.getItem('language') || 'ar';
+        return lang;
+    });
+
+    currentFont = computed(() => {
+        const font = localStorage.getItem('font') || 'font-tajawal';
+        return font;
+    });
 
     primaryColors = computed<SurfacesType[]>(() => {
         const presetPalette = presets[this.layoutService.layoutConfig().preset as KeyOfType<typeof presets>].primitive;
@@ -542,5 +574,28 @@ export class AppConfigurator implements OnInit {
         const menuMode = this.menuMode();
 
         return ['reveal', 'overlay', 'drawer'].includes(menuMode as string);
+    }
+
+    changeLanguage(language: string): void {
+        localStorage.setItem('language', language);
+        // Update HTML lang attribute and dir attribute
+        const html = document.documentElement;
+        html.lang = language;
+        html.dir = language === 'ar' ? 'rtl' : 'ltr';
+
+        // Update body direction
+        document.body.dir = language === 'ar' ? 'rtl' : 'ltr';
+    }
+
+    changeFont(font: string): void {
+        localStorage.setItem('font', font);
+
+        // Remove all font classes from html
+        const html = document.documentElement;
+        const fontClasses = ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera'];
+        fontClasses.forEach(cls => html.classList.remove(cls));
+
+        // Add the selected font class
+        html.classList.add(font);
     }
 }
