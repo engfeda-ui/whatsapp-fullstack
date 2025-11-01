@@ -14,7 +14,7 @@
 #### Endpoints الموجودة
 
 ```
-POST /api/agent/chat
+POST /api/agen    t/chat
 POST /api/agent/generate-message
 POST /api/agent/summarize
 POST /api/agent/analyze-sentiment
