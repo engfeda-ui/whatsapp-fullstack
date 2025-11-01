@@ -8,9 +8,10 @@
 - ✅ Solution structure initialized
 - ✅ Git repository ready
 
-### 2. NuGet Packages Installed
+### 2. NuGet Packages Installed test new branch
 
-#### Core Packages ✅
+
+#### Core Packages ✅ 
 
 - `Microsoft.AspNetCore.OpenApi`
 - `Swashbuckle.AspNetCore`
