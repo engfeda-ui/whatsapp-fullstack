@@ -14,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from '../auth.service';
 import { ApiResponse } from '@/core/ApiResponse';
 import { TokenService } from '@/core/services/token.service';
+import { TranslationService } from '@/core/services/translation.service';
 import { environment } from '@env/environment';
 
 @Component({
@@ -29,6 +30,7 @@ export class Login implements OnInit {
     isLoading: boolean = false;
 
     LayoutService = inject(LayoutService);
+    translationService = inject(TranslationService);
     private formBuilder = inject(FormBuilder);
     private authService = inject(AuthService);
     private router = inject(Router);
@@ -61,8 +63,8 @@ export class Login implements OnInit {
             this.tokenService.setToken(mockToken);
             this.messageService.add({
                 severity: 'success',
-                summary: 'نجاح',
-                detail: 'تم تسجيل الدخول بنجاح (حساب تطوير)'
+                summary: this.translationService.translate('success'),
+                detail: this.translationService.translate('login_success_dev')
             });
             this.router.navigate(['/']);
 
@@ -84,22 +86,22 @@ export class Login implements OnInit {
 
                         this.messageService.add({
                             severity: 'success',
-                            summary: 'نجاح',
-                            detail: 'تم تسجيل الدخول بنجاح'
+                            summary: this.translationService.translate('success'),
+                            detail: this.translationService.translate('login_success')
                         });
                         this.router.navigate(['/']);
                     }
                 } else {
                     this.messageService.add({
                         severity: 'error',
-                        summary: 'خطأ',
-                        detail: response.message || 'فشل تسجيل الدخول'
+                        summary: this.translationService.translate('error'),
+                        detail: response.message || this.translationService.translate('login_failed')
                     });
                 }
             },
             error: (error: any) => {
                 this.isLoading = false;
-                let errorMsg = 'حدث خطأ أثناء تسجيل الدخول';
+                let errorMsg = this.translationService.translate('login_error');
 
                 if (error.error && typeof error.error === 'object') {
                     errorMsg = error.error.message || errorMsg;
@@ -109,7 +111,7 @@ export class Login implements OnInit {
 
                 this.messageService.add({
                     severity: 'error',
-                    summary: 'خطأ',
+                    summary: this.translationService.translate('error'),
                     detail: errorMsg
                 });
             }

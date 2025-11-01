@@ -19,6 +19,21 @@ export class TranslationService {
       'arabic': 'العربية',
       'english': 'English',
 
+      // Login Page
+      'please_enter_your_data': 'الرجاء إدخال بياناتك',
+      'remember_me': 'تذكرني',
+      'local_login_credentials': 'بيانات تسجيل الدخول المحلية:',
+      'username_label': 'اسم المستخدم',
+      'password_label': 'كلمة المرور',
+      'dont_have_account': 'ليس لديك حساب؟',
+      'create_new_account': 'إنشاء حساب جديد',
+      'login_button': 'تسجيل الدخول',
+      'loading': 'جاري التحميل...',
+      'login_success': 'تم تسجيل الدخول بنجاح',
+      'login_failed': 'فشل تسجيل الدخول',
+      'login_error': 'حدث خطأ أثناء تسجيل الدخول',
+      'login_success_dev': 'تم تسجيل الدخول بنجاح (حساب تطوير)',
+
       // Services Menu
       'services': 'الخدمات',
       'plans': 'الباقات',
@@ -47,7 +62,6 @@ export class TranslationService {
       'error': 'خطأ',
       'warning': 'تحذير',
       'info': 'معلومة',
-      'loading': 'جاري التحميل...',
       'no_data': 'لا توجد بيانات'
     },
     en: {
@@ -62,6 +76,21 @@ export class TranslationService {
       'language': 'Language',
       'arabic': 'العربية',
       'english': 'English',
+
+      // Login Page
+      'please_enter_your_data': 'Please enter your data',
+      'remember_me': 'Remember me',
+      'local_login_credentials': 'Local login credentials:',
+      'username_label': 'Username',
+      'password_label': 'Password',
+      'dont_have_account': "Don't have an account?",
+      'create_new_account': 'Create new account',
+      'login_button': 'Login',
+      'loading': 'Loading...',
+      'login_success': 'Login successful',
+      'login_failed': 'Login failed',
+      'login_error': 'An error occurred during login',
+      'login_success_dev': 'Login successful (dev account)',
 
       // Services Menu
       'services': 'Services',
@@ -91,7 +120,6 @@ export class TranslationService {
       'error': 'Error',
       'warning': 'Warning',
       'info': 'Info',
-      'loading': 'Loading...',
       'no_data': 'No data'
     }
   };
