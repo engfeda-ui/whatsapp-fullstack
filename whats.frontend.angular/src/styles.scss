@@ -10,28 +10,58 @@
 
 /* Font family definitions for dynamic font switching */
 :root {
-    --font-family-override: 'Tajawal', sans-serif;
+    --font-family-override: 'Tajawal',
+                            'Segoe UI',
+                            'Segoe UI Emoji',
+                            'Segoe UI Symbol',
+                            'Apple Color Emoji',
+                            'Noto Color Emoji',
+                            sans-serif;
     --font-family: var(--font-family-override);
 }
 
 /* Font-specific CSS rules */
 html.font-tajawal {
-    --font-family-override: 'Tajawal', 'Poppins', sans-serif;
+    --font-family-override: 'Tajawal',
+                            'Segoe UI',
+                            'Segoe UI Emoji',
+                            'Segoe UI Symbol',
+                            'Apple Color Emoji',
+                            'Noto Color Emoji',
+                            sans-serif;
     --font-family: var(--font-family-override);
 }
 
 html.font-poppins {
-    --font-family-override: 'Poppins', 'Tajawal', sans-serif;
+    --font-family-override: 'Poppins',
+                            'Segoe UI',
+                            'Segoe UI Emoji',
+                            'Segoe UI Symbol',
+                            'Apple Color Emoji',
+                            'Noto Color Emoji',
+                            sans-serif;
     --font-family: var(--font-family-override);
 }
 
 html.font-droid-sans {
-    --font-family-override: 'Droid Sans', 'Tajawal', sans-serif;
+    --font-family-override: 'Droid Sans',
+                            'Segoe UI',
+                            'Segoe UI Emoji',
+                            'Segoe UI Symbol',
+                            'Apple Color Emoji',
+                            'Noto Color Emoji',
+                            sans-serif;
     --font-family: var(--font-family-override);
 }
 
 html.font-al-jazeera {
-    --font-family-override: 'Al Jazeera Plus', 'Tajawal', sans-serif;
+    --font-family-override: 'Al Jazeera Plus',
+                            'Segoe UI',
+                            'Segoe UI Emoji',
+                            'Segoe UI Symbol',
+                            'Apple Color Emoji',
+                            'Noto Color Emoji',
+                            sans-serif;
     --font-family: var(--font-family-override);
 }
 
@@ -46,7 +76,7 @@ body,
 .p-dialog,
 .p-toast,
 .p-menu {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
     font-weight: 400;
     padding: 0;
     margin: 0;
@@ -56,12 +86,29 @@ body {
     min-height: 100%;
     background: var(--surface-ground);
     color: var(--text-color);
-    font-family: Tajawal, Poppins, sans-serif;
+    font-family: var(--font-family-override);
     font-size: 14px;
     line-height: 1.6;
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: auto;
     text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   PROTECT PRIMEICONS AND EMOJI FONTS
+   ============================================ */
+
+/* Ensure PrimeIcons work properly */
+.pi,
+[class^="pi-"],
+[class*=" pi-"] {
+    font-family: 'PrimeIcons' !important;
+    speak: never;
+}
+
+/* Ensure emoji/symbols display correctly */
+.emoji, [class*="emoji"], [data-emoji] {
+    font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif !important;
 }
 
 /* ============================================
@@ -212,9 +259,9 @@ label,
    FONT FAMILY OVERRIDE FOR ALL ELEMENTS
    ============================================ */
 
-/* Ensure all elements use the selected font */
-* {
-    font-family: var(--font-family-override) !important;
+/* Ensure all elements use the selected font (except icons/emoji) */
+*:not(.pi):not([class*="emoji"]):not([class*="icon"]) {
+    font-family: var(--font-family-override);
 }
 
 /* Typography elements */
@@ -230,7 +277,7 @@ li,
 td,
 th,
 label {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
 }
 
 /* Code and monospace should keep their fonts */
@@ -284,7 +331,7 @@ label, button, a, li, td, th,
 .text-gray-700, .text-gray-800, .text-gray-900,
 .dark\:text-gray-200, .dark\:text-white,
 .text-sm, .text-base, .text-lg, .text-xl, .text-2xl {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: auto;
 }
@@ -295,43 +342,43 @@ label, button, a, li, td, th,
 .p-card-title, .p-card-subtitle,
 .p-dropdown-label, .p-listbox-item,
 .p-menu-label, .p-menuitem-text {
-    font-family: var(--font-family-override) !important;
-    letter-spacing: 0 !important;
+    font-family: var(--font-family-override);
+    letter-spacing: 0;
 }
 
 /* Fix specific text colors that might override font */
 .text-gray-500, .text-gray-600, .text-gray-700,
 .dark\:text-gray-300, .dark\:text-gray-400,
 .text-red-600, .text-green-600, .text-blue-600 {
-    font-family: var(--font-family-override) !important;
-    letter-spacing: 0 !important;
+    font-family: var(--font-family-override);
+    letter-spacing: 0;
 }
 
 /* Message and error text */
 .error-message, .success-message, .warning-message, .info-message {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
 }
 
 /* Table and list items */
 tr, td, th, li, .item, .list-item {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
 }
 
 /* Dialog and modal text */
 .p-dialog-header, .p-dialog-content, .p-dialog-footer,
 .modal-header, .modal-body, .modal-footer {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
 }
 
 /* Card text elements */
 .p-card {
-    font-family: var(--font-family-override) !important;
+    font-family: var(--font-family-override);
 }
 
 /* Button text */
 .p-button, .p-button-label {
-    font-family: var(--font-family-override) !important;
-    letter-spacing: 0 !important;
+    font-family: var(--font-family-override);
+    letter-spacing: 0;
 }
 
 /* Ensure all text rendering is optimized */

@@ -91,11 +91,8 @@ export class AppComponent implements OnInit {
             'p, span, div, label, button, a, li, td, th, h1, h2, h3, h4, h5, h6, .p-button, .p-input-text'
         );
 
-        textElements.forEach((el: Element) => {
-            const style = el.getAttribute('style') || '';
-            if (!style.includes('font-family')) {
-                el.setAttribute('style', style + '; font-family: var(--font-family-override) !important;');
-            }
-        });
+        // Note: We removed inline style injection here because CSS variables
+        // now handle font application globally without !important conflicts
+        // This keeps the DOM clean and allows proper CSS cascade
     }
 }

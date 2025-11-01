@@ -597,5 +597,26 @@ export class AppConfigurator implements OnInit {
 
         // Add the selected font class
         html.classList.add(font);
+
+        // Force a re-render by triggering CSS recalculation
+        // This ensures all elements immediately pick up the new font variable
+        this.triggerFontReflow();
+    }
+
+    private triggerFontReflow(): void {
+        // Get all text elements and trigger reflow to apply new font
+        const elements = document.querySelectorAll(
+            'p, span, div, h1, h2, h3, h4, h5, h6, button, a, label, li, td, th, .p-button, .p-input-text'
+        );
+
+        // Trigger reflow by accessing offsetHeight
+        elements.forEach(el => {
+            const _ = (el as HTMLElement).offsetHeight;
+        });
+
+        // Also trigger a paint by adding and removing a temporary class
+        const html = document.documentElement;
+        html.style.transition = 'none';
+        html.offsetHeight; // force reflow
     }
 }
