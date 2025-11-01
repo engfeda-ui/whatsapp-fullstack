@@ -16,10 +16,11 @@ body {
     background: var(--surface-ground);
     color: var(--text-color);
     font-family: 'Tajawal', 'Poppins', sans-serif;
-    font-feature-settings: "cv02","cv03","cv04","cv11";
-    font-variation-settings: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
 }
 
 a {

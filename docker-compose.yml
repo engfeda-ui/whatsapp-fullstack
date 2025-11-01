@@ -21,11 +21,11 @@ services:
     networks:
       - whatsapp-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health", "||", "exit", "1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
       interval: 30s
       timeout: 10s
-      retries: 3
-      start_period: 30s
+      retries: 5
+      start_period: 45s
 
   frontend:
     build:
@@ -40,7 +40,7 @@ services:
       - BACKEND_URL=${BACKEND_URL:-http://localhost:5000}
     depends_on:
       backend:
-        condition: service_healthy
+        condition: service_started
     networks:
       - whatsapp-network
     healthcheck:
