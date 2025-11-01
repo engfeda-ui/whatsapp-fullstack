@@ -58,7 +58,8 @@
       "**/bin/**": true,
       "**/obj/**": true,
       "**/.angular/**": true
-    }
+    },
+    "FSharp.suggestGitignore": false
   },
   "extensions": {
     "recommendations": [

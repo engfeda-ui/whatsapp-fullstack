@@ -4,52 +4,55 @@
 @use 'primeicons/primeicons.css';
 @use './assets/demo/demo.scss';
 
-* {
-    font-family: 'Tajawal';
-    font-optical-sizing: auto;
+/* تعيين الخط الافتراضي للتطبيق */
+
+html,
+body,
+.p-component,
+.p-inputtext,
+.p-button,
+.p-dropdown,
+.p-card,
+.p-dialog,
+.p-toast,
+.p-menu {
+    font-family: var(--font-family) !important;
 }
 
-.p-overlay.p-component.ng-star-inserted  {
-    right: auto !important;
+/* عربي = بدون تباعد حروف + تفعيل اللِّيجشرات */
+:lang(ar),
+[dir='rtl'] {
+    letter-spacing: 0 !important;
+    font-variant-ligatures: normal;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings:
+        'liga' 1,
+        'kern' 1;
 }
 
-
-
-::ng-deep {
-    html[dir="rtl"] {
-        th {
-            border-width: 1px 1px 1px 0px !important;
-        }
-
-        .p-menu {
-            min-width:fit-content !important;
-        }
-
-    }
+/* امنع أي letter-spacing جاي من الثيم على العناصر الشائعة */
+h1,
+h2,
+h3,
+.p-card-title,
+.p-dialog-title,
+.p-button-label,
+label,
+.p-menubar .p-menuitem-text {
+    letter-spacing: 0 !important;
 }
 
-
-::-webkit-scrollbar {
-    width: 6px;
-    background: transparent;
+/* عناصر الإدخال في RTL */
+[dir='rtl'] .p-inputtext,
+[dir='rtl'] .p-password input,
+[dir='rtl'] .p-dropdown,
+[dir='rtl'] .p-input-icon-right > .p-inputtext {
+    direction: rtl;
+    text-align: right;
 }
 
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    border-radius: 20px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--primary-color);
-}
-
-html[dir="rtl"] ::-webkit-scrollbar {
-    right: 0px;
-    left: auto;
+/* تجنّب أحرف كبيرة على العربي */
+:lang(ar) * {
+    text-transform: none !important;
 }
