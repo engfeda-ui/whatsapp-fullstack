@@ -8,60 +8,9 @@
    COMPREHENSIVE ARABIC FONT CONFIGURATION
    ============================================ */
 
-/* Font family definitions for dynamic font switching */
+/* Font family definitions - Tajawal (Arabic) + Segoe UI (English) only */
 :root {
-    --font-family-override: 'Tajawal',
-                            'Segoe UI',
-                            'Segoe UI Emoji',
-                            'Segoe UI Symbol',
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                            sans-serif;
-    --font-family: var(--font-family-override);
-}
-
-/* Font-specific CSS rules */
-html.font-tajawal {
-    --font-family-override: 'Tajawal',
-                            'Segoe UI',
-                            'Segoe UI Emoji',
-                            'Segoe UI Symbol',
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                            sans-serif;
-    --font-family: var(--font-family-override);
-}
-
-html.font-poppins {
-    --font-family-override: 'Poppins',
-                            'Segoe UI',
-                            'Segoe UI Emoji',
-                            'Segoe UI Symbol',
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                            sans-serif;
-    --font-family: var(--font-family-override);
-}
-
-html.font-droid-sans {
-    --font-family-override: 'Droid Sans',
-                            'Segoe UI',
-                            'Segoe UI Emoji',
-                            'Segoe UI Symbol',
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                            sans-serif;
-    --font-family: var(--font-family-override);
-}
-
-html.font-al-jazeera {
-    --font-family-override: 'Al Jazeera Plus',
-                            'Segoe UI',
-                            'Segoe UI Emoji',
-                            'Segoe UI Symbol',
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                            sans-serif;
+    --font-family-override: 'Tajawal', 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
     --font-family: var(--font-family-override);
 }
 

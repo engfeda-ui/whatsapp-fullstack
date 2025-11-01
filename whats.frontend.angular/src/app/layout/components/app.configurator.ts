@@ -8,6 +8,7 @@ import Nora from '@primeng/themes/nora';
 import { PrimeNG } from 'primeng/config';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { LayoutService, LayoutConfig } from '@/layout/service/layout.service';
+import { TranslationService } from '@/core/services/translation.service';
 import { Router } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -104,11 +105,6 @@ declare type SurfacesType = {
                     <p-selectbutton [options]="languageOptions" [ngModel]="currentLanguage()" (ngModelChange)="changeLanguage($event)" optionLabel="name" optionValue="value" [allowEmpty]="false"></p-selectbutton>
                 </div>
 
-                <div class="flex flex-col gap-2">
-                    <span class="text-lg font-semibold">Font Family</span>
-                    <p-selectbutton [options]="fontOptions" [ngModel]="currentFont()" (ngModelChange)="changeFont($event)" optionLabel="name" optionValue="value" [allowEmpty]="false"></p-selectbutton>
-                </div>
-
                 <div *ngIf="!simple" class="flex flex-col gap-2">
                     <span class="text-lg font-semibold">Menu Type</span>
                     <div class="flex flex-wrap flex-col gap-3">
@@ -181,6 +177,8 @@ export class AppConfigurator implements OnInit {
 
     layoutService: LayoutService = inject(LayoutService);
 
+    translationService = inject(TranslationService);
+
     platformId = inject(PLATFORM_ID);
 
     primeng = inject(PrimeNG);
@@ -197,12 +195,8 @@ export class AppConfigurator implements OnInit {
         { name: 'English', value: 'en' }
     ];
 
-    fontOptions = [
-        { name: 'Tajawal', value: 'font-tajawal' },
-        { name: 'Poppins', value: 'font-poppins' },
-        { name: 'Droid Sans', value: 'font-droid-sans' },
-        { name: 'Al Jazeera', value: 'font-al-jazeera' }
-    ];
+    // Font is now fixed to Tajawal (Arabic) + Segoe UI (English)
+    // No need for font switching options anymore
 
     surfaces: SurfacesType[] = [
         {
@@ -359,15 +353,8 @@ export class AppConfigurator implements OnInit {
 
     menuTheme = computed(() => this.layoutService.layoutConfig().menuTheme);
 
-    currentLanguage = computed(() => {
-        const lang = localStorage.getItem('language') || 'ar';
-        return lang;
-    });
+    currentLanguage = computed(() => this.translationService.currentLanguage());
 
-    currentFont = computed(() => {
-        const font = localStorage.getItem('font') || 'font-tajawal';
-        return font;
-    });
 
     primaryColors = computed<SurfacesType[]>(() => {
         const presetPalette = presets[this.layoutService.layoutConfig().preset as KeyOfType<typeof presets>].primitive;
@@ -577,46 +564,8 @@ export class AppConfigurator implements OnInit {
     }
 
     changeLanguage(language: string): void {
-        localStorage.setItem('language', language);
-        // Update HTML lang attribute and dir attribute
-        const html = document.documentElement;
-        html.lang = language;
-        html.dir = language === 'ar' ? 'rtl' : 'ltr';
-
-        // Update body direction
-        document.body.dir = language === 'ar' ? 'rtl' : 'ltr';
+        this.translationService.setLanguage(language as 'ar' | 'en');
     }
 
-    changeFont(font: string): void {
-        localStorage.setItem('font', font);
-
-        // Remove all font classes from html
-        const html = document.documentElement;
-        const fontClasses = ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera'];
-        fontClasses.forEach(cls => html.classList.remove(cls));
-
-        // Add the selected font class
-        html.classList.add(font);
-
-        // Force a re-render by triggering CSS recalculation
-        // This ensures all elements immediately pick up the new font variable
-        this.triggerFontReflow();
-    }
-
-    private triggerFontReflow(): void {
-        // Get all text elements and trigger reflow to apply new font
-        const elements = document.querySelectorAll(
-            'p, span, div, h1, h2, h3, h4, h5, h6, button, a, label, li, td, th, .p-button, .p-input-text'
-        );
-
-        // Trigger reflow by accessing offsetHeight
-        elements.forEach(el => {
-            const _ = (el as HTMLElement).offsetHeight;
-        });
-
-        // Also trigger a paint by adding and removing a temporary class
-        const html = document.documentElement;
-        html.style.transition = 'none';
-        html.offsetHeight; // force reflow
-    }
+    // Font switching removed - using single Tajawal + Segoe UI font stack
 }
