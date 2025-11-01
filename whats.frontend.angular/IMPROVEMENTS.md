@@ -193,49 +193,49 @@ navigator.clipboard.writeText(apiKey).then(
 
 1. **إضافة حد أقصى للحجم:**
 
-```typescript
-private readonly MAX_CACHE_SIZE = 50;
-```
+    ```typescript
+    private readonly MAX_CACHE_SIZE = 50;
+    ```
 
 2. **تنفيذ LRU (Least Recently Used) Eviction:**
 
-```typescript
-interface CacheEntry<T> {
-    data: T;
-    timestamp: number;
-    ttl: number;
-    accessCount: number;  // جديد
-}
+    ```typescript
+    interface CacheEntry<T> {
+        data: T;
+        timestamp: number;
+        ttl: number;
+        accessCount: number;  // جديد
+    }
 
-private evictLRU(): void {
-    let lruKey: string | null = null;
-    let minAccessCount = Infinity;
+    private evictLRU(): void {
+        let lruKey: string | null = null;
+        let minAccessCount = Infinity;
 
-    for (const [key, entry] of this.cache.entries()) {
-        if (entry.accessCount < minAccessCount) {
-            minAccessCount = entry.accessCount;
-            lruKey = key;
+        for (const [key, entry] of this.cache.entries()) {
+            if (entry.accessCount < minAccessCount) {
+                minAccessCount = entry.accessCount;
+                lruKey = key;
+            }
+        }
+
+        if (lruKey) {
+            this.cache.delete(lruKey);
         }
     }
-
-    if (lruKey) {
-        this.cache.delete(lruKey);
-    }
-}
-```
+    ```
 
 3. **إضافة دوال مساعدة:**
 
-```typescript
-size(): number
-getStats(): { size: number; maxSize: number; keys: string[] }
-```
+    ```typescript
+    size(): number
+    getStats(): { size: number; maxSize: number; keys: string[] }
+    ```
 
-**الملفات المعدلة:**
+    **الملفات المعدلة:**
 
-- [src/app/core/services/cache.service.ts](src/app/core/services/cache.service.ts)
+    - [src/app/core/services/cache.service.ts](src/app/core/services/cache.service.ts)
 
----
+    ---
 
 ### 9. إزالة Manual HTTP Headers ✅
 
@@ -304,14 +304,14 @@ getStats(): { size: number; maxSize: number; keys: string[] }
 
 ### متوسطة الأولوية
 
-4. **إضافة OnPush Change Detection**
+1. **إضافة OnPush Change Detection**
    - تحسين الأداء في جميع المكونات
 
-5. **تنظيف الكود غير المستخدم**
+2. **تنظيف الكود غير المستخدم**
    - إزالة ملفات demo/template
    - تقليل حجم Bundle
 
-6. **تحسين ESLint Rules**
+3. **تحسين ESLint Rules**
    - تفعيل `no-console`
    - تفعيل `@typescript-eslint/no-explicit-any`
 
