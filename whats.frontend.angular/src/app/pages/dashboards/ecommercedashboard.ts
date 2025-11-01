@@ -11,18 +11,18 @@ import { TopProductsWidget } from './ecommerce/topproductswidget';
     imports: [StatsWidget, RecentSalesWidget, RevenueOverViewWidget, SalesByCategoryWidget, TopProductsWidget],
     template: `
         <div class="grid grid-cols-12 gap-8">
-            <app-stats-widget />
+            <p-stats-widget />
             <div class="col-span-12 xl:col-span-9">
-                <app-revenue-overview-widget />
+                <p-revenue-overview-widget />
             </div>
             <div class="col-span-12 xl:col-span-3">
-                <app-sales-by-category-widget />
+                <p-sales-by-category-widget />
             </div>
             <div class="col-span-12 lg:col-span-7">
-                <app-recent-sales-widget />
+                <p-recent-sales-widget />
             </div>
             <div class="col-span-12 lg:col-span-5">
-                <app-top-products-widget />
+                <p-top-products-widget />
             </div>
         </div>
     `

@@ -14,20 +14,20 @@ import { ProductService } from '@/pages/service/product.service';
     providers: [ProductService],
     template: `
         <div class="grid grid-cols-12 gap-8">
-            <app-header-widget class="col-span-12" />
-            <app-stats-banking-widget />
+            <p-header-widget class="col-span-12" />
+            <p-stats-banking-widget />
 
             <div class="col-span-12 xl:col-span-4">
-                <app-recent-transactions-widget />
+                <p-recent-transactions-widget />
             </div>
             <div class="col-span-12 xl:col-span-8">
-                <app-overview-widget />
+                <p-overview-widget />
             </div>
             <div class="col-span-12 lg:col-span-6">
-                <app-recent-transactions-two-widget />
+                <p-recent-transactions-two-widget />
             </div>
             <div class="col-span-12 lg:col-span-6">
-                <app-monthly-payments-widget />
+                <p-monthly-payments-widget />
             </div>
         </div>
     `

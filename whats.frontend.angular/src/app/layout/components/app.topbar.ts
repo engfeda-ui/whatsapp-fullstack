@@ -21,8 +21,10 @@ import { StyleClassModule } from 'primeng/styleclass';
             <nav p-breadcrumb class="topbar-breadcrumb"></nav>
         </div>
 
-    imports: [RouterModule, CommonModule, StyleClassModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, AppBreadcrumb],
-
+        <div class="topbar-end">
+            <ul class="topbar-menu">
+                <li class="relative">
+                    <button type="button" class="flex items-center justify-center w-10 h-10 rounded-full bg-primary-900 hover:bg-primary-800 transition duration-200 shadow" (click)="onProfileButtonClick()">
                         <i class="pi pi-user text-white text-xl"></i>
                     </button>
                 </li>
