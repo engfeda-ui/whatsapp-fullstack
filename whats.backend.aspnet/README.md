@@ -23,6 +23,7 @@ This backend leverages the **full power of Microsoft's AI ecosystem**:
 ## ✨ Key Features
 
 ### 🤖 AI & Agent Framework
+
 - ✅ **Semantic Kernel** integration for AI planning and execution
 - ✅ **AutoGen multi-agent** system for complex conversations
 - ✅ **Azure OpenAI** GPT-4 integration
@@ -33,6 +34,7 @@ This backend leverages the **full power of Microsoft's AI ecosystem**:
 - ✅ **Multi-agent brainstorming**
 
 ### 🔐 Authentication & Security
+
 - ✅ **JWT tokens** with refresh token support
 - ✅ **ASP.NET Core Identity** for user management
 - ✅ **Role-based** authorization
@@ -40,6 +42,7 @@ This backend leverages the **full power of Microsoft's AI ecosystem**:
 - ✅ **Token encryption** (compatible with Angular frontend)
 
 ### 📱 WhatsApp Business Management
+
 - ✅ **Device management** (CRUD operations)
 - ✅ **Message sending** (single & bulk)
 - ✅ **QR code generation** for device pairing
@@ -48,6 +51,7 @@ This backend leverages the **full power of Microsoft's AI ecosystem**:
 - ✅ **Delivery status** monitoring
 
 ### 💾 Database & ORM
+
 - ✅ **SQL Server** with Entity Framework Core
 - ✅ **Code-first** migrations
 - ✅ **Complex relationships** (Users, Devices, Messages, Subscriptions)
@@ -55,12 +59,14 @@ This backend leverages the **full power of Microsoft's AI ecosystem**:
 - ✅ **Change tracking**
 
 ### ⚡ Real-Time Features
+
 - ✅ **SignalR hubs** for live updates
 - ✅ **Device status** notifications
 - ✅ **Message delivery** tracking
 - ✅ **QR code** updates
 
 ### 📊 Subscription Management
+
 - ✅ **Plans** and pricing
 - ✅ **User subscriptions**
 - ✅ **Usage tracking**
@@ -71,26 +77,31 @@ This backend leverages the **full power of Microsoft's AI ecosystem**:
 ## 📦 Tech Stack
 
 ### Core Technologies
+
 - **Framework**: ASP.NET Core 9.0
 - **Language**: C# 13
 - **Database**: SQL Server 2019+
 - **ORM**: Entity Framework Core 9.0
 
 ### AI & Agents
+
 - **Microsoft.SemanticKernel** v1.66.0
 - **Microsoft.SemanticKernel.Connectors.AzureOpenAI**
 - **AutoGen.Core** v0.2.3
 - **AutoGen.OpenAI**
 
 ### Authentication & Security
+
 - **Microsoft.AspNetCore.Identity.EntityFrameworkCore**
 - **Microsoft.AspNetCore.Authentication.JwtBearer**
 - **System.IdentityModel.Tokens.Jwt**
 
 ### Real-Time
+
 - **Microsoft.AspNetCore.SignalR**
 
 ### Documentation
+
 - **Swashbuckle.AspNetCore** (Swagger/OpenAPI)
 
 ---
@@ -219,9 +230,10 @@ dotnet run
 ```
 
 The API will be available at:
-- **HTTPS**: https://localhost:7001
-- **HTTP**: http://localhost:5000
-- **Swagger UI**: https://localhost:7001/swagger
+
+- **HTTPS**: <https://localhost:7001>
+- **HTTP**: <http://localhost:5000>
+- **Swagger UI**: <https://localhost:7001/swagger>
 
 ---
 
@@ -230,6 +242,7 @@ The API will be available at:
 ### Database Connection
 
 **SQL Server (Production):**
+
 ```json
 "ConnectionStrings": {
   "DefaultConnection": "Server=your-server;Database=WhatsAppBusinessDb;User Id=your-user;Password=your-password;TrustServerCertificate=true"
@@ -237,6 +250,7 @@ The API will be available at:
 ```
 
 **LocalDB (Development):**
+
 ```json
 "ConnectionStrings": {
   "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=WhatsAppBusinessDb;Trusted_Connection=true"
@@ -402,7 +416,7 @@ dotnet test
 
 ### Test with Swagger
 
-1. Navigate to https://localhost:7001/swagger
+1. Navigate to <https://localhost:7001/swagger>
 2. Click "Authorize" and enter JWT token
 3. Test any endpoint interactively
 
@@ -456,6 +470,7 @@ az webapp up --name whatsapp-backend --resource-group MyResourceGroup
 ### Docker (Optional)
 
 **Run with the Angular frontend (recommended):**
+
 ```bash
 # from the workspace root (../whats.app)
 cp .env.example .env          # first time only
@@ -463,6 +478,7 @@ docker compose up --build backend frontend
 ```
 
 **Build backend image only:**
+
 ```bash
 # Build image
 docker build -t whatsapp-backend .

@@ -4,6 +4,28 @@
 @use 'primeicons/primeicons.css';
 @use './assets/demo/demo.scss';
 
+/* Font family definitions for dynamic font switching */
+:root {
+    --font-family-override: 'Tajawal', sans-serif;
+}
+
+/* Font-specific CSS rules */
+html.font-tajawal {
+    --font-family-override: 'Tajawal', 'Poppins', sans-serif;
+}
+
+html.font-poppins {
+    --font-family-override: 'Poppins', 'Tajawal', sans-serif;
+}
+
+html.font-droid-sans {
+    --font-family-override: 'Droid Sans', 'Tajawal', sans-serif;
+}
+
+html.font-al-jazeera {
+    --font-family-override: 'Al Jazeera Plus', 'Tajawal', sans-serif;
+}
+
 /* تعيين الخط الافتراضي للتطبيق */
 
 html,
@@ -16,7 +38,7 @@ body,
 .p-dialog,
 .p-toast,
 .p-menu {
-    font-family: var(--font-family) !important;
+    font-family: var(--font-family-override) !important;
 }
 
 /* عربي = بدون تباعد حروف + تفعيل اللِّيجشرات */

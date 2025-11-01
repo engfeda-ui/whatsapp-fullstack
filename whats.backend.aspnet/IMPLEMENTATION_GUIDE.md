@@ -1,9 +1,11 @@
 # 🚀 ASP.NET Core Backend with Microsoft Agent Framework
+
 ## Complete Implementation Guide
 
 ## 📋 Project Overview
 
 This guide will help you build a **production-ready ASP.NET Core backend** with:
+
 - ✅ **Microsoft Semantic Kernel** - Full AI orchestration
 - ✅ **AutoGen.Net** - Multi-agent system
 - ✅ **Azure OpenAI** - GPT-4 integration
@@ -134,9 +136,10 @@ dotnet run
 ```
 
 **API will be available at:**
-- **HTTP**: https://localhost:7000
-- **HTTPS**: https://localhost:7001
-- **Swagger**: https://localhost:7001/swagger
+
+- **HTTP**: <https://localhost:7000>
+- **HTTPS**: <https://localhost:7001>
+- **Swagger**: <https://localhost:7001/swagger>
 
 ---
 
@@ -877,7 +880,7 @@ app.Run();
 
 ## 📝 Next Steps
 
-### Immediate (Required):
+### Immediate (Required)
 
 1. ☐ **Create all Entity models** in `/Data/Entities/`
 2. ☐ **Create ApplicationDbContext.cs**
@@ -886,7 +889,7 @@ app.Run();
 5. ☐ **Create Auth services and controllers**
 6. ☐ **Test authentication with Swagger**
 
-### Short Term:
+### Short Term
 
 7. ☐ **Implement Device management**
 8. ☐ **Integrate Semantic Kernel**
@@ -894,7 +897,7 @@ app.Run();
 10. ☐ **Create Agent controllers**
 11. ☐ **Setup SignalR for real-time**
 
-### Long Term:
+### Long Term
 
 12. ☐ **WhatsApp integration** (external library)
 13. ☐ **Message history**
@@ -905,7 +908,7 @@ app.Run();
 
 ## 🎯 Testing the Agent Framework
 
-### Test Semantic Kernel:
+### Test Semantic Kernel
 
 ```bash
 curl -X POST https://localhost:7001/api/agent/chat \
@@ -916,7 +919,7 @@ curl -X POST https://localhost:7001/api/agent/chat \
   }'
 ```
 
-### Test AutoGen Multi-Agent:
+### Test AutoGen Multi-Agent
 
 ```bash
 curl -X POST https://localhost:7001/api/agent/multi-agent-chat \
@@ -940,16 +943,17 @@ curl -X POST https://localhost:7001/api/agent/multi-agent-chat \
 
 ## 📚 Resources
 
-- **Semantic Kernel Docs**: https://learn.microsoft.com/en-us/semantic-kernel/
-- **AutoGen.Net**: https://microsoft.github.io/autogen/
-- **ASP.NET Core**: https://learn.microsoft.com/en-us/aspnet/core/
-- **Azure OpenAI**: https://learn.microsoft.com/en-us/azure/ai-services/openai/
+- **Semantic Kernel Docs**: <https://learn.microsoft.com/en-us/semantic-kernel/>
+- **AutoGen.Net**: <https://microsoft.github.io/autogen/>
+- **ASP.NET Core**: <https://learn.microsoft.com/en-us/aspnet/core/>
+- **Azure OpenAI**: <https://learn.microsoft.com/en-us/azure/ai-services/openai/>
 
 ---
 
 ## ✅ Summary
 
 You now have:
+
 - ✅ **Project structure defined**
 - ✅ **All packages installed**
 - ✅ **Complete implementation guide**
