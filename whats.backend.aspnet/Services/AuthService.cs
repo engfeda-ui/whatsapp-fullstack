@@ -20,7 +20,8 @@ public class AuthService : IAuthService
     public AuthService(
         UserManager<ApplicationUser> userManager,
         ApplicationDbContext context,
-        IConfiguration configuration)
+        IConfiguration configuration
+    )
     {
         _userManager = userManager;
         _context = context;
@@ -42,7 +43,7 @@ public class AuthService : IAuthService
             UserName = request.Email,
             PhoneNumber = request.PhoneNumber,
             CreatedAt = DateTime.UtcNow,
-            IsActive = true
+            IsActive = true,
         };
 
         var result = await _userManager.CreateAsync(user, request.Password);
@@ -65,7 +66,7 @@ public class AuthService : IAuthService
             Token = token,
             RefreshToken = refreshToken.Token,
             ExpiresAt = DateTime.UtcNow.AddMinutes(GetJwtExpiryMinutes()),
-            User = MapToUserDto(user)
+            User = MapToUserDto(user),
         };
     }
 
@@ -103,14 +104,14 @@ public class AuthService : IAuthService
             Token = token,
             RefreshToken = refreshToken.Token,
             ExpiresAt = DateTime.UtcNow.AddMinutes(GetJwtExpiryMinutes()),
-            User = MapToUserDto(user)
+            User = MapToUserDto(user),
         };
     }
 
     public async Task<AuthResponse?> RefreshTokenAsync(string token, string ipAddress)
     {
-        var user = await _context.Users
-            .Include(u => u.RefreshTokens)
+        var user = await _context
+            .Users.Include(u => u.RefreshTokens)
             .FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
 
         if (user == null)
@@ -145,14 +146,14 @@ public class AuthService : IAuthService
             Token = jwtToken,
             RefreshToken = newRefreshToken.Token,
             ExpiresAt = DateTime.UtcNow.AddMinutes(GetJwtExpiryMinutes()),
-            User = MapToUserDto(user)
+            User = MapToUserDto(user),
         };
     }
 
     public async Task<bool> RevokeTokenAsync(string token, string ipAddress)
     {
-        var user = await _context.Users
-            .Include(u => u.RefreshTokens)
+        var user = await _context
+            .Users.Include(u => u.RefreshTokens)
             .FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
 
         if (user == null)
@@ -186,7 +187,8 @@ public class AuthService : IAuthService
 
     private string GenerateJwtToken(ApplicationUser user)
     {
-        var secret = _configuration["JwtSettings:Secret"]
+        var secret =
+            _configuration["JwtSettings:Secret"]
             ?? throw new InvalidOperationException("JWT Secret not configured");
         var issuer = _configuration["JwtSettings:Issuer"];
         var audience = _configuration["JwtSettings:Audience"];
@@ -196,19 +198,22 @@ public class AuthService : IAuthService
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-                new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            }),
+            Subject = new ClaimsIdentity(
+                new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+                    new Claim(ClaimTypes.Name, user.FullName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                }
+            ),
             Expires = DateTime.UtcNow.AddMinutes(GetJwtExpiryMinutes()),
             Issuer = issuer,
             Audience = audience,
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256Signature)
+                SecurityAlgorithms.HmacSha256Signature
+            ),
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -228,15 +233,15 @@ public class AuthService : IAuthService
             Token = Convert.ToBase64String(randomBytes),
             ExpiresAt = DateTime.UtcNow.AddDays(expiryDays),
             CreatedAt = DateTime.UtcNow,
-            CreatedByIp = ipAddress
+            CreatedByIp = ipAddress,
         };
     }
 
     private void RemoveOldRefreshTokens(ApplicationUser user)
     {
         // Remove old inactive refresh tokens (keep only last 5)
-        var tokensToRemove = user.RefreshTokens
-            .Where(x => !x.IsActive)
+        var tokensToRemove = user
+            .RefreshTokens.Where(x => !x.IsActive)
             .OrderBy(x => x.CreatedAt)
             .Take(Math.Max(0, user.RefreshTokens.Count(x => !x.IsActive) - 5))
             .ToList();
@@ -262,7 +267,7 @@ public class AuthService : IAuthService
             PhoneNumber = user.PhoneNumber,
             IsActive = user.IsActive,
             CreatedAt = user.CreatedAt,
-            LastLoginAt = user.LastLoginAt
+            LastLoginAt = user.LastLoginAt,
         };
     }
 }

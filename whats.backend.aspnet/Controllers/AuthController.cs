@@ -20,7 +20,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<ApiResponse<AuthResponse>>> Register([FromBody] RegisterRequest request)
+    public async Task<ActionResult<ApiResponse<AuthResponse>>> Register(
+        [FromBody] RegisterRequest request
+    )
     {
         try
         {
@@ -29,9 +31,12 @@ public class AuthController : ControllerBase
 
             if (result == null)
             {
-                return BadRequest(ApiResponse<AuthResponse>.ErrorResponse(
-                    "Registration failed. Email may already be in use.",
-                    "Registration Failed"));
+                return BadRequest(
+                    ApiResponse<AuthResponse>.ErrorResponse(
+                        "Registration failed. Email may already be in use.",
+                        "Registration Failed"
+                    )
+                );
             }
 
             SetTokenCookie(result.RefreshToken);
@@ -42,14 +47,17 @@ public class AuthController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during registration");
-            return StatusCode(500, ApiResponse<AuthResponse>.ErrorResponse(
-                ex.Message,
-                "Internal server error"));
+            return StatusCode(
+                500,
+                ApiResponse<AuthResponse>.ErrorResponse(ex.Message, "Internal server error")
+            );
         }
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<ApiResponse<AuthResponse>>> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<ApiResponse<AuthResponse>>> Login(
+        [FromBody] LoginRequest request
+    )
     {
         try
         {
@@ -58,9 +66,12 @@ public class AuthController : ControllerBase
 
             if (result == null)
             {
-                return Unauthorized(ApiResponse<AuthResponse>.ErrorResponse(
-                    "Invalid email or password",
-                    "Login Failed"));
+                return Unauthorized(
+                    ApiResponse<AuthResponse>.ErrorResponse(
+                        "Invalid email or password",
+                        "Login Failed"
+                    )
+                );
             }
 
             SetTokenCookie(result.RefreshToken);
@@ -71,14 +82,17 @@ public class AuthController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during login");
-            return StatusCode(500, ApiResponse<AuthResponse>.ErrorResponse(
-                ex.Message,
-                "Internal server error"));
+            return StatusCode(
+                500,
+                ApiResponse<AuthResponse>.ErrorResponse(ex.Message, "Internal server error")
+            );
         }
     }
 
     [HttpPost("refresh-token")]
-    public async Task<ActionResult<ApiResponse<AuthResponse>>> RefreshToken([FromBody] RefreshTokenRequest request)
+    public async Task<ActionResult<ApiResponse<AuthResponse>>> RefreshToken(
+        [FromBody] RefreshTokenRequest request
+    )
     {
         try
         {
@@ -86,9 +100,12 @@ public class AuthController : ControllerBase
 
             if (string.IsNullOrEmpty(token))
             {
-                return BadRequest(ApiResponse<AuthResponse>.ErrorResponse(
-                    "Refresh token is required",
-                    "Invalid Request"));
+                return BadRequest(
+                    ApiResponse<AuthResponse>.ErrorResponse(
+                        "Refresh token is required",
+                        "Invalid Request"
+                    )
+                );
             }
 
             var ipAddress = GetIpAddress();
@@ -96,27 +113,35 @@ public class AuthController : ControllerBase
 
             if (result == null)
             {
-                return Unauthorized(ApiResponse<AuthResponse>.ErrorResponse(
-                    "Invalid or expired refresh token",
-                    "Token Refresh Failed"));
+                return Unauthorized(
+                    ApiResponse<AuthResponse>.ErrorResponse(
+                        "Invalid or expired refresh token",
+                        "Token Refresh Failed"
+                    )
+                );
             }
 
             SetTokenCookie(result.RefreshToken);
 
-            return Ok(ApiResponse<AuthResponse>.SuccessResponse(result, "Token refreshed successfully"));
+            return Ok(
+                ApiResponse<AuthResponse>.SuccessResponse(result, "Token refreshed successfully")
+            );
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during token refresh");
-            return StatusCode(500, ApiResponse<AuthResponse>.ErrorResponse(
-                ex.Message,
-                "Internal server error"));
+            return StatusCode(
+                500,
+                ApiResponse<AuthResponse>.ErrorResponse(ex.Message, "Internal server error")
+            );
         }
     }
 
     [Authorize]
     [HttpPost("revoke-token")]
-    public async Task<ActionResult<ApiResponse<bool>>> RevokeToken([FromBody] RefreshTokenRequest request)
+    public async Task<ActionResult<ApiResponse<bool>>> RevokeToken(
+        [FromBody] RefreshTokenRequest request
+    )
     {
         try
         {
@@ -124,9 +149,9 @@ public class AuthController : ControllerBase
 
             if (string.IsNullOrEmpty(token))
             {
-                return BadRequest(ApiResponse<bool>.ErrorResponse(
-                    "Refresh token is required",
-                    "Invalid Request"));
+                return BadRequest(
+                    ApiResponse<bool>.ErrorResponse("Refresh token is required", "Invalid Request")
+                );
             }
 
             var ipAddress = GetIpAddress();
@@ -134,9 +159,9 @@ public class AuthController : ControllerBase
 
             if (!result)
             {
-                return BadRequest(ApiResponse<bool>.ErrorResponse(
-                    "Token revocation failed",
-                    "Revocation Failed"));
+                return BadRequest(
+                    ApiResponse<bool>.ErrorResponse("Token revocation failed", "Revocation Failed")
+                );
             }
 
             return Ok(ApiResponse<bool>.SuccessResponse(true, "Token revoked successfully"));
@@ -144,9 +169,10 @@ public class AuthController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during token revocation");
-            return StatusCode(500, ApiResponse<bool>.ErrorResponse(
-                ex.Message,
-                "Internal server error"));
+            return StatusCode(
+                500,
+                ApiResponse<bool>.ErrorResponse(ex.Message, "Internal server error")
+            );
         }
     }
 
@@ -160,18 +186,16 @@ public class AuthController : ControllerBase
 
             if (string.IsNullOrEmpty(userId))
             {
-                return Unauthorized(ApiResponse<UserDto>.ErrorResponse(
-                    "User not found",
-                    "Unauthorized"));
+                return Unauthorized(
+                    ApiResponse<UserDto>.ErrorResponse("User not found", "Unauthorized")
+                );
             }
 
             var user = await _authService.GetUserByIdAsync(userId);
 
             if (user == null)
             {
-                return NotFound(ApiResponse<UserDto>.ErrorResponse(
-                    "User not found",
-                    "Not Found"));
+                return NotFound(ApiResponse<UserDto>.ErrorResponse("User not found", "Not Found"));
             }
 
             return Ok(ApiResponse<UserDto>.SuccessResponse(user, "User retrieved successfully"));
@@ -179,9 +203,10 @@ public class AuthController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving current user");
-            return StatusCode(500, ApiResponse<UserDto>.ErrorResponse(
-                ex.Message,
-                "Internal server error"));
+            return StatusCode(
+                500,
+                ApiResponse<UserDto>.ErrorResponse(ex.Message, "Internal server error")
+            );
         }
     }
 
@@ -193,7 +218,7 @@ public class AuthController : ControllerBase
             HttpOnly = true,
             Expires = DateTime.UtcNow.AddDays(7),
             SameSite = SameSiteMode.Strict,
-            Secure = true // Only use HTTPS
+            Secure = true, // Only use HTTPS
         };
 
         Response.Cookies.Append("refreshToken", token, cookieOptions);
