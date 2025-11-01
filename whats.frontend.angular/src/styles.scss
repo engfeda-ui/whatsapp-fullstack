@@ -273,3 +273,80 @@ html,
 body {
     font-family: var(--font-family-override) !important;
 }
+
+/* ============================================
+   GLOBAL ARABIC TEXT FIXES FOR ALL PAGES
+   ============================================ */
+
+/* Fix all text elements globally for Arabic rendering */
+p, span, div, h1, h2, h3, h4, h5, h6,
+label, button, a, li, td, th,
+.text-gray-700, .text-gray-800, .text-gray-900,
+.dark\:text-gray-200, .dark\:text-white,
+.text-sm, .text-base, .text-lg, .text-xl, .text-2xl {
+    font-family: var(--font-family-override) !important;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+}
+
+/* Fix all PrimeNG text and labels */
+.p-button-label, .p-input-label, .p-field-label,
+.p-datatable-thead th, .p-datatable-tbody td,
+.p-card-title, .p-card-subtitle,
+.p-dropdown-label, .p-listbox-item,
+.p-menu-label, .p-menuitem-text {
+    font-family: var(--font-family-override) !important;
+    letter-spacing: 0 !important;
+}
+
+/* Fix specific text colors that might override font */
+.text-gray-500, .text-gray-600, .text-gray-700,
+.dark\:text-gray-300, .dark\:text-gray-400,
+.text-red-600, .text-green-600, .text-blue-600 {
+    font-family: var(--font-family-override) !important;
+    letter-spacing: 0 !important;
+}
+
+/* Message and error text */
+.error-message, .success-message, .warning-message, .info-message {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Table and list items */
+tr, td, th, li, .item, .list-item {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Dialog and modal text */
+.p-dialog-header, .p-dialog-content, .p-dialog-footer,
+.modal-header, .modal-body, .modal-footer {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Card text elements */
+.p-card {
+    font-family: var(--font-family-override) !important;
+}
+
+/* Button text */
+.p-button, .p-button-label {
+    font-family: var(--font-family-override) !important;
+    letter-spacing: 0 !important;
+}
+
+/* Ensure all text rendering is optimized */
+@supports (font-feature-settings: "liga") {
+    body,
+    h1, h2, h3, h4, h5, h6,
+    p, span, div, a, button,
+    .p-component,
+    .p-button,
+    .p-input-text,
+    .p-datatable,
+    label, .text-gray-700, .text-gray-800 {
+        font-feature-settings:
+            'liga' 1,
+            'kern' 1,
+            'calt' 1;
+    }
+}
