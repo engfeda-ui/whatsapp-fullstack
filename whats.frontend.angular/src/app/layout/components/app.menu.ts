@@ -29,53 +29,53 @@ export class AppMenu implements OnInit {
     private buildMenuModel(): AppMenuItem[] {
         return [
             {
-                label: 'OU,Oï¿½Oï¿½USO3USOc',
+                label: 'الخدمات',
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'OU,O"OU,OOï¿½',
+                        label: 'الباقات',
                         icon: 'pi pi-tags',
                         routerLink: ['/plans']
                     },
                     {
-                        label: 'OO\'Oï¿½Oï¿½OUï¿½OOï¿½US',
+                        label: 'الاشتراكات',
                         icon: 'pi pi-credit-card',
                         routerLink: ['/subscription']
                     },
                     {
-                        label: 'OU,OO\'Oï¿½Oï¿½OUï¿½OOï¿½',
+                        label: 'إدارة الاشتراكات',
                         icon: 'pi pi-credit-card',
                         routerLink: ['/subscription/admin'],
                         visibleWhen: () => this.tokenService.isAdmin()
                     },
                     {
-                        label: 'OU,OOï¿½Uï¿½Oï¿½Uï¿½',
+                        label: 'الأجهزة',
                         icon: 'pi pi-mobile',
                         routerLink: ['/device']
                     }
                 ]
             },
             {
-                label: 'OU,Oï¿½O3OOï¿½U,',
+                label: 'الرسائل',
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'Oï¿½O3OU,Oc U^OO-O_Oc',
+                        label: 'إرسال رسالة واحدة',
                         icon: 'pi pi-envelope',
                         routerLink: ['/message/single']
                     },
                     {
-                        label: 'Oï¿½O3OU,Oc U^OO-O_Oc U.O1 U.U,U?',
+                        label: 'إرسال رسالة واحدة مع ملف',
                         icon: 'pi pi-envelope',
                         routerLink: ['/message/single-media']
                     },
                     {
-                        label: 'Oï¿½O3OU,Oc U,O1O_Oc Oï¿½Oï¿½U,OU.',
+                        label: 'إرسال رسائل متعددة',
                         icon: 'pi pi-users',
                         routerLink: ['/message/multi']
                     },
                     {
-                        label: 'Oï¿½O3OU,Oc U.O1 U.U,U? U,O1O_Oc Oï¿½Oï¿½U,OU.',
+                        label: 'إرسال رسائل مع ملفات متعددة',
                         icon: 'pi pi-images',
                         routerLink: ['/message/multi-media']
                     }
