@@ -1,6 +1,6 @@
 # 🔗 Angular Frontend + .NET Backend Integration Guide
 
-## ✅ تم التعديل بنجاح!
+## ✅ تم التعديل بنجاح
 
 تم تحديث Angular Frontend بالكامل للتوافق مع .NET Backend (ASP.NET Core).
 
@@ -9,30 +9,38 @@
 ## 📝 التعديلات المنفذة
 
 ### ✅ 1. ApiResponse Interface
+
 **الملف**: `src/app/core/ApiResponse.ts`
 
 تم إضافة:
+
 - `DotNetApiResponse<T>` interface للـ .NET format
 - `convertDotNetResponse()` utility function للتحويل التلقائي
 - الحفاظ على الـ `ApiResponse<T>` الأصلي للتوافق مع الكود الحالي
 
 ### ✅ 2. Environment Configuration
+
 **الملفات**:
+
 - `src/environments/environment.ts`
 - `src/environments/environment.prod.ts`
 
 تم التحديث:
+
 ```typescript
 apiUrl: 'http://localhost:5229/api'  // .NET Backend
 signalRUrl: 'http://localhost:5229/hubs/whatsapp'  // SignalR Hub
 ```
 
 ### ✅ 3. Auth Services (2 files)
+
 **الملفات**:
+
 - `src/app/pages/auth/auth.service.ts`
 - `src/app/core/services/auth.service.ts`
 
 تم التحديث:
+
 - Login endpoint: `POST /api/auth/login`
 - Register endpoint: `POST /api/auth/register`
 - Refresh token: `POST /api/auth/refresh-token`
@@ -40,9 +48,11 @@ signalRUrl: 'http://localhost:5229/hubs/whatsapp'  // SignalR Hub
 - Logout with revoke: `POST /api/auth/revoke-token`
 
 ### ✅ 4. Device Service
+
 **الملف**: `src/app/pages/Whats App/device/device.service.ts`
 
 تم التحديث:
+
 - Get all: `GET /api/device`
 - Get by ID: `GET /api/device/{id}`
 - Create: `POST /api/device`
@@ -52,9 +62,11 @@ signalRUrl: 'http://localhost:5229/hubs/whatsapp'  // SignalR Hub
 - Regenerate API Key: `POST /api/device/{id}/regenerate-apikey`
 
 ### ✅ 5. Messages Service
+
 **الملف**: `src/app/pages/Whats App/message/message.service.ts`
 
 تم التحديث:
+
 - Send message: `POST /api/whatsapp/send-message`
 - Send media: `POST /api/whatsapp/send-media`
 - Send bulk: `POST /api/whatsapp/send-bulk`
@@ -62,9 +74,11 @@ signalRUrl: 'http://localhost:5229/hubs/whatsapp'  // SignalR Hub
 - Get message: `GET /api/whatsapp/message/{messageId}`
 
 ### ✅ 6. Auth Interceptor
+
 **الملف**: `src/app/core/interceptors/auth.interceptor.ts`
 
 تم التحسين:
+
 - إضافة Bearer token تلقائياً لكل request
 - معالجة 401 errors بإعادة محاولة refresh token
 - Automatic logout عند فشل refresh
@@ -74,6 +88,7 @@ signalRUrl: 'http://localhost:5229/hubs/whatsapp'  // SignalR Hub
 ## 🚀 خطوات التشغيل
 
 ### 1. تشغيل .NET Backend
+
 ```bash
 cd D:\angular\whats.backend.aspnet\WhatsApp.Backend
 dotnet run
@@ -82,6 +97,7 @@ dotnet run
 Backend سيعمل على: `http://localhost:5229`
 
 ### 2. تشغيل Angular Frontend
+
 ```bash
 cd D:\angular\whats.frontend
 npm start
@@ -94,25 +110,28 @@ Frontend سيعمل على: `http://localhost:4200`
 ## 🧪 اختبار التكامل
 
 ### Test 1: Register User
+
 1. افتح `http://localhost:4200`
 2. اذهب إلى صفحة Register
 3. املأ البيانات:
    - Full Name: Test User
-   - Email: test@example.com
+   - Email: <test@example.com>
    - Password: Test123
 4. اضغط Register
 
 **Expected**: يتم تسجيل المستخدم ويتم الحصول على JWT token
 
 ### Test 2: Login
+
 1. اذهب إلى Login page
-2. Email: test@example.com
+2. Email: <test@example.com>
 3. Password: Test123
 4. اضغط Login
 
 **Expected**: يتم تسجيل الدخول وحفظ token في localStorage
 
 ### Test 3: Create Device
+
 1. بعد Login، اذهب إلى Devices page
 2. اضغط "Add Device"
 3. املأ:
@@ -123,6 +142,7 @@ Frontend سيعمل على: `http://localhost:4200`
 **Expected**: يتم إنشاء device جديد ويظهر في القائمة
 
 ### Test 4: Send Message
+
 1. افتح device من القائمة
 2. اذهب إلى Send Message
 3. املأ:
@@ -136,7 +156,8 @@ Frontend سيعمل على: `http://localhost:4200`
 
 ## 🔍 مقارنة الـ API Formats
 
-### Old Format (NestJS):
+### Old Format (NestJS)
+
 ```json
 {
   "isSuccess": true,
@@ -146,7 +167,8 @@ Frontend سيعمل على: `http://localhost:4200`
 }
 ```
 
-### New Format (.NET):
+### New Format (.NET)
+
 ```json
 {
   "success": true,
@@ -156,7 +178,8 @@ Frontend سيعمل على: `http://localhost:4200`
 }
 ```
 
-### ✅ الحل:
+### ✅ الحل
+
 الـ `convertDotNetResponse()` function يحول تلقائياً من .NET format إلى Angular format، لذلك الكود الحالي يعمل بدون تغيير في Components!
 
 ---
@@ -179,6 +202,7 @@ Frontend سيعمل على: `http://localhost:4200`
 ## 🎯 Features الجديدة المتاحة
 
 ### 1. AI Features (من .NET Backend)
+
 يمكنك الآن إنشاء service جديد للـ AI:
 
 ```typescript
@@ -213,6 +237,7 @@ export class AiService {
 ```
 
 ### 2. Real-Time Updates (SignalR)
+
 يمكنك إضافة SignalR connection:
 
 ```bash
@@ -254,7 +279,9 @@ export class SignalRService {
 ## ⚠️ ملاحظات مهمة
 
 ### 1. CORS
+
 تأكد أن .NET Backend يسمح بـ CORS من Angular:
+
 ```csharp
 // في appsettings.json
 "Cors": {
@@ -265,9 +292,12 @@ export class SignalRService {
 ```
 
 ### 2. Azure OpenAI (Optional)
+
 إذا أردت استخدام AI features، ستحتاج:
+
 1. Azure OpenAI subscription
 2. تحديث `appsettings.json` في Backend:
+
 ```json
 "AzureOpenAI": {
   "Endpoint": "https://your-resource.openai.azure.com/",
@@ -277,7 +307,9 @@ export class SignalRService {
 ```
 
 ### 3. SQLite Database
+
 Backend يستخدم SQLite حالياً. الـ database file موجود في:
+
 ```
 D:\angular\whats.backend.aspnet\WhatsApp.Backend\whatsapp.db
 ```
@@ -287,16 +319,21 @@ D:\angular\whats.backend.aspnet\WhatsApp.Backend\whatsapp.db
 ## 🐛 Troubleshooting
 
 ### مشكلة: CORS Error
+
 **الحل**: تأكد أن Backend يعمل وأن CORS مفعّل
 
 ### مشكلة: 401 Unauthorized
+
 **الحل**: تأكد من:
+
 1. Login بنجاح أولاً
 2. Token موجود في localStorage
 3. Interceptor يضيف Authorization header
 
 ### مشكلة: Cannot connect to backend
+
 **الحل**:
+
 1. تأكد Backend يعمل على `http://localhost:5229`
 2. افتح `http://localhost:5229/` في Browser - يجب تشوف Swagger UI
 
@@ -325,6 +362,7 @@ D:\angular\whats.backend.aspnet\WhatsApp.Backend\whatsapp.db
 الـ Services تم تحديثها بالكامل، والـ Interceptor يتعامل مع JWT tokens تلقائياً، والـ ApiResponse converter يضمن التوافق الكامل!
 
 **كل ما عليك:**
+
 1. شغّل Backend: `dotnet run`
 2. شغّل Frontend: `npm start`
 3. ابدأ الاستخدام!

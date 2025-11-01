@@ -1,6 +1,7 @@
 # 🚀 WhatsApp Business Frontend - Complete Deployment & Setup Guide
 
 ## 📋 Table of Contents
+
 1. [Quick Start (Development)](#quick-start-development)
 2. [Local Network Setup](#local-network-setup)
 3. [Docker Deployment](#docker-deployment)
@@ -13,6 +14,7 @@
 ## Quick Start (Development)
 
 ### Prerequisites
+
 - Node.js 20+ ([Download](https://nodejs.org))
 - npm 10+
 - Angular CLI 19+
@@ -45,12 +47,14 @@ npm start
 #### Step 1: Find Your Machine's IP Address
 
 **Windows:**
+
 ```bash
 ipconfig
 # Look for IPv4 Address (e.g., 192.168.1.100)
 ```
 
 **Mac/Linux:**
+
 ```bash
 ifconfig
 # or
@@ -84,6 +88,7 @@ npm start -- --host 0.0.0.0
 #### Step 4: Access from Another Machine
 
 Open browser and navigate to:
+
 ```
 http://192.168.1.100:4200
 ```
@@ -91,6 +96,7 @@ http://192.168.1.100:4200
 ### Network Firewall Considerations
 
 **Windows Firewall:**
+
 ```bash
 # Allow port 4200 through Windows Firewall
 netsh advfirewall firewall add rule name="Angular Dev Server" dir=in action=allow protocol=tcp localport=4200
@@ -99,6 +105,7 @@ netsh advfirewall firewall add rule name="Angular Dev Server" dir=in action=allo
 ```
 
 **Mac/Linux:**
+
 ```bash
 # Most development servers are accessible on local network by default
 # If issues, check: sudo lsof -i :4200
@@ -111,6 +118,7 @@ netsh advfirewall firewall add rule name="Angular Dev Server" dir=in action=allo
 ### Quick Docker Start (Recommended for Staging/Internal Network)
 
 #### Prerequisites
+
 - Docker 20.10+
 - Docker Compose 2.0+
 
@@ -151,12 +159,14 @@ http://192.168.x.x:8080
 ### Docker Build Details
 
 **Angular Build:**
+
 - Multi-stage build (Node 20 → Nginx Alpine)
 - Production optimization enabled
 - Assets bundled and minified
 - Gzip compression enabled
 
 **Nginx Configuration:**
+
 - Serves on port 80 (mapped to host port via compose)
 - Proxy to backend API at `/api`
 - WebSocket support for SignalR
@@ -353,18 +363,21 @@ ENCRYPTION_KEY=CHANGE-THIS
 ### Step 6: Monitoring & Logging
 
 **Health Check Endpoint:**
+
 ```bash
 curl http://localhost:8080/health
 # Response: "healthy"
 ```
 
 **Container Logs:**
+
 ```bash
 docker logs -f whats-frontend-prod
 docker logs -f whats-backend-prod
 ```
 
 **Application Metrics:**
+
 - Monitor CPU/Memory: `docker stats`
 - Check port usage: `netstat -tulpn | grep LISTEN`
 - SSL certificate expiry: `openssl x509 -enddate -noout -in /path/to/cert.pem`
@@ -385,6 +398,7 @@ The application includes 4 professional Arabic fonts:
 ### Language Selection
 
 Users can switch between:
+
 - **العربية** (Arabic) - RTL layout, Arabic UI
 - **English** - LTR layout, English UI
 
@@ -416,18 +430,21 @@ fontOptions = [
 Ensure UTF-8 encoding everywhere:
 
 **HTML Head:**
+
 ```html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
 
 **Nginx Configuration:**
+
 ```nginx
 charset utf-8;
 add_header Content-Type "text/html; charset=utf-8";
 ```
 
 **CSS Files:**
+
 ```scss
 @charset "UTF-8";
 ```
@@ -443,6 +460,7 @@ add_header Content-Type "text/html; charset=utf-8";
 **Problem:** Arabic text appears as boxes or reversed
 
 **Solution:**
+
 ```bash
 # Check font is loaded
 # In browser DevTools > Network > check Tajawal font download
@@ -458,6 +476,7 @@ docker compose up -d --build
 **Problem:** Cannot connect to backend from another machine
 
 **Solutions:**
+
 ```bash
 # 1. Verify backend is accessible
 curl https://192.168.1.100:7256/api/health
@@ -476,6 +495,7 @@ ping backend
 **Problem:** Docker build exits with error
 
 **Solutions:**
+
 ```bash
 # Clear Docker cache and rebuild
 docker compose down --rmi all
@@ -493,6 +513,7 @@ docker system prune -a
 **Problem:** Port 4200 (dev) or 8080 (docker) already in use
 
 **Solutions:**
+
 ```bash
 # Find process using port
 lsof -i :4200              # Mac/Linux
@@ -510,6 +531,7 @@ ng serve --port 4300
 **Problem:** Frontend can't access backend API
 
 **Solutions:**
+
 ```typescript
 // In environment.ts, ensure correct URL
 apiUrl: 'https://192.168.1.100:7256/api',  // Full URL for dev
@@ -523,6 +545,7 @@ apiUrl: '/api',  // Relative path for production (behind proxy)
 **Problem:** SignalR connection fails
 
 **Check nginx.conf:**
+
 ```nginx
 location /hubs/ {
     proxy_http_version 1.1;
@@ -551,6 +574,7 @@ npm run analyze
 ### Runtime Performance
 
 1. **Enable Production Mode:**
+
    ```bash
    npm run build:prod
    ```
@@ -563,6 +587,7 @@ npm run analyze
 
 4. **CDN Integration:**
    For production, serve static assets from CDN:
+
    ```typescript
    // In environment.prod.ts
    cdn: 'https://cdn.yourdomain.com'
@@ -573,6 +598,7 @@ npm run analyze
 ## Support & Resources
 
 ### Documentation
+
 - [Angular 19 Docs](https://angular.io/docs)
 - [PrimeNG Components](https://primeng.org)
 - [Docker Compose](https://docs.docker.com/compose/)
