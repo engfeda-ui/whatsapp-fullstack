@@ -226,4 +226,3 @@ D:\GitHub\whatsapp-fullstack\whats.backend.aspnet\obj\Debug\net9.0\refint\WhatsA
 D:\GitHub\whatsapp-fullstack\whats.backend.aspnet\obj\Debug\net9.0\WhatsApp.Backend.pdb
 D:\GitHub\whatsapp-fullstack\whats.backend.aspnet\obj\Debug\net9.0\WhatsApp.Backend.genruntimeconfig.cache
 D:\GitHub\whatsapp-fullstack\whats.backend.aspnet\obj\Debug\net9.0\ref\WhatsApp.Backend.dll
-D:\GitHub\whatsapp-fullstack\whats.backend.aspnet\bin\Debug\net9.0\Properties_backup\launchSettings.json

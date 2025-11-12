@@ -11,15 +11,13 @@ public class DeviceServiceTests
 {
     private readonly Mock<ApplicationDbContext> _mockContext;
     private readonly Mock<ILogger<DeviceService>> _mockLogger;
-    private readonly Mock<IWhatsAppService> _mockWhatsAppService;
     private readonly DeviceService _deviceService;
 
     public DeviceServiceTests()
     {
         _mockContext = new Mock<ApplicationDbContext>();
         _mockLogger = new Mock<ILogger<DeviceService>>();
-        _mockWhatsAppService = new Mock<IWhatsAppService>();
-        _deviceService = new DeviceService(_mockContext.Object, _mockLogger.Object, _mockWhatsAppService.Object);
+        _deviceService = new DeviceService(_mockContext.Object, _mockLogger.Object);
     }
 
     [Fact]
@@ -57,7 +55,7 @@ public class DeviceServiceTests
     public async Task DeleteAsync_Should_Return_False_If_Device_Not_Found()
     {
         // Arrange
-        _mockContext.Setup(x => x.Devices.FindAsync(1)).ReturnsAsync((WhatsApp.Backend.Data.Entities.Device)null);
+        _mockContext.Setup(x => x.Devices.FindAsync(1)).ReturnsAsync((WhatsApp.Backend.Data.Entities.Device?)null);
 
         // Act
         var result = await _deviceService.DeleteAsync(1, "test-user-id");
