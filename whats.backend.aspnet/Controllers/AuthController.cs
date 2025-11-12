@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using WhatsApp.Backend.Models;
 using WhatsApp.Backend.Models.DTOs.Auth;
 using WhatsApp.Backend.Services;
@@ -8,7 +9,7 @@ namespace WhatsApp.Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseApiController
 {
     private readonly IAuthService _authService;
     private readonly ILogger<AuthController> _logger;
@@ -20,6 +21,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [EnableRateLimiting("auth")]
     public async Task<ActionResult<ApiResponse<AuthResponse>>> Register(
         [FromBody] RegisterRequest request
     )
@@ -55,6 +57,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [EnableRateLimiting("auth")]
     public async Task<ActionResult<ApiResponse<AuthResponse>>> Login(
         [FromBody] LoginRequest request
     )
@@ -182,16 +185,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized(
-                    ApiResponse<UserDto>.ErrorResponse("User not found", "Unauthorized")
-                );
-            }
-
-            var user = await _authService.GetUserByIdAsync(userId);
+            var user = await _authService.GetUserByIdAsync(UserId);
 
             if (user == null)
             {
