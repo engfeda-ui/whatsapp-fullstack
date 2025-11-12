@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using WhatsApp.Backend.Models;
 using WhatsApp.Backend.Models.DTOs.Device;
 using WhatsApp.Backend.Services;
@@ -10,7 +9,7 @@ namespace WhatsApp.Backend.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class DeviceController : ControllerBase
+public class DeviceController : BaseApiController
 {
     private readonly IDeviceService _deviceService;
     private readonly ILogger<DeviceController> _logger;
@@ -26,10 +25,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var devices = await _deviceService.GetAllAsync(userId);
+            var devices = await _deviceService.GetAllAsync(UserId);
             return Ok(ApiResponse<List<DeviceDto>>.SuccessResponse(devices, "Devices retrieved successfully"));
         }
         catch (Exception ex)
@@ -44,10 +40,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var device = await _deviceService.GetByIdAsync(id, userId);
+            var device = await _deviceService.GetByIdAsync(id, UserId);
 
             if (device == null)
             {
@@ -68,10 +61,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var device = await _deviceService.CreateAsync(request, userId);
+            var device = await _deviceService.CreateAsync(request, UserId);
             return CreatedAtAction(nameof(GetById), new { id = device.Id },
                 ApiResponse<DeviceDto>.SuccessResponse(device, "Device created successfully"));
         }
@@ -91,10 +81,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var device = await _deviceService.UpdateAsync(id, request, userId);
+            var device = await _deviceService.UpdateAsync(id, request, UserId);
 
             if (device == null)
             {
@@ -115,10 +102,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var result = await _deviceService.DeleteAsync(id, userId);
+            var result = await _deviceService.DeleteAsync(id, UserId);
 
             if (!result)
             {
@@ -139,10 +123,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var qrCode = await _deviceService.GetQRCodeAsync(id, userId);
+            var qrCode = await _deviceService.GetQRCodeAsync(id, UserId);
             return Ok(ApiResponse<string>.SuccessResponse(qrCode, "QR code generated successfully"));
         }
         catch (InvalidOperationException ex)
@@ -161,10 +142,7 @@ public class DeviceController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                ?? throw new UnauthorizedAccessException();
-
-            var apiKey = await _deviceService.RegenerateApiKeyAsync(id, userId);
+            var apiKey = await _deviceService.RegenerateApiKeyAsync(id, UserId);
             return Ok(ApiResponse<string>.SuccessResponse(apiKey, "API key regenerated successfully"));
         }
         catch (InvalidOperationException ex)

@@ -158,25 +158,3 @@ public partial class AgentController : ControllerBase
     }
 }
 
-// Supporting request DTOs
-public class GenerateMessageRequest
-{
-    public string Prompt { get; set; } = string.Empty;
-    public string? Context { get; set; }
-}
-
-public class SummarizeRequest
-{
-    public string ConversationText { get; set; } = string.Empty;
-}
-
-public class AnalyzeSentimentRequest
-{
-    public string Text { get; set; } = string.Empty;
-}
-
-public class CollaborativeRequest
-{
-    public string Message { get; set; } = string.Empty;
-    public string[] AgentRoles { get; set; } = Array.Empty<string>();
-}
