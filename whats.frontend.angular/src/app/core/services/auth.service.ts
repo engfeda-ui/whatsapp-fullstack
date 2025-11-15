@@ -1,16 +1,10 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap, catchError, map, throwError } from 'rxjs';
-import { TokenService } from './token.service';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { DotNetApiResponse, convertDotNetResponse } from '../ApiResponse';
-
-interface AuthResponse {
-    token: string;
-    refreshToken: string;
-    expiresAt: string;
-    user: Record<string, unknown>;
-}
+import { convertDotNetResponse, DotNetApiResponse } from '../ApiResponse';
+import { AuthResponse } from '../types/api.types';
+import { TokenService } from './token.service';
 
 @Injectable({
     providedIn: 'root'
@@ -56,25 +50,23 @@ export class AuthService {
 
         this.isRefreshing$.next(true);
 
-        return this.http
-            .post<DotNetApiResponse<AuthResponse>>(this.refreshTokenUrl, { refreshToken })
-            .pipe(
-                map(convertDotNetResponse),
-                tap((response) => {
-                    if (response.isSuccess && response.data) {
-                        this.tokenService.setToken(response.data.token);
-                        this.tokenService.setRefreshToken(response.data.refreshToken);
-                    }
+        return this.http.post<DotNetApiResponse<AuthResponse>>(this.refreshTokenUrl, { refreshToken }).pipe(
+            map(convertDotNetResponse),
+            tap((response) => {
+                if (response.isSuccess && response.data) {
+                    this.tokenService.setToken(response.data.token);
+                    this.tokenService.setRefreshToken(response.data.refreshToken);
+                }
 
-                    this.isRefreshing$.next(false);
-                }),
-                map(() => undefined),
-                catchError((error) => {
-                    this.isRefreshing$.next(false);
+                this.isRefreshing$.next(false);
+            }),
+            map(() => undefined),
+            catchError((error) => {
+                this.isRefreshing$.next(false);
 
-                    return throwError(() => error);
-                })
-            );
+                return throwError(() => error);
+            })
+        );
     }
 
     isTokenRefreshing(): Observable<boolean> {

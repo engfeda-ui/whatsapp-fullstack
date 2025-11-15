@@ -21,6 +21,21 @@ export const environment = {
     features: {
         enableLogging: true,
         enableDebugMode: true,
-        enableMockAuth: true
+        enableMockAuth: true,
+        enablePerformanceMonitoring: true,
+        enableAccessibilityMode: false
+    },
+
+    // Cache Configuration
+    cache: {
+        defaultTTL: 5 * 60 * 1000, // 5 minutes
+        maxSize: 100
+    },
+
+    // Request Configuration
+    request: {
+        timeout: 30000, // 30 seconds
+        retryAttempts: 3,
+        retryDelay: 1000
     }
 };

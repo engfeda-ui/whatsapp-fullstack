@@ -1,5 +1,7 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { PerformanceService } from './app/core/services/performance.service';
+import { EnvironmentValidator } from './app/core/validators/environment.validator';
 
 @Component({
     selector: 'p-root',
@@ -8,13 +10,24 @@ import { RouterModule } from '@angular/router';
     template: `<router-outlet></router-outlet>`
 })
 export class AppComponent implements OnInit {
-    constructor(private renderer: Renderer2) {}
+    private renderer = inject(Renderer2);
+    private performanceService = inject(PerformanceService);
 
     ngOnInit(): void {
-        this.initializeLanguageAndFont();
-        this.applyGlobalArabicFixes();
+        const endMeasure = this.performanceService.startMeasure('app-initialization');
+
+        try {
+            this.initializeLanguageAndFont();
+            this.applyGlobalArabicFixes();
+            this.validateEnvironment();
+        } finally {
+            endMeasure();
+        }
     }
 
+    /**
+     * Initialize language and font preferences
+     */
     private initializeLanguageAndFont(): void {
         // Get stored preferences or defaults
         const language = localStorage.getItem('language') || 'ar';
@@ -28,7 +41,7 @@ export class AppComponent implements OnInit {
 
         // Apply font class
         const fontClasses = ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera'];
-        fontClasses.forEach(cls => html.classList.remove(cls));
+        fontClasses.forEach((cls) => html.classList.remove(cls));
         html.classList.add(font);
 
         // Store preferences for consistency
@@ -36,6 +49,9 @@ export class AppComponent implements OnInit {
         localStorage.setItem('font', font);
     }
 
+    /**
+     * Apply global Arabic text rendering fixes
+     */
     private applyGlobalArabicFixes(): void {
         // Ensure UTF-8 charset is set
         let charsetMeta = document.querySelector('meta[charset]');
@@ -47,13 +63,12 @@ export class AppComponent implements OnInit {
 
         // Apply Arabic font features globally
         this.ensureArabicFontFeatures();
-
-        // Monitor DOM changes to apply fixes to newly added elements
-        this.setupDOMObserver();
     }
 
+    /**
+     * Ensure Arabic font features are applied
+     */
     private ensureArabicFontFeatures(): void {
-        // Create and inject style for ensuring font features
         const styleTag = this.renderer.createElement('style');
         const styleContent = `
             body, p, span, div, label, button, a, li, td, th, h1, h2, h3, h4, h5, h6 {
@@ -63,7 +78,6 @@ export class AppComponent implements OnInit {
                 -moz-osx-font-smoothing: auto !important;
             }
 
-            /* Ensure all text uses correct font */
             * {
                 font-family: var(--font-family-override) !important;
             }
@@ -72,27 +86,17 @@ export class AppComponent implements OnInit {
         this.renderer.appendChild(document.head, styleTag);
     }
 
-    private setupDOMObserver(): void {
-        // Observe DOM changes to maintain Arabic fixes
-        const observer = new MutationObserver(() => {
-            this.fixNewElements();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false
-        });
-    }
-
-    private fixNewElements(): void {
-        // Apply fixes to newly added elements
-        const textElements = document.querySelectorAll(
-            'p, span, div, label, button, a, li, td, th, h1, h2, h3, h4, h5, h6, .p-button, .p-input-text'
-        );
-
-        // Note: We removed inline style injection here because CSS variables
-        // now handle font application globally without !important conflicts
-        // This keeps the DOM clean and allows proper CSS cascade
+    /**
+     * Validate environment configuration
+     */
+    private validateEnvironment(): void {
+        try {
+            EnvironmentValidator.validate();
+            const config = EnvironmentValidator.getConfigSummary();
+            console.info('✅ Environment validated successfully:', config);
+        } catch (error) {
+            console.error('❌ Environment validation failed:', error);
+            throw error;
+        }
     }
 }

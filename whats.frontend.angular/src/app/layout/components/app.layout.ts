@@ -1,17 +1,18 @@
-import { Component, Renderer2, ViewChild, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
-import { AppTopbar } from './app.topbar';
-import { AppSidebar } from './app.sidebar';
 import { LayoutService } from '@/layout/service/layout.service';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, Renderer2, ViewChild, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 import { AppConfigurator } from './app.configurator';
+import { AppLoading } from './app.loading';
 import { AppProfileSidebar } from './app.profilesidebar';
+import { AppSidebar } from './app.sidebar';
+import { AppTopbar } from './app.topbar';
 
 @Component({
     selector: 'p-layout',
     standalone: true,
-    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppConfigurator, AppProfileSidebar],
+    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppConfigurator, AppProfileSidebar, AppLoading],
     template: `<div class="layout-container" [ngClass]="containerClass">
         <p-sidebar></p-sidebar>
         <div class="layout-content-wrapper">
@@ -22,6 +23,7 @@ import { AppProfileSidebar } from './app.profilesidebar';
         </div>
         <p-profilesidebar></p-profilesidebar>
         <p-configurator></p-configurator>
+        <p-loading></p-loading>
         <div class="layout-mask animate-fadein"></div>
     </div> `
 })
