@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GitHub\\whatsapp-fullstack\\whats.backend.aspnet\\WhatsApp.Backend.csproj": {}
+    "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj": {}
   },
   "projects": {
-    "D:\\GitHub\\whatsapp-fullstack\\whats.backend.aspnet\\WhatsApp.Backend.csproj": {
+    "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GitHub\\whatsapp-fullstack\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
+        "projectUniqueName": "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
         "projectName": "WhatsApp.Backend",
-        "projectPath": "D:\\GitHub\\whatsapp-fullstack\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
+        "projectPath": "D:\\whats.app\\whats.backend.aspnet\\WhatsApp.Backend.csproj",
         "packagesPath": "C:\\Users\\engfe\\.nuget\\packages\\",
-        "outputPath": "D:\\GitHub\\whatsapp-fullstack\\whats.backend.aspnet\\obj\\",
+        "outputPath": "D:\\whats.app\\whats.backend.aspnet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\engfe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -55,6 +55,14 @@
             "DocumentFormat.OpenXml": {
               "target": "Package",
               "version": "[3.2.0, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.1.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.1, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
