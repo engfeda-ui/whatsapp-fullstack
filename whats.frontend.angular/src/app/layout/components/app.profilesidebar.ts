@@ -1,19 +1,19 @@
-import { Component, computed, OnInit, inject } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DrawerModule } from 'primeng/drawer';
+import { Font, I18nService, Language } from '@/core/services/i18n.service';
+import { TokenService } from '@/core/services/token.service';
+import { ChangePasswordRequest, User, UserService } from '@/core/services/user.service';
+import { LayoutService } from '@/layout/service/layout.service';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, computed, inject } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
+import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { DrawerModule } from 'primeng/drawer';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
-import { DropdownModule } from 'primeng/dropdown';
-import { MessageService } from 'primeng/api';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { LayoutService } from '@/layout/service/layout.service';
-import { TokenService } from '@/core/services/token.service';
-import { UserService, User, ChangePasswordRequest } from '@/core/services/user.service';
-import { I18nService, Language, Font } from '@/core/services/i18n.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'p-profilesidebar',
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
             <div class="flex flex-col mx-auto md:mx-0 text-right">
                 <!-- Account Info Section -->
                 <span class="mb-2 font-semibold text-lg">{{ i18n.t('accountInfo') }}</span>
-                <span class="text-surface-500 dark:text-surface-400 font-medium mb-8">{{ currentUser?.fullName || currentUser?.name || i18n.t('user') }}</span>
+                <span class="text-surface-500 dark:text-surface-400">{{ currentUser?.fullName || i18n.t('user') }}</span>
 
                 <!-- Menu Items -->
                 <ul class="list-none m-0 p-0 space-y-2">
@@ -36,15 +36,7 @@ import { CommonModule } from '@angular/common';
                             </span>
                             <div class="mr-4 flex-1">
                                 <span class="mb-2 font-semibold block">{{ i18n.t('language') }}</span>
-                                <p-dropdown
-                                    [options]="availableLanguages"
-                                    [(ngModel)]="selectedLanguage"
-                                    (onChange)="onLanguageChange($event)"
-                                    optionLabel="name"
-                                    optionValue="code"
-                                    styleClass="w-full"
-                                    [showClear]="false"
-                                ></p-dropdown>
+                                <p-dropdown [options]="availableLanguages" [(ngModel)]="selectedLanguage" (onChange)="onLanguageChange($event)" optionLabel="name" optionValue="code" styleClass="w-full" [showClear]="false"></p-dropdown>
                             </div>
                         </div>
                     </li>
@@ -57,15 +49,7 @@ import { CommonModule } from '@angular/common';
                             </span>
                             <div class="mr-4 flex-1">
                                 <span class="mb-2 font-semibold block">{{ i18n.t('font') }}</span>
-                                <p-dropdown
-                                    [options]="availableFonts"
-                                    [(ngModel)]="selectedFont"
-                                    (onChange)="onFontChange($event)"
-                                    optionLabel="name"
-                                    optionValue="code"
-                                    styleClass="w-full"
-                                    [showClear]="false"
-                                ></p-dropdown>
+                                <p-dropdown [options]="availableFonts" [(ngModel)]="selectedFont" (onChange)="onFontChange($event)" optionLabel="name" optionValue="code" styleClass="w-full" [showClear]="false"></p-dropdown>
                             </div>
                         </div>
                     </li>
@@ -224,7 +208,7 @@ export class AppProfileSidebar implements OnInit {
      * Handle language change
      */
     onLanguageChange(event: any): void {
-        const language = event.value || event as Language;
+        const language = event.value || (event as Language);
         this.i18n.setLanguage(language);
         this.messageService.add({
             severity: 'success',
@@ -237,7 +221,7 @@ export class AppProfileSidebar implements OnInit {
      * Handle font change
      */
     onFontChange(event: any): void {
-        const font = event.value || event as Font;
+        const font = event.value || (event as Font);
         this.i18n.setFont(font);
         this.messageService.add({
             severity: 'success',
@@ -277,18 +261,13 @@ export class AppProfileSidebar implements OnInit {
 
                 if (decodedToken) {
                     const record = decodedToken as Record<string, unknown>;
-                    const getString = (value: unknown, fallback = ''): string =>
-                        typeof value === 'string' ? value : fallback;
+                    const getString = (value: unknown, fallback = ''): string => (typeof value === 'string' ? value : fallback);
 
                     const idSource = record['Id'] ?? record['nameid'] ?? record['sub'];
                     const id = idSource != null ? Number(idSource) : undefined;
 
                     const rolesValue = record['role'];
-                    const roles = Array.isArray(rolesValue)
-                        ? rolesValue.map((role) => String(role))
-                        : rolesValue
-                          ? [String(rolesValue)]
-                          : [];
+                    const roles = Array.isArray(rolesValue) ? rolesValue.map((role) => String(role)) : rolesValue ? [String(rolesValue)] : [];
 
                     const user: User = {
                         id: id ?? (record['sub'] ? Number(record['sub']) : 0),
@@ -369,11 +348,9 @@ export class AppProfileSidebar implements OnInit {
     }
 
     onDrawerHide(): void {
-        this.layoutService.layoutState.update((state) => (
-            {
-                ...state,
-                profileSidebarVisible: false
-            }
-        ));
+        this.layoutService.layoutState.update((state) => ({
+            ...state,
+            profileSidebarVisible: false
+        }));
     }
 }

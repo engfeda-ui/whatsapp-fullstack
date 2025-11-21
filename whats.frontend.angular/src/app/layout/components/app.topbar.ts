@@ -1,4 +1,4 @@
-import { AppBreadcrumb } from './app.breadcrumb';
+// import { AppBreadcrumb } from './app.breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
@@ -12,7 +12,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 @Component({
     selector: 'p-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, AppBreadcrumb],
+    imports: [RouterModule, CommonModule, StyleClassModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule],
     template: `<div class="layout-topbar">
         <div class="topbar-start">
             <button #menubutton type="button" class="topbar-menubutton p-link p-trigger" (click)="onMenuButtonClick()">
