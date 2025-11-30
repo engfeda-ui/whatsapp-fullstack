@@ -1,257 +1,266 @@
 <!-- Quick Test Page for Emoji and Font Switching -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الـ Emoji والخطوط</title>
-    <style>
-        :root {
-            --font-family-override: 'Tajawal',
-                                    'Segoe UI',
-                                    'Segoe UI Emoji',
-                                    'Segoe UI Symbol',
-                                    'Apple Color Emoji',
-                                    'Noto Color Emoji',
-                                    sans-serif;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>اختبار الـ Emoji والخطوط</title>
+        <style>
+            :root {
+                --font-family-override: 'Tajawal', 'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+            }
 
-        body {
-            font-family: var(--font-family-override);
-            padding: 20px;
-            background: #f5f5f5;
-            line-height: 1.8;
-        }
+            body {
+                font-family: var(--font-family-override);
+                padding: 20px;
+                background: #f5f5f5;
+                line-height: 1.8;
+            }
 
-        h1 { margin-top: 30px; }
+            h1 {
+                margin-top: 30px;
+            }
 
-        .test-section {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+            .test-section {
+                background: white;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
 
-        .emoji-test {
-            font-size: 24px;
-            margin: 10px 0;
-        }
+            .emoji-test {
+                font-size: 24px;
+                margin: 10px 0;
+            }
 
-        .controls {
-            margin: 20px 0;
-        }
+            .controls {
+                margin: 20px 0;
+            }
 
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            font-family: var(--font-family-override);
-            cursor: pointer;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: white;
-        }
+            button {
+                padding: 10px 20px;
+                margin: 5px;
+                font-family: var(--font-family-override);
+                cursor: pointer;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                background: white;
+            }
 
-        button:hover {
-            background: #f0f0f0;
-        }
+            button:hover {
+                background: #f0f0f0;
+            }
 
-        .result {
-            padding: 10px;
-            margin: 10px 0;
-            background: #f9f9f9;
-            border-left: 4px solid #4CAF50;
-        }
+            .result {
+                padding: 10px;
+                margin: 10px 0;
+                background: #f9f9f9;
+                border-left: 4px solid #4caf50;
+            }
 
-        .error {
-            border-left-color: #f44336;
-        }
+            .error {
+                border-left-color: #f44336;
+            }
 
-        code {
-            background: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
+            code {
+                background: #f0f0f0;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: 'Courier New', monospace;
+            }
 
-        .test-list {
-            list-style: none;
-            padding: 0;
-        }
+            .test-list {
+                list-style: none;
+                padding: 0;
+            }
 
-        .test-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
+            .test-list li {
+                padding: 8px 0;
+                border-bottom: 1px solid #eee;
+            }
 
-        .test-list li:last-child {
-            border-bottom: none;
-        }
+            .test-list li:last-child {
+                border-bottom: none;
+            }
 
-        .pass { color: #4CAF50; }
-        .fail { color: #f44336; }
-    </style>
-</head>
-<body>
-    <h1>🧪 اختبار الـ Emoji والخطوط</h1>
+            .pass {
+                color: #4caf50;
+            }
+            .fail {
+                color: #f44336;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🧪 اختبار الـ Emoji والخطوط</h1>
 
-    <div class="test-section">
-        <h2>✅ الاختبار 1: عرض الـ Emoji</h2>
-        <p>يجب أن تظهر جميع هذه الرموز بشكل صحيح:</p>
-        <div class="emoji-test">
-            😀 😃 😄 😁 😆 😅 🤣 😂
+        <div class="test-section">
+            <h2>✅ الاختبار 1: عرض الـ Emoji</h2>
+            <p>يجب أن تظهر جميع هذه الرموز بشكل صحيح:</p>
+            <div class="emoji-test">😀 😃 😄 😁 😆 😅 🤣 😂</div>
+            <div class="emoji-test">❤️ 💔 💕 💖 💗 💘 💝 💞</div>
+            <div class="emoji-test">✅ ✔️ ✓ ⚠️ ❌ 🚫 ⛔ 🔴</div>
+            <div class="emoji-test">🎉 🎊 🎈 🎁 🎀 🎂 🍰 🧁</div>
+            <div class="emoji-test">📱 💻 🖥️ ⌨️ 🖱️ 🖨️ 📠 📞</div>
+            <p style="color: #4caf50">✅ النتيجة: إذا رأيت جميع الرموز أعلاه بشكل واضح، الـ Emoji تعمل بشكل صحيح!</p>
         </div>
-        <div class="emoji-test">
-            ❤️ 💔 💕 💖 💗 💘 💝 💞
+
+        <div class="test-section">
+            <h2>🎨 الاختبار 2: تبديل الخط</h2>
+            <p>اختر خط مختلف وتحقق من التغيير الفوري:</p>
+            <div class="controls">
+                <button onclick="switchFont('font-tajawal')">Tajawal</button>
+                <button onclick="switchFont('font-poppins')">Poppins</button>
+                <button onclick="switchFont('font-droid-sans')">Droid Sans</button>
+                <button onclick="switchFont('font-al-jazeera')">Al Jazeera</button>
+            </div>
+            <div class="result" id="font-result">الخط الحالي: Tajawal</div>
+            <p>النص التالي يجب أن يتغير عند اختيار خط جديد:</p>
+            <p style="font-size: 18px; padding: 15px; background: #f0f0f0">هذا نص عربي لاختبار تغيير الخط بشكل فوري. يجب أن تلاحظ التغيير فوراً دون إعادة تحميل الصفحة.</p>
         </div>
-        <div class="emoji-test">
-            ✅ ✔️ ✓ ⚠️ ❌ 🚫 ⛔ 🔴
+
+        <div class="test-section">
+            <h2>📋 قائمة الاختبارات</h2>
+            <ul class="test-list">
+                <li>
+                    <span class="pass">✅</span>
+                    الـ Emoji تظهر بشكل صحيح (لا مربعات فارغة)
+                </li>
+                <li>
+                    <span id="test-font-switch" class="fail">⏳</span>
+                    تبديل الخط يحدث فوراً
+                </li>
+                <li>
+                    <span id="test-icons" class="fail">⏳</span>
+                    الأيقونات لا تتأثر بتبديل الخط
+                </li>
+                <li>
+                    <span id="test-rtl" class="fail">⏳</span>
+                    النص العربي يعرض بشكل صحيح (RTL)
+                </li>
+                <li>
+                    <span id="test-storage" class="fail">⏳</span>
+                    التفضيلات تحفظ في localStorage
+                </li>
+            </ul>
         </div>
-        <div class="emoji-test">
-            🎉 🎊 🎈 🎁 🎀 🎂 🍰 🧁
+
+        <div class="test-section">
+            <h2>🔍 استكشاف الأخطاء</h2>
+            <button onclick="runDiagnostics()">تشغيل الفحص التشخيصي</button>
+            <div id="diagnostics" style="margin-top: 15px"></div>
         </div>
-        <div class="emoji-test">
-            📱 💻 🖥️ ⌨️ 🖱️ 🖨️ 📠 📞
-        </div>
-        <p style="color: #4CAF50;">✅ النتيجة: إذا رأيت جميع الرموز أعلاه بشكل واضح، الـ Emoji تعمل بشكل صحيح!</p>
-    </div>
 
-    <div class="test-section">
-        <h2>🎨 الاختبار 2: تبديل الخط</h2>
-        <p>اختر خط مختلف وتحقق من التغيير الفوري:</p>
-        <div class="controls">
-            <button onclick="switchFont('font-tajawal')">Tajawal</button>
-            <button onclick="switchFont('font-poppins')">Poppins</button>
-            <button onclick="switchFont('font-droid-sans')">Droid Sans</button>
-            <button onclick="switchFont('font-al-jazeera')">Al Jazeera</button>
-        </div>
-        <div class="result" id="font-result">الخط الحالي: Tajawal</div>
-        <p>النص التالي يجب أن يتغير عند اختيار خط جديد:</p>
-        <p style="font-size: 18px; padding: 15px; background: #f0f0f0;">
-            هذا نص عربي لاختبار تغيير الخط بشكل فوري. يجب أن تلاحظ التغيير فوراً دون إعادة تحميل الصفحة.
-        </p>
-    </div>
+        <script>
+            // Set initial font
+            document.documentElement.classList.add('font-tajawal');
+            localStorage.setItem('font', 'font-tajawal');
 
-    <div class="test-section">
-        <h2>📋 قائمة الاختبارات</h2>
-        <ul class="test-list">
-            <li>
-                <span class="pass">✅</span>
-                الـ Emoji تظهر بشكل صحيح (لا مربعات فارغة)
-            </li>
-            <li>
-                <span id="test-font-switch" class="fail">⏳</span>
-                تبديل الخط يحدث فوراً
-            </li>
-            <li>
-                <span id="test-icons" class="fail">⏳</span>
-                الأيقونات لا تتأثر بتبديل الخط
-            </li>
-            <li>
-                <span id="test-rtl" class="fail">⏳</span>
-                النص العربي يعرض بشكل صحيح (RTL)
-            </li>
-            <li>
-                <span id="test-storage" class="fail">⏳</span>
-                التفضيلات تحفظ في localStorage
-            </li>
-        </ul>
-    </div>
+            function switchFont(font) {
+                const fontNames = {
+                    'font-tajawal': 'Tajawal',
+                    'font-poppins': 'Poppins',
+                    'font-droid-sans': 'Droid Sans',
+                    'font-al-jazeera': 'Al Jazeera'
+                };
 
-    <div class="test-section">
-        <h2>🔍 استكشاف الأخطاء</h2>
-        <button onclick="runDiagnostics()">تشغيل الفحص التشخيصي</button>
-        <div id="diagnostics" style="margin-top: 15px;"></div>
-    </div>
+                // Remove all font classes
+                const html = document.documentElement;
+                ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera'].forEach((cls) => {
+                    html.classList.remove(cls);
+                });
 
-    <script>
-        // Set initial font
-        document.documentElement.classList.add('font-tajawal');
-        localStorage.setItem('font', 'font-tajawal');
+                // Add selected font class
+                html.classList.add(font);
+                localStorage.setItem('font', font);
 
-        function switchFont(font) {
-            const fontNames = {
-                'font-tajawal': 'Tajawal',
-                'font-poppins': 'Poppins',
-                'font-droid-sans': 'Droid Sans',
-                'font-al-jazeera': 'Al Jazeera'
-            };
+                // Update result
+                document.getElementById('font-result').textContent = 'الخط الحالي: ' + fontNames[font];
+                document.getElementById('test-font-switch').className = 'pass';
+                document.getElementById('test-font-switch').textContent = '✅';
 
-            // Remove all font classes
-            const html = document.documentElement;
-            ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera'].forEach(cls => {
-                html.classList.remove(cls);
+                // Force reflow
+                const elements = document.querySelectorAll('p, span, div, h1, h2, h3, h4, h5, h6, button, a, label, li, td, th');
+                elements.forEach((el) => {
+                    const _ = el.offsetHeight;
+                });
+            }
+
+            function runDiagnostics() {
+                const results = [];
+                const div = document.getElementById('diagnostics');
+
+                // Test 1: localStorage
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    results.push({ status: 'pass', label: 'localStorage', message: 'يعمل بشكل صحيح' });
+                    document.getElementById('test-storage').className = 'pass';
+                    document.getElementById('test-storage').textContent = '✅';
+                } catch (e) {
+                    results.push({ status: 'fail', label: 'localStorage', message: e.message });
+                }
+
+                // Test 2: CSS Variables
+                const computed = getComputedStyle(document.documentElement);
+                const fontFamily = computed.getPropertyValue('--font-family-override').trim();
+                if (fontFamily) {
+                    results.push({ status: 'pass', label: 'CSS Variables', message: fontFamily.split(',')[0] || 'محدد' });
+                } else {
+                    results.push({ status: 'fail', label: 'CSS Variables', message: 'غير محدد' });
+                }
+
+                // Test 3: RTL
+                const rtl = document.documentElement.dir;
+                if (rtl === 'rtl') {
+                    results.push({ status: 'pass', label: 'RTL', message: 'صحيح' });
+                    document.getElementById('test-rtl').className = 'pass';
+                    document.getElementById('test-rtl').textContent = '✅';
+                } else {
+                    results.push({ status: 'fail', label: 'RTL', message: rtl });
+                }
+
+                // Test 4: Font Classes
+                const fontClass = ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera'].find((cls) => document.documentElement.classList.contains(cls));
+                if (fontClass) {
+                    results.push({ status: 'pass', label: 'Font Class', message: fontClass });
+                    document.getElementById('test-icons').className = 'pass';
+                    document.getElementById('test-icons').textContent = '✅';
+                } else {
+                    results.push({ status: 'fail', label: 'Font Class', message: 'غير موجود' });
+                }
+
+                // Display results
+                div.innerHTML = '';
+                const resultContainer = document.createElement('div');
+                resultContainer.className = 'result';
+
+                results.forEach((result) => {
+                    const p = document.createElement('p');
+
+                    // Create status span
+                    const statusSpan = document.createElement('span');
+                    if (result.status === 'pass') {
+                        statusSpan.className = 'pass';
+                        statusSpan.textContent = '✅ ' + result.label + ': ';
+                    } else {
+                        statusSpan.className = 'fail';
+                        statusSpan.textContent = '❌ ' + result.label + ': ';
+                    }
+
+                    p.appendChild(statusSpan);
+                    p.appendChild(document.createTextNode(result.message));
+                    resultContainer.appendChild(p);
+                });
+
+                div.appendChild(resultContainer);
+            }
+
+            // Run diagnostics on load
+            window.addEventListener('load', () => {
+                setTimeout(runDiagnostics, 500);
             });
-
-            // Add selected font class
-            html.classList.add(font);
-            localStorage.setItem('font', font);
-
-            // Update result
-            document.getElementById('font-result').textContent = 'الخط الحالي: ' + fontNames[font];
-            document.getElementById('test-font-switch').className = 'pass';
-            document.getElementById('test-font-switch').textContent = '✅';
-
-            // Force reflow
-            const elements = document.querySelectorAll('p, span, div, h1, h2, h3, h4, h5, h6, button, a, label, li, td, th');
-            elements.forEach(el => {
-                const _ = el.offsetHeight;
-            });
-        }
-
-        function runDiagnostics() {
-            const results = [];
-            const div = document.getElementById('diagnostics');
-
-            // Test 1: localStorage
-            try {
-                localStorage.setItem('test', 'test');
-                localStorage.removeItem('test');
-                results.push('<span class="pass">✅ localStorage:</span> يعمل بشكل صحيح');
-                document.getElementById('test-storage').className = 'pass';
-                document.getElementById('test-storage').textContent = '✅';
-            } catch (e) {
-                results.push('<span class="fail">❌ localStorage:</span> ' + e.message);
-            }
-
-            // Test 2: CSS Variables
-            const computed = getComputedStyle(document.documentElement);
-            const fontFamily = computed.getPropertyValue('--font-family-override').trim();
-            if (fontFamily) {
-                results.push('<span class="pass">✅ CSS Variables:</span> ' + (fontFamily.split(',')[0] || 'محدد'));
-            } else {
-                results.push('<span class="fail">❌ CSS Variables:</span> غير محدد');
-            }
-
-            // Test 3: RTL
-            const rtl = document.documentElement.dir;
-            if (rtl === 'rtl') {
-                results.push('<span class="pass">✅ RTL:</span> صحيح');
-                document.getElementById('test-rtl').className = 'pass';
-                document.getElementById('test-rtl').textContent = '✅';
-            } else {
-                results.push('<span class="fail">❌ RTL:</span> ' + rtl);
-            }
-
-            // Test 4: Font Classes
-            const fontClass = ['font-tajawal', 'font-poppins', 'font-droid-sans', 'font-al-jazeera']
-                .find(cls => document.documentElement.classList.contains(cls));
-            if (fontClass) {
-                results.push('<span class="pass">✅ Font Class:</span> ' + fontClass);
-                document.getElementById('test-icons').className = 'pass';
-                document.getElementById('test-icons').textContent = '✅';
-            } else {
-                results.push('<span class="fail">❌ Font Class:</span> غير موجود');
-            }
-
-            // Display results
-            div.innerHTML = '<div class="result">' + results.map(r => '<p>' + r + '</p>').join('') + '</div>';
-        }
-
-        // Run diagnostics on load
-        window.addEventListener('load', () => {
-            setTimeout(runDiagnostics, 500);
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>

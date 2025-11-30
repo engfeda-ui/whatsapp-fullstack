@@ -12,11 +12,11 @@ describe('CacheService', () => {
             providers: [CacheService]
         });
         service = TestBed.inject(CacheService);
-        service.clear(); // Clear cache before each test
+        service.clearAll(); // Clear cache before each test
     });
 
     afterEach(() => {
-        service.clear();
+        service.clearAll();
     });
 
     it('should be created', () => {
@@ -112,14 +112,14 @@ describe('CacheService', () => {
     describe('delete', () => {
         it('should remove entry from cache', () => {
             service.set(testKey, testData, testTTL);
-            service.delete(testKey);
+            service.clear(testKey);
 
             expect(service.has(testKey)).toBeFalse();
             expect(service.get(testKey)).toBeNull();
         });
 
         it('should handle deletion of non-existent key gracefully', () => {
-            expect(() => service.delete('non_existent')).not.toThrow();
+            expect(() => service.clear('non_existent')).not.toThrow();
         });
     });
 
@@ -129,7 +129,7 @@ describe('CacheService', () => {
             service.set('key2', 'value2', testTTL);
             service.set('key3', 'value3', testTTL);
 
-            service.clear();
+            service.clearAll();
 
             expect(service.has('key1')).toBeFalse();
             expect(service.has('key2')).toBeFalse();
@@ -148,7 +148,7 @@ describe('CacheService', () => {
             service.set('key2', 'value2', testTTL);
             expect(service.size()).toBe(2);
 
-            service.delete('key1');
+            service.clear('key1');
             expect(service.size()).toBe(1);
         });
     });

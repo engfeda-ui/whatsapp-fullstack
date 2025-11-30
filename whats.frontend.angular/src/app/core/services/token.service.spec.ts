@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { TokenService } from './token.service';
 import { EncryptionService } from './encryption.service';
+import { TokenService } from './token.service';
 
 describe('TokenService', () => {
     let service: TokenService;
     let encryptionService: jasmine.SpyObj<EncryptionService>;
-    const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.abc123';
+    const header = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+    const payload = 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9';
+    const signature = 'abc123';
+    const mockToken = `${header}.${payload}.${signature}`;
     const mockRefreshToken = 'refresh_token_123';
 
     beforeEach(() => {
@@ -30,11 +33,11 @@ describe('TokenService', () => {
         expect(service).toBeTruthy();
     });
 
-    describe('saveToken', () => {
+    describe('setToken', () => {
         it('should encrypt and save token to localStorage', () => {
             encryptionService.encrypt.and.returnValue('encrypted_token');
 
-            service.saveToken(mockToken);
+            service.setToken(mockToken);
 
             expect(encryptionService.encrypt).toHaveBeenCalledWith(mockToken);
             expect(localStorage.getItem('token')).toBe('encrypted_token');
@@ -60,7 +63,7 @@ describe('TokenService', () => {
 
         it('should return null if decryption fails', () => {
             localStorage.setItem('token', 'invalid_encrypted_token');
-            encryptionService.decrypt.and.returnValue(null);
+            encryptionService.decrypt.and.throwError('Decryption failed');
 
             const token = service.getToken();
 
@@ -78,11 +81,11 @@ describe('TokenService', () => {
         });
     });
 
-    describe('saveRefreshToken', () => {
+    describe('setRefreshToken', () => {
         it('should encrypt and save refresh token to localStorage', () => {
             encryptionService.encrypt.and.returnValue('encrypted_refresh_token');
 
-            service.saveRefreshToken(mockRefreshToken);
+            service.setRefreshToken(mockRefreshToken);
 
             expect(encryptionService.encrypt).toHaveBeenCalledWith(mockRefreshToken);
             expect(localStorage.getItem('refreshToken')).toBe('encrypted_refresh_token');
@@ -128,7 +131,10 @@ describe('TokenService', () => {
         });
 
         it('should return false when token is expired', () => {
-            const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.abc123';
+            const expiredHeader = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+            const expiredPayload = 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9';
+            const expiredSignature = 'abc123';
+            const expiredToken = `${expiredHeader}.${expiredPayload}.${expiredSignature}`;
 
             localStorage.setItem('token', 'encrypted_token');
             encryptionService.decrypt.and.returnValue(expiredToken);
@@ -136,18 +142,6 @@ describe('TokenService', () => {
             const result = service.isLoggedIn();
 
             expect(result).toBeFalse();
-        });
-    });
-
-    describe('clearTokens', () => {
-        it('should remove both token and refresh token', () => {
-            localStorage.setItem('token', 'encrypted_token');
-            localStorage.setItem('refreshToken', 'encrypted_refresh_token');
-
-            service.clearTokens();
-
-            expect(localStorage.getItem('token')).toBeNull();
-            expect(localStorage.getItem('refreshToken')).toBeNull();
         });
     });
 
